@@ -12,3 +12,6 @@ func _ready() -> void:
 #func _draw() -> void:
 #	if(radius >= 0):
 #		draw_arc(Vector2.ZERO, radius, 0, PI*2, 16, Color.RED)
+
+func get_influence_radius() -> float:
+	return radius
