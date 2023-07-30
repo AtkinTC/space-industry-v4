@@ -1,2 +1,2 @@
 # space-industry-v4
-Space Industry game made in Godot
+Space industry game built in Godot 4

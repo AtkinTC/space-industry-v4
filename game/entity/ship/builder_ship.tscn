@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://gijpshyjqirm"]
+
+[ext_resource type="Script" path="res://game/entity/ship/ship.gd" id="1_0dkay"]
+[ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_2rmcj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lpno5"]
+radius = 7.0
+height = 20.0
+
+[node name="BuilderShip" type="Area2D"]
+position = Vector2(46, 37)
+script = ExtResource("1_0dkay")
+task_flags = 1
+base_capacity = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 7.62939e-06)
+rotation = 1.57079
+shape = SubResource("CapsuleShape2D_lpno5")
+
+[node name="Polygon2D2" type="Polygon2D" parent="."]
+position = Vector2(-3, 0)
+color = Color(0.0352941, 0.0352941, 1, 1)
+polygon = PackedVector2Array(13, -5, 7, 0, 13, 5, 0, 7, -5, 3, -5, -3, 0, -7)
+
+[node name="Tools" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="EntityDebugDisplay" type="Node2D" parent="."]
+script = ExtResource("3_2rmcj")

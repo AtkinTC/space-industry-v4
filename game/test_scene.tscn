@@ -1,0 +1,153 @@
+[gd_scene load_steps=21 format=3 uid="uid://lqf5gy55eirv"]
+
+[ext_resource type="Shader" path="res://resources/shaders/grid.gdshader" id="1_lnwkc"]
+[ext_resource type="Script" path="res://game/test_scene.gd" id="1_ri3n2"]
+[ext_resource type="Texture2D" uid="uid://d4cd7gowjm2dq" path="res://assets/sprites/black.png" id="2_4g3ld"]
+[ext_resource type="Script" path="res://game/background/background_grid.gd" id="3_apepi"]
+[ext_resource type="PackedScene" uid="uid://dsl7crppb7ut5" path="res://game/objects/asteroid_iron.tscn" id="4_3tfyi"]
+[ext_resource type="Shader" path="res://resources/shaders/canvas_group_area.gdshader" id="5_b2sve"]
+[ext_resource type="PackedScene" uid="uid://co8g67bnh8fcs" path="res://game/entity/structure/structure.tscn" id="5_r73p8"]
+[ext_resource type="Script" path="res://game/influence_canvas.gd" id="5_w38rg"]
+[ext_resource type="PackedScene" uid="uid://ctrt2fte2x4r5" path="res://game/entity/ship/miner_ship.tscn" id="6_o2rq5"]
+[ext_resource type="Script" path="res://game/structure_manager.gd" id="6_tn125"]
+[ext_resource type="Script" path="res://game/entity/inventory.gd" id="6_umlrr"]
+[ext_resource type="Script" path="res://game/ship_manager.gd" id="7_215xa"]
+[ext_resource type="PackedScene" uid="uid://f5tgpd66v4k" path="res://game/entity/structure/construction_site.tscn" id="8_sbvsf"]
+[ext_resource type="PackedScene" uid="uid://gijpshyjqirm" path="res://game/entity/ship/builder_ship.tscn" id="12_ihhgg"]
+[ext_resource type="Script" path="res://game/entity/selection_areas_layer.gd" id="15_5qeme"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hglpe"]
+shader = ExtResource("1_lnwkc")
+shader_parameter/radius = 32.0
+shader_parameter/position = Vector2(-640, -360)
+shader_parameter/gridWidth_1 = Vector2(32, 32)
+shader_parameter/lineWidth_1 = 1.0
+shader_parameter/gridColor_1 = Vector4(0.25, 0.25, 0.25, 0.25)
+shader_parameter/gridWidth_2 = Vector2(128, 128)
+shader_parameter/lineWidth_2 = 1.0
+shader_parameter/gridColor_2 = Vector4(0.5, 0.5, 0.5, 0.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_reaj2"]
+shader = ExtResource("5_b2sve")
+shader_parameter/outline_color = Color(0.168627, 1, 0.360784, 0.501961)
+shader_parameter/inner_color = Color(0.17, 1, 0.36, 0.1)
+
+[sub_resource type="Resource" id="Resource_6fkdr"]
+resource_local_to_scene = true
+script = ExtResource("6_umlrr")
+capacity = 100
+contents = {}
+
+[sub_resource type="Resource" id="Resource_ru3xe"]
+resource_local_to_scene = true
+script = ExtResource("6_umlrr")
+capacity = 100
+contents = {}
+
+[sub_resource type="Resource" id="Resource_d0kvi"]
+resource_local_to_scene = true
+script = ExtResource("6_umlrr")
+capacity = 100
+contents = {}
+
+[node name="TestScene" type="Node2D"]
+script = ExtResource("1_ri3n2")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="BackgroundGrid" type="Sprite2D" parent="Camera2D"]
+material = SubResource("ShaderMaterial_hglpe")
+texture = ExtResource("2_4g3ld")
+region_enabled = true
+region_rect = Rect2(0, 0, 1280, 720)
+script = ExtResource("3_apepi")
+
+[node name="InfluenceCanvas" type="CanvasGroup" parent="."]
+material = SubResource("ShaderMaterial_reaj2")
+script = ExtResource("5_w38rg")
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="IronAsteroid" parent="Objects" instance=ExtResource("4_3tfyi")]
+position = Vector2(240, 16)
+
+[node name="IronAsteroid2" parent="Objects" instance=ExtResource("4_3tfyi")]
+position = Vector2(209, -48)
+
+[node name="IronAsteroid3" parent="Objects" instance=ExtResource("4_3tfyi")]
+position = Vector2(334, 50)
+
+[node name="IronAsteroid4" parent="Objects" instance=ExtResource("4_3tfyi")]
+position = Vector2(303, -110)
+
+[node name="IronAsteroid5" parent="Objects" instance=ExtResource("4_3tfyi")]
+position = Vector2(272, -15)
+
+[node name="IronAsteroid6" parent="Objects" instance=ExtResource("4_3tfyi")]
+position = Vector2(335, -77)
+
+[node name="IronAsteroid7" parent="Objects" instance=ExtResource("4_3tfyi")]
+position = Vector2(272, 17)
+
+[node name="IronAsteroid9" parent="Objects" instance=ExtResource("4_3tfyi")]
+position = Vector2(493, -13)
+
+[node name="IronAsteroid10" parent="Objects" instance=ExtResource("4_3tfyi")]
+position = Vector2(399, 17)
+
+[node name="IronAsteroid11" parent="Objects" instance=ExtResource("4_3tfyi")]
+position = Vector2(368, -143)
+
+[node name="IronAsteroid12" parent="Objects" instance=ExtResource("4_3tfyi")]
+position = Vector2(400, -110)
+
+[node name="IronAsteroid13" parent="Objects" instance=ExtResource("4_3tfyi")]
+position = Vector2(431, -14)
+
+[node name="IronAsteroid8" parent="Objects" instance=ExtResource("4_3tfyi")]
+position = Vector2(241, -143)
+
+[node name="Structures" type="Node2D" parent="."]
+script = ExtResource("6_tn125")
+
+[node name="Station" parent="Structures" instance=ExtResource("5_r73p8")]
+position = Vector2(-86, -6)
+
+[node name="ConstructionSite" parent="Structures" instance=ExtResource("8_sbvsf")]
+position = Vector2(478, -240)
+inventory = SubResource("Resource_6fkdr")
+
+[node name="ConstructionSite2" parent="Structures" instance=ExtResource("8_sbvsf")]
+position = Vector2(258, -222)
+inventory = SubResource("Resource_ru3xe")
+
+[node name="ConstructionSite3" parent="Structures" instance=ExtResource("8_sbvsf")]
+position = Vector2(62, -182)
+inventory = SubResource("Resource_d0kvi")
+
+[node name="ShipManager" type="Node2D" parent="."]
+script = ExtResource("7_215xa")
+
+[node name="MinerShip" parent="ShipManager" instance=ExtResource("6_o2rq5")]
+position = Vector2(-7, -98)
+
+[node name="MinerShip2" parent="ShipManager" instance=ExtResource("6_o2rq5")]
+position = Vector2(6, -39)
+
+[node name="MinerShip3" parent="ShipManager" instance=ExtResource("6_o2rq5")]
+position = Vector2(29, 138)
+
+[node name="MinerShip4" parent="ShipManager" instance=ExtResource("6_o2rq5")]
+position = Vector2(25, 64)
+
+[node name="MinerShip5" parent="ShipManager" instance=ExtResource("6_o2rq5")]
+position = Vector2(89, 175)
+
+[node name="BuilderShip" parent="ShipManager" instance=ExtResource("12_ihhgg")]
+position = Vector2(-111, -99)
+
+[node name="BuilderShip2" parent="ShipManager" instance=ExtResource("12_ihhgg")]
+position = Vector2(-78, 88)
+
+[node name="SelectionAreasLayer" type="Node2D" parent="."]
+script = ExtResource("15_5qeme")

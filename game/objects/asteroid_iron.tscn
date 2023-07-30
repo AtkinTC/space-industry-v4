@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsl7crppb7ut5"]
+
+[ext_resource type="Script" path="res://game/objects/resource_node.gd" id="1_7mv61"]
+
+[node name="IronAsteroid" type="Node2D"]
+position = Vector2(240, -16)
+script = ExtResource("1_7mv61")
+resource_id = "iron_ore"
+base_resource_quantity = 100
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.501961, 0.501961, 0.501961, 1)
+polygon = PackedVector2Array(-15, -15, -15, 15, 15, 15, 15, -15)
