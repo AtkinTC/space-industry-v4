@@ -3,10 +3,13 @@ class_name ConstructionSite
 
 @export var structure_id : String
 
-func set_init(init_parameters : Dictionary) -> void:
-	super.set_init(init_parameters)
+func setup_from_entity_def() -> void:
+	super.setup_from_entity_def()
+
+func setup_from_init_parameters() -> void:
+	super.setup_from_init_parameters()
 	structure_id = init_parameters.get(Strings.KEY_STRUCTURE_ID, structure_id)
-	
+
 func _ready() -> void:
 	super._ready()
 	add_to_group(Strings.GROUP_CONSTRUCTION)

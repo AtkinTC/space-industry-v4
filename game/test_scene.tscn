@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://lqf5gy55eirv"]
+[gd_scene load_steps=19 format=3 uid="uid://lqf5gy55eirv"]
 
 [ext_resource type="Shader" path="res://resources/shaders/grid.gdshader" id="1_lnwkc"]
 [ext_resource type="Script" path="res://game/test_scene.gd" id="1_ri3n2"]
@@ -8,12 +8,10 @@
 [ext_resource type="Shader" path="res://resources/shaders/canvas_group_area.gdshader" id="5_b2sve"]
 [ext_resource type="PackedScene" uid="uid://co8g67bnh8fcs" path="res://game/entity/structure/structure.tscn" id="5_r73p8"]
 [ext_resource type="Script" path="res://game/influence_canvas.gd" id="5_w38rg"]
-[ext_resource type="PackedScene" uid="uid://ctrt2fte2x4r5" path="res://game/entity/ship/miner_ship.tscn" id="6_o2rq5"]
 [ext_resource type="Script" path="res://game/structure_manager.gd" id="6_tn125"]
 [ext_resource type="Script" path="res://game/entity/inventory.gd" id="6_umlrr"]
 [ext_resource type="Script" path="res://game/ship_manager.gd" id="7_215xa"]
 [ext_resource type="PackedScene" uid="uid://f5tgpd66v4k" path="res://game/entity/structure/construction_site.tscn" id="8_sbvsf"]
-[ext_resource type="PackedScene" uid="uid://gijpshyjqirm" path="res://game/entity/ship/builder_ship.tscn" id="12_ihhgg"]
 [ext_resource type="Script" path="res://game/entity/selection_areas_layer.gd" id="15_5qeme"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hglpe"]
@@ -32,19 +30,19 @@ shader = ExtResource("5_b2sve")
 shader_parameter/outline_color = Color(0.168627, 1, 0.360784, 0.501961)
 shader_parameter/inner_color = Color(0.17, 1, 0.36, 0.1)
 
-[sub_resource type="Resource" id="Resource_6fkdr"]
+[sub_resource type="Resource" id="Resource_mwksl"]
 resource_local_to_scene = true
 script = ExtResource("6_umlrr")
 capacity = 100
 contents = {}
 
-[sub_resource type="Resource" id="Resource_ru3xe"]
+[sub_resource type="Resource" id="Resource_5ry01"]
 resource_local_to_scene = true
 script = ExtResource("6_umlrr")
 capacity = 100
 contents = {}
 
-[sub_resource type="Resource" id="Resource_d0kvi"]
+[sub_resource type="Resource" id="Resource_1dtwb"]
 resource_local_to_scene = true
 script = ExtResource("6_umlrr")
 capacity = 100
@@ -112,42 +110,22 @@ script = ExtResource("6_tn125")
 
 [node name="Station" parent="Structures" instance=ExtResource("5_r73p8")]
 position = Vector2(-86, -6)
+dock_range = 50.0
 
 [node name="ConstructionSite" parent="Structures" instance=ExtResource("8_sbvsf")]
 position = Vector2(478, -240)
-inventory = SubResource("Resource_6fkdr")
+inventory = SubResource("Resource_mwksl")
 
 [node name="ConstructionSite2" parent="Structures" instance=ExtResource("8_sbvsf")]
 position = Vector2(258, -222)
-inventory = SubResource("Resource_ru3xe")
+inventory = SubResource("Resource_5ry01")
 
 [node name="ConstructionSite3" parent="Structures" instance=ExtResource("8_sbvsf")]
 position = Vector2(62, -182)
-inventory = SubResource("Resource_d0kvi")
+inventory = SubResource("Resource_1dtwb")
 
 [node name="ShipManager" type="Node2D" parent="."]
 script = ExtResource("7_215xa")
-
-[node name="MinerShip" parent="ShipManager" instance=ExtResource("6_o2rq5")]
-position = Vector2(-7, -98)
-
-[node name="MinerShip2" parent="ShipManager" instance=ExtResource("6_o2rq5")]
-position = Vector2(6, -39)
-
-[node name="MinerShip3" parent="ShipManager" instance=ExtResource("6_o2rq5")]
-position = Vector2(29, 138)
-
-[node name="MinerShip4" parent="ShipManager" instance=ExtResource("6_o2rq5")]
-position = Vector2(25, 64)
-
-[node name="MinerShip5" parent="ShipManager" instance=ExtResource("6_o2rq5")]
-position = Vector2(89, 175)
-
-[node name="BuilderShip" parent="ShipManager" instance=ExtResource("12_ihhgg")]
-position = Vector2(-111, -99)
-
-[node name="BuilderShip2" parent="ShipManager" instance=ExtResource("12_ihhgg")]
-position = Vector2(-78, 88)
 
 [node name="SelectionAreasLayer" type="Node2D" parent="."]
 script = ExtResource("15_5qeme")

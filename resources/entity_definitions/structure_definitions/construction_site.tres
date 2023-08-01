@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="StructureDefinition" load_steps=2 format=3 uid="uid://413qpoqrcou6"]
+
+[ext_resource type="Script" path="res://game/entity/resource/structure_definition.gd" id="1_cb2gk"]
+
+[resource]
+script = ExtResource("1_cb2gk")
+entity_id = "construction_site"

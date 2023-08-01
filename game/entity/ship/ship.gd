@@ -40,10 +40,12 @@ enum GOAL_STATE {STANDBY, MINE, BUILD, RETURN}
 var goal_state := GOAL_STATE.STANDBY
 
 var velocity := Vector2.ZERO
-@export var speed : float = 50
 
-func set_init(init_parameters : Dictionary) -> void:
-	super.set_init(init_parameters)
+func setup_from_entity_def() -> void:
+	super.setup_from_entity_def()
+
+func setup_from_init_parameters() -> void:
+	super.setup_from_init_parameters()
 
 func _ready():
 	super._ready()
@@ -206,7 +208,7 @@ func process_movement(_delta : float):
 		if(is_zero_approx(distance) || distance <= approach_distance):
 			desired_velocity = Vector2.ZERO
 		else:
-			desired_velocity = global_position.direction_to(move_target.global_position) * speed
+			desired_velocity = global_position.direction_to(move_target.global_position) * entity_def.cruise_speed
 		desired_rotation = global_position.angle_to_point(move_target.global_position)
 	else:
 		desired_velocity = Vector2.ZERO

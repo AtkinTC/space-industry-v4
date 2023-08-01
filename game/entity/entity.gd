@@ -1,7 +1,9 @@
 extends Area2D
 class_name Entity
 
-@export var base_capacity : int = 100
+@export var entity_def : EntityDefinition = null
+@export var init_parameters : Dictionary = {}
+
 @export var inventory : Inventory = null
 
 @onready var collision_shape : CollisionShape2D = get_node_or_null("CollisionShape2D")
@@ -10,7 +12,21 @@ class_name Entity
 @onready var tools_node : Node2D = get_node_or_null("Tools")
 var tools : Dictionary = {}
 
-func set_init(init_parameters : Dictionary) -> void:
+func _init(_entity_def : EntityDefinition = null, _init_parameters : Dictionary = {}) -> void:
+	setup(_entity_def, _init_parameters)
+
+func setup(_entity_def : EntityDefinition = null, _init_parameters : Dictionary = {}) -> void:
+	entity_def = _entity_def
+	setup_from_entity_def()
+	
+	init_parameters = _init_parameters
+	setup_from_init_parameters()
+
+func setup_from_entity_def() -> void:
+	if(entity_def == null):
+		entity_def = EntityDefinition.new()
+
+func setup_from_init_parameters() -> void:
 	global_position = init_parameters.get(Strings.KEY_POSITION, global_position)
 	global_rotation = init_parameters.get(Strings.KEY_ROTATION, global_rotation)
 
@@ -30,7 +46,7 @@ func deferred_ready():
 
 func setup_inventory() -> void:
 	if(inventory == null):
-		inventory = Inventory.new(base_capacity)
+		inventory = Inventory.new(entity_def.base_inventory_capacity)
 
 func get_tools(tool_type : String) -> Array[Tool]:
 	var result : Array = tools.get(tool_type, [])

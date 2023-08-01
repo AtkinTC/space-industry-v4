@@ -7,18 +7,21 @@ func _ready() -> void:
 	SignalBus.spawn_ship.connect(spawn_node)
 	SignalBus.spawn_ship_callback.connect(spawn_node_with_callback)
 
-func spawn_node(scene : PackedScene, properties : Dictionary) -> Node2D:
-	if(scene == null):
+func spawn_node(entity_id : String, properties : Dictionary) -> Ship:
+	var ship_def := EntityDefs.get_ship_definition(entity_id)
+	if(ship_def == null):
+		print_debug("No ShipDefinition found for id : %s" % entity_id)
 		return
 	
-	var new_node : Node2D = scene.instantiate()
-	if(properties != null):
-		if(properties.has("position")):
-			new_node.position = properties["position"]
-		if(properties.has("rotation")):
-			new_node.rotation = properties["rotation"]
-	if(new_node.has_method("set_init_properties")):
-		new_node.set_init_properties(properties)
+	var new_node : Ship = ship_def.scene.instantiate()
+	new_node.setup(ship_def, properties)
+#	if(properties != null):
+#		if(properties.has("position")):
+#			new_node.position = properties["position"]
+#		if(properties.has("rotation")):
+#			new_node.rotation = properties["rotation"]
+#	if(new_node.has_method("set_init_properties")):
+#		new_node.set_init_properties(properties)
 	
 	add_child(new_node)
 	
@@ -27,8 +30,8 @@ func spawn_node(scene : PackedScene, properties : Dictionary) -> Node2D:
 	SignalBus.ships_updated.emit(nodes.size())
 	return new_node
 
-func spawn_node_with_callback(scene : PackedScene, properties : Dictionary, callback : Callable) -> Node2D:
-		var new_node := spawn_node(scene, properties)
+func spawn_node_with_callback(entity_id : String, properties : Dictionary, callback : Callable) -> Ship:
+		var new_node := spawn_node(entity_id, properties)
 		if(callback != null):
 			callback.call(new_node)
 		return new_node

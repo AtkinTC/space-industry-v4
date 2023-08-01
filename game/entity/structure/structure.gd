@@ -5,8 +5,11 @@ class_name Structure
 
 @export var is_depot : bool = false
 
-func set_init(init_parameters : Dictionary) -> void:
-	super.set_init(init_parameters)
+func setup_from_entity_def() -> void:
+	super.setup_from_entity_def()
+
+func setup_from_init_parameters() -> void:
+	super.setup_from_init_parameters()
 
 func _ready():
 	super._ready()

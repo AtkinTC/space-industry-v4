@@ -6,11 +6,6 @@ var selection_area_scene : PackedScene = preload("res://game/entity/entity_selec
 func _ready() -> void:
 	SignalBus.entity_ready.connect(add_selection_area)
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
 func add_selection_area(entity : Entity) -> void:
 	var area : EntitySelectionArea = selection_area_scene.instantiate()
 	area.parent_entity = entity

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="StructureDefinition" load_steps=3 format=3 uid="uid://4keam23s7dm6"]
+
+[ext_resource type="Script" path="res://game/entity/resource/structure_definition.gd" id="1_5kxhk"]
+[ext_resource type="PackedScene" uid="uid://co8g67bnh8fcs" path="res://game/entity/structure/structure.tscn" id="1_48vp5"]
+
+[resource]
+script = ExtResource("1_5kxhk")
+entity_id = "test_structure"
+scene = ExtResource("1_48vp5")

@@ -8,10 +8,9 @@
 radius = 4.0
 height = 14.0
 
-[node name="MinerShip" type="Area2D"]
+[node name="MinerShipBasic" type="Area2D"]
 script = ExtResource("1_hpmop")
 task_flags = 4
-base_capacity = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 0)
