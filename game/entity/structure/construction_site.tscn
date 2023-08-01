@@ -12,7 +12,7 @@ contents = {}
 
 [node name="ConstructionSite" type="Area2D"]
 script = ExtResource("1_mh87a")
-structure_id = "test_station"
+structure_id = "test_structure"
 inventory = SubResource("Resource_wakcu")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]

@@ -16,9 +16,9 @@ func _ready() -> void:
 	
 	##DEBUG##
 	assert(structure_id != null && !structure_id.is_empty())
-	assert(!EntityDefs.get_construction_cost(structure_id).is_empty())
+	assert(!get_construction_cost().is_empty())
 	assert(has_inventory())
-	assert(get_inventory().get_capacity() >= Items.get_volume_sum(EntityDefs.get_construction_cost(structure_id)))
+	assert(get_inventory().get_capacity() >= Items.get_volume_sum(get_construction_cost()))
 	
 	SignalBus.register_construction_site.emit(get_instance_id())
 
@@ -32,7 +32,7 @@ func _physics_process(_delta: float) -> void:
 		complete_construction()
 
 func get_construction_cost() -> Dictionary:
-	return EntityDefs.get_construction_cost(structure_id)
+	return EntityDefs.get_structure_definition(structure_id).construction_cost
 
 func get_remaining_construction_cost() -> Dictionary:
 	var remaining := get_construction_cost().duplicate()
@@ -60,8 +60,6 @@ func complete_construction():
 		Strings.KEY_INVENTORY_CONTENTS : remaining_contents
 	}
 	
-	var spawn_scene := EntityDefs.get_scene(structure_id)
-	
-	SignalBus.spawn_structure.emit(spawn_scene, spawn_params)
+	SignalBus.spawn_structure.emit(structure_id, spawn_params)
 	queue_free()
 	

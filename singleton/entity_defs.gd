@@ -1,14 +1,6 @@
 extends Node
 #Singleton EntityDefs
 
-const STRUCTURE_ID_TEST_STATION := "test_station"
-
-const CONSTRUCTION_COSTS := {
-	STRUCTURE_ID_TEST_STATION : {
-		Items.ID_IRON_ORE : 12
-	}
-}
-
 const ship_def_dir := "res://resources/entity_definitions/ship_definitions"
 const structure_def_dir := "res://resources/entity_definitions/structure_definitions"
 
@@ -67,6 +59,3 @@ func get_scene(entity_id : String) -> PackedScene:
 	if(entity_def == null):
 		return null
 	return entity_def.scene
-
-func get_construction_cost(entity_id : String) -> Dictionary:
-	return CONSTRUCTION_COSTS.get(entity_id, {})

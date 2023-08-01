@@ -7,3 +7,7 @@
 script = ExtResource("1_5kxhk")
 entity_id = "test_structure"
 scene = ExtResource("1_48vp5")
+base_inventory_capacity = -1
+construction_cost = {
+"iron_ore": 12
+}
