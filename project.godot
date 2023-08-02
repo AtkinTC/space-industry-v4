@@ -22,6 +22,7 @@ Items="*res://singleton/items.gd"
 AssignmentConductor="*res://singleton/assignment_conductor.gd"
 EntityDefs="*res://singleton/entity_defs.gd"
 InfluenceManger="*res://singleton/influence_manger.gd"
+EntityManager="*res://singleton/entity_manager.gd"
 
 [rendering]
 
