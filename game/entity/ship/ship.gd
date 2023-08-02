@@ -42,6 +42,8 @@ var goal_state := GOAL_STATE.STANDBY
 var velocity := Vector2.ZERO
 
 func setup_from_entity_def() -> void:
+	if(entity_def == null):
+		entity_def = ShipDefinition.new()
 	super.setup_from_entity_def()
 
 func setup_from_init_parameters() -> void:

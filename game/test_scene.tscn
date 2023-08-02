@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://lqf5gy55eirv"]
+[gd_scene load_steps=20 format=3 uid="uid://lqf5gy55eirv"]
 
 [ext_resource type="Shader" path="res://resources/shaders/grid.gdshader" id="1_lnwkc"]
 [ext_resource type="Script" path="res://game/test_scene.gd" id="1_ri3n2"]
@@ -8,10 +8,11 @@
 [ext_resource type="Shader" path="res://resources/shaders/canvas_group_area.gdshader" id="5_b2sve"]
 [ext_resource type="PackedScene" uid="uid://co8g67bnh8fcs" path="res://game/entity/structure/structure.tscn" id="5_r73p8"]
 [ext_resource type="Script" path="res://game/influence_canvas.gd" id="5_w38rg"]
-[ext_resource type="Script" path="res://game/structure_manager.gd" id="6_tn125"]
 [ext_resource type="Script" path="res://game/entity/inventory.gd" id="6_umlrr"]
-[ext_resource type="Script" path="res://game/ship_manager.gd" id="7_215xa"]
+[ext_resource type="Script" path="res://game/structures_parent_node.gd" id="8_6hhf1"]
 [ext_resource type="PackedScene" uid="uid://f5tgpd66v4k" path="res://game/entity/structure/construction_site.tscn" id="8_sbvsf"]
+[ext_resource type="Resource" uid="uid://db05x42u1t7ce" path="res://resources/entity_definitions/structure_definitions/station_core_001.tres" id="10_m3o5a"]
+[ext_resource type="Script" path="res://game/ships_parent_node.gd" id="12_t0iog"]
 [ext_resource type="Script" path="res://game/entity/selection_areas_layer.gd" id="15_5qeme"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hglpe"]
@@ -30,19 +31,19 @@ shader = ExtResource("5_b2sve")
 shader_parameter/outline_color = Color(0.168627, 1, 0.360784, 0.501961)
 shader_parameter/inner_color = Color(0.17, 1, 0.36, 0.1)
 
-[sub_resource type="Resource" id="Resource_fo1y5"]
+[sub_resource type="Resource" id="Resource_r10mc"]
 resource_local_to_scene = true
 script = ExtResource("6_umlrr")
 capacity = 100
 contents = {}
 
-[sub_resource type="Resource" id="Resource_frfi2"]
+[sub_resource type="Resource" id="Resource_1knf0"]
 resource_local_to_scene = true
 script = ExtResource("6_umlrr")
 capacity = 100
 contents = {}
 
-[sub_resource type="Resource" id="Resource_8nyyr"]
+[sub_resource type="Resource" id="Resource_wwuqt"]
 resource_local_to_scene = true
 script = ExtResource("6_umlrr")
 capacity = 100
@@ -105,26 +106,27 @@ position = Vector2(431, -14)
 [node name="IronAsteroid8" parent="Objects" instance=ExtResource("4_3tfyi")]
 position = Vector2(241, -143)
 
-[node name="Structures" type="Node2D" parent="."]
-script = ExtResource("6_tn125")
+[node name="StructuresParentNode" type="Node2D" parent="."]
+script = ExtResource("8_6hhf1")
 
-[node name="Station" parent="Structures" instance=ExtResource("5_r73p8")]
+[node name="Station" parent="StructuresParentNode" instance=ExtResource("5_r73p8")]
 position = Vector2(-86, -6)
+entity_def = ExtResource("10_m3o5a")
 
-[node name="ConstructionSite" parent="Structures" instance=ExtResource("8_sbvsf")]
+[node name="ConstructionSite" parent="StructuresParentNode" instance=ExtResource("8_sbvsf")]
 position = Vector2(478, -240)
-inventory = SubResource("Resource_fo1y5")
+inventory = SubResource("Resource_r10mc")
 
-[node name="ConstructionSite2" parent="Structures" instance=ExtResource("8_sbvsf")]
+[node name="ConstructionSite2" parent="StructuresParentNode" instance=ExtResource("8_sbvsf")]
 position = Vector2(258, -222)
-inventory = SubResource("Resource_frfi2")
+inventory = SubResource("Resource_1knf0")
 
-[node name="ConstructionSite3" parent="Structures" instance=ExtResource("8_sbvsf")]
+[node name="ConstructionSite3" parent="StructuresParentNode" instance=ExtResource("8_sbvsf")]
 position = Vector2(62, -182)
-inventory = SubResource("Resource_8nyyr")
+inventory = SubResource("Resource_wwuqt")
 
-[node name="ShipManager" type="Node2D" parent="."]
-script = ExtResource("7_215xa")
+[node name="ShipsParentNode" type="Node2D" parent="."]
+script = ExtResource("12_t0iog")
 
 [node name="SelectionAreasLayer" type="Node2D" parent="."]
 script = ExtResource("15_5qeme")

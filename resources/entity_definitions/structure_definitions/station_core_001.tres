@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StructureDefinition" load_steps=3 format=3 uid="uid://db05x42u1t7ce"]
+
+[ext_resource type="PackedScene" uid="uid://co8g67bnh8fcs" path="res://game/entity/structure/structure.tscn" id="1_01qrh"]
+[ext_resource type="Script" path="res://game/entity/resource/structure_definition.gd" id="2_8ixjl"]
+
+[resource]
+script = ExtResource("2_8ixjl")
+dock_range = 50.0
+entity_type = "station_core_001"
+scene = ExtResource("1_01qrh")
+base_inventory_capacity = 100
+construction_cost = {}
+influence_radius = 250.0

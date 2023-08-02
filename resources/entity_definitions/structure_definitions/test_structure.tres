@@ -5,9 +5,11 @@
 
 [resource]
 script = ExtResource("1_5kxhk")
+dock_range = 50.0
 entity_type = "test_structure"
 scene = ExtResource("1_48vp5")
 base_inventory_capacity = -1
 construction_cost = {
 "iron_ore": 12
 }
+influence_radius = 150.0

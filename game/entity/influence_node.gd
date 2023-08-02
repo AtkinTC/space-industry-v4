@@ -3,6 +3,9 @@ class_name InfluenceNode
 
 @export var radius : float = 250
 
+func _init(_radius : float) -> void:
+	radius = _radius
+
 func _ready() -> void:
 	SignalBus.register_influence_node.emit(self)
 

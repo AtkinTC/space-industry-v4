@@ -34,6 +34,10 @@ func _ready():
 	deferred_ready.call_deferred()
 	setup_inventory()
 	
+	if(entity_def.influence_radius > 0):
+		var influence_node := InfluenceNode.new(entity_def.influence_radius)
+		add_child(influence_node)
+	
 	if (tools_node != null):
 		for child in tools_node.get_children():
 			if(child is Tool):
@@ -45,7 +49,7 @@ func deferred_ready():
 	SignalBus.entity_ready.emit(self)
 
 func setup_inventory() -> void:
-	if(inventory == null):
+	if(inventory == null && entity_def.base_inventory_capacity > 0):
 		inventory = Inventory.new(entity_def.base_inventory_capacity)
 
 func get_tools(tool_type : String) -> Array[Tool]:

@@ -1,11 +1,11 @@
 extends Entity
 class_name Structure
 
-@export var dock_range : float = 50
-
 @export var is_depot : bool = false
 
 func setup_from_entity_def() -> void:
+	if(entity_def == null):
+		entity_def = StructureDefinition.new()
 	super.setup_from_entity_def()
 
 func setup_from_init_parameters() -> void:
@@ -16,4 +16,4 @@ func _ready():
 	add_to_group(Strings.GROUP_STRUCTURE)
 
 func get_dock_range() -> float:
-	return dock_range
+	return (entity_def as StructureDefinition).dock_range
