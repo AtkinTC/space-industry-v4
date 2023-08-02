@@ -30,19 +30,19 @@ shader = ExtResource("5_b2sve")
 shader_parameter/outline_color = Color(0.168627, 1, 0.360784, 0.501961)
 shader_parameter/inner_color = Color(0.17, 1, 0.36, 0.1)
 
-[sub_resource type="Resource" id="Resource_wgn43"]
+[sub_resource type="Resource" id="Resource_fo1y5"]
 resource_local_to_scene = true
 script = ExtResource("6_umlrr")
 capacity = 100
 contents = {}
 
-[sub_resource type="Resource" id="Resource_sdwdv"]
+[sub_resource type="Resource" id="Resource_frfi2"]
 resource_local_to_scene = true
 script = ExtResource("6_umlrr")
 capacity = 100
 contents = {}
 
-[sub_resource type="Resource" id="Resource_tnykt"]
+[sub_resource type="Resource" id="Resource_8nyyr"]
 resource_local_to_scene = true
 script = ExtResource("6_umlrr")
 capacity = 100
@@ -113,15 +113,15 @@ position = Vector2(-86, -6)
 
 [node name="ConstructionSite" parent="Structures" instance=ExtResource("8_sbvsf")]
 position = Vector2(478, -240)
-inventory = SubResource("Resource_wgn43")
+inventory = SubResource("Resource_fo1y5")
 
 [node name="ConstructionSite2" parent="Structures" instance=ExtResource("8_sbvsf")]
 position = Vector2(258, -222)
-inventory = SubResource("Resource_sdwdv")
+inventory = SubResource("Resource_frfi2")
 
 [node name="ConstructionSite3" parent="Structures" instance=ExtResource("8_sbvsf")]
 position = Vector2(62, -182)
-inventory = SubResource("Resource_tnykt")
+inventory = SubResource("Resource_8nyyr")
 
 [node name="ShipManager" type="Node2D" parent="."]
 script = ExtResource("7_215xa")

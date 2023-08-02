@@ -19,9 +19,9 @@ func _ready() -> void:
 			print_rich("[color=red]Invalid Ship Definition at : %s![/color]" % file_path)
 			continue
 		var ship_def := resource as ShipDefinition
-		var id := ship_def.entity_id
+		var id := ship_def.entity_type
 		if(entity_defs.has(id)):
-			print_rich("[color=red]Duplicate ship entity_id : %s![/color]" % id)
+			print_rich("[color=red]Duplicate ship entity_type : %s![/color]" % id)
 			continue
 		entity_defs[id] = ship_def
 	
@@ -37,25 +37,25 @@ func _ready() -> void:
 			print_rich("[color=red]Invalid Structure Definition at : %s![/color]" % file_path)
 			continue
 		var structure_def := resource as StructureDefinition
-		var id := structure_def.entity_id
+		var id := structure_def.entity_type
 		if(entity_defs.has(id)):
-			print_rich("[color=red]Duplicate Structure entity_id : %s![/color]" % id)
+			print_rich("[color=red]Duplicate Structure entity_type : %s![/color]" % id)
 			continue
 		entity_defs[id] = structure_def
 
-func get_entity_definition(entity_id : String) -> EntityDefinition:
-	return entity_defs.get(entity_id) as EntityDefinition
+func get_entity_definition(entity_type : String) -> EntityDefinition:
+	return entity_defs.get(entity_type) as EntityDefinition
 
-func get_ship_definition(entity_id : String) -> ShipDefinition:
-	var ship_def : ShipDefinition = entity_defs.get(entity_id) 
+func get_ship_definition(entity_type : String) -> ShipDefinition:
+	var ship_def : ShipDefinition = entity_defs.get(entity_type) 
 	return ship_def
 
-func get_structure_definition(entity_id : String) -> StructureDefinition:
-	var structure_def : StructureDefinition = entity_defs.get(entity_id) 
+func get_structure_definition(entity_type : String) -> StructureDefinition:
+	var structure_def : StructureDefinition = entity_defs.get(entity_type) 
 	return structure_def
 
-func get_scene(entity_id : String) -> PackedScene:
-	var entity_def := get_entity_definition(entity_id)
+func get_scene(entity_type : String) -> PackedScene:
+	var entity_def := get_entity_definition(entity_type)
 	if(entity_def == null):
 		return null
 	return entity_def.scene

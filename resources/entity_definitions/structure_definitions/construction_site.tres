@@ -4,4 +4,6 @@
 
 [resource]
 script = ExtResource("1_cb2gk")
-entity_id = "construction_site"
+entity_type = "construction_site"
+base_inventory_capacity = -1
+construction_cost = {}

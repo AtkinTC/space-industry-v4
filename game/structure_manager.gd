@@ -7,10 +7,10 @@ func _ready() -> void:
 	SignalBus.spawn_structure.connect(spawn_node)
 	SignalBus.spawn_ship_callback.connect(spawn_node_with_callback)
 
-func spawn_node(entity_id : String, properties : Dictionary) -> Structure:
-	var structure_def := EntityDefs.get_structure_definition(entity_id)
+func spawn_node(entity_type : String, properties : Dictionary) -> Structure:
+	var structure_def := EntityDefs.get_structure_definition(entity_type)
 	if(structure_def == null):
-		print_debug("No StructureDefinition found for id : %s" % entity_id)
+		print_debug("No StructureDefinition found for type : %s" % entity_type)
 		return
 	
 	var new_node : Structure = structure_def.scene.instantiate()
@@ -30,8 +30,8 @@ func spawn_node(entity_id : String, properties : Dictionary) -> Structure:
 	SignalBus.ships_updated.emit(nodes.size())
 	return new_node
 
-func spawn_node_with_callback(entity_id : String, properties : Dictionary, callback : Callable) -> Structure:
-		var new_node := spawn_node(entity_id, properties)
+func spawn_node_with_callback(entity_type : String, properties : Dictionary, callback : Callable) -> Structure:
+		var new_node := spawn_node(entity_type, properties)
 		if(callback != null):
 			callback.call(new_node)
 		return new_node

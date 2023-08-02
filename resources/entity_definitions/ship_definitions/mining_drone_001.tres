@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_xmnvb")
 cruise_speed = 75.0
-entity_id = "mining_drone_001"
+entity_type = "mining_drone_001"
 scene = ExtResource("1_5pek2")
 base_inventory_capacity = 4
+construction_cost = {}
