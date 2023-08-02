@@ -1,9 +1,9 @@
-class_name Strings
+class_name Constants
 
-static var KEY_POSITION := "position"
-static var KEY_ROTATION := "rotation"
-static var KEY_STRUCTURE_ID := "structure_id"
-static var KEY_INVENTORY_CONTENTS := "inventory_contents"
+const KEY_POSITION := "position"
+const KEY_ROTATION := "rotation"
+const KEY_STRUCTURE_ID := "structure_id"
+const KEY_INVENTORY_CONTENTS := "inventory_contents"
 
 const GROUP_RESOURCE_NODE := "resource_node"
 const GROUP_STRUCTURE := "structure"

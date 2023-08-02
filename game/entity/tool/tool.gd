@@ -6,7 +6,7 @@ class_name Tool
 var parent_entity : Node2D = null
 
 func get_tool_type() -> String:
-	return Strings.TOOL_TYPE_NULL
+	return Constants.TOOL_TYPE_NULL
 
 func _ready():
 	pass

@@ -51,7 +51,7 @@ func setup_from_init_parameters() -> void:
 
 func _ready():
 	super._ready()
-	add_to_group(Strings.GROUP_SHIP)
+	add_to_group(Constants.GROUP_SHIP)
 	
 	SignalBus.register_ship.emit(get_instance_id())
 	clear_assignment()
@@ -60,11 +60,11 @@ func get_task_groups() -> Array[String]:
 	var task_groups : Array[String] = []
 	
 	if(has_task_flag(TASK_FLAG.BUILDER)):
-		task_groups.append(Strings.TASK_GROUP_BUILDER)
+		task_groups.append(Constants.TASK_GROUP_BUILDER)
 	if(has_task_flag(TASK_FLAG.TRANSPORTER)):
-		task_groups.append(Strings.TASK_GROUP_TRANSPORTER)
+		task_groups.append(Constants.TASK_GROUP_TRANSPORTER)
 	if(has_task_flag(TASK_FLAG.MINER)):
-		task_groups.append(Strings.TASK_GROUP_MINER)
+		task_groups.append(Constants.TASK_GROUP_MINER)
 	
 	return task_groups
 
@@ -90,7 +90,7 @@ func can_mine() -> bool:
 		return false
 	if(!has_inventory() || get_inventory().is_full()):
 		return false
-	if(get_tools(Strings.TOOL_TYPE_MINER).is_empty()):
+	if(get_tools(Constants.TOOL_TYPE_MINER).is_empty()):
 		return false
 	return true
 
@@ -169,12 +169,12 @@ func process_state(_delta : float):
 				
 				# get the minimum range of all miner tools
 				var mining_range : float = -1
-				for miner in get_tools(Strings.TOOL_TYPE_MINER):
+				for miner in get_tools(Constants.TOOL_TYPE_MINER):
 					mining_range = (miner as MinerTool).max_range if mining_range < 0 else min(mining_range, (miner as MinerTool).max_range)
 					
 				approach_distance = mining_range * 0.9
 			
-				for miner in get_tools(Strings.TOOL_TYPE_MINER):
+				for miner in get_tools(Constants.TOOL_TYPE_MINER):
 					(miner as MinerTool).set_target(target)
 				
 				if(global_position.distance_squared_to(target.global_position) > pow(approach_distance, 2)):

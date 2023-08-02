@@ -2,7 +2,7 @@ extends Tool
 class_name MinerTool
 
 func get_tool_type():
-	return Strings.TOOL_TYPE_MINER
+	return Constants.TOOL_TYPE_MINER
 
 @export var max_range : float = 40
 @export var cycle_duration : float = 5

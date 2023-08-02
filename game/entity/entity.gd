@@ -27,8 +27,8 @@ func setup_from_entity_def() -> void:
 		entity_def = EntityDefinition.new()
 
 func setup_from_init_parameters() -> void:
-	global_position = init_parameters.get(Strings.KEY_POSITION, global_position)
-	global_rotation = init_parameters.get(Strings.KEY_ROTATION, global_rotation)
+	global_position = init_parameters.get(Constants.KEY_POSITION, global_position)
+	global_rotation = init_parameters.get(Constants.KEY_ROTATION, global_rotation)
 
 func _ready():
 	deferred_ready.call_deferred()

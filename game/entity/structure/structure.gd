@@ -13,7 +13,7 @@ func setup_from_init_parameters() -> void:
 
 func _ready():
 	super._ready()
-	add_to_group(Strings.GROUP_STRUCTURE)
+	add_to_group(Constants.GROUP_STRUCTURE)
 
 func get_dock_range() -> float:
 	return (entity_def as StructureDefinition).dock_range

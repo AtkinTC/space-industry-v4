@@ -6,11 +6,11 @@ class_name ResourceNode
 var remaining_resource_quantity : int
 
 func set_init(init_parameters : Dictionary) -> void:
-	global_position = init_parameters.get(Strings.KEY_POSITION, global_position)
-	global_rotation = init_parameters.get(Strings.KEY_ROTATION, global_rotation)
+	global_position = init_parameters.get(Constants.KEY_POSITION, global_position)
+	global_rotation = init_parameters.get(Constants.KEY_ROTATION, global_rotation)
 
 func _ready():
-	add_to_group(Strings.GROUP_RESOURCE_NODE)
+	add_to_group(Constants.GROUP_RESOURCE_NODE)
 	
 	remaining_resource_quantity = base_resource_quantity
 

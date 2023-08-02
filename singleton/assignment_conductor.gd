@@ -1,5 +1,5 @@
 extends Node
-#Singleton AssignmentConductor
+# Singleton AssignmentConductor
 
 var ships : Dictionary = {}
 var ship_assignments : Dictionary = {}
@@ -79,7 +79,7 @@ func assign_task(instance_id) -> void:
 		
 	var task_groups : Array[String] = ship.get_task_groups()
 	
-	if(task_groups.has(Strings.TASK_GROUP_BUILDER)):
+	if(task_groups.has(Constants.TASK_GROUP_BUILDER)):
 		#var contents := ship.get_inventory().get_contents()
 		if(ship.can_build() && ship.get_inventory().is_empty()):
 			#var free_capacity := ship.get_inventory().get_available_capacity()
@@ -120,7 +120,7 @@ func assign_task(instance_id) -> void:
 				set_ship_assignment(ship, Ship.ConstructionAssignment.new(Ship.GOAL_STATE.BUILD, site, pickup_station, pickup_items))
 				return
 	
-	if(task_groups.has(Strings.TASK_GROUP_MINER)):
+	if(task_groups.has(Constants.TASK_GROUP_MINER)):
 		if(ship.can_mine()):
 			var filtered_targets : Array[ResourceNode] = find_mining_targets().filter(func lambda(n : ResourceNode) : return (resource_node_assignments.get(n.get_instance_id(), []).size() < MAX_MINERS_PER_RESOURCE_NODE))
 			var targets := get_closest_targets(ship.global_position, filtered_targets)
@@ -219,7 +219,7 @@ func _on_construction_site_freed(instance_id : int) -> void:
 #############
 
 func find_mining_targets() -> Array[ResourceNode]:
-	var resource_nodes := get_tree().get_nodes_in_group(Strings.GROUP_RESOURCE_NODE)
+	var resource_nodes := get_tree().get_nodes_in_group(Constants.GROUP_RESOURCE_NODE)
 	var potential_mining_targets : Array[ResourceNode] = []
 	for node in resource_nodes:
 		if(!(node as ResourceNode).is_minable()):
@@ -228,7 +228,7 @@ func find_mining_targets() -> Array[ResourceNode]:
 	return potential_mining_targets
 
 func get_stations() -> Array[Structure]:
-	var nodes := get_tree().get_nodes_in_group(Strings.GROUP_STRUCTURE)
+	var nodes := get_tree().get_nodes_in_group(Constants.GROUP_STRUCTURE)
 	var stations : Array[Structure] = []
 	for node in nodes:
 		if(node is Structure):
@@ -236,7 +236,7 @@ func get_stations() -> Array[Structure]:
 	return stations
 
 func get_stations_filtered(filter : Callable) -> Array[Structure]:
-	var nodes := get_tree().get_nodes_in_group(Strings.GROUP_STRUCTURE)
+	var nodes := get_tree().get_nodes_in_group(Constants.GROUP_STRUCTURE)
 	var stations : Array[Structure] = []
 	for node in nodes:
 		if(node is Structure && filter.call(node)):
@@ -244,7 +244,7 @@ func get_stations_filtered(filter : Callable) -> Array[Structure]:
 	return stations
 
 func get_depot_stations() -> Array[Structure]:
-	var nodes := get_tree().get_nodes_in_group(Strings.GROUP_STRUCTURE)
+	var nodes := get_tree().get_nodes_in_group(Constants.GROUP_STRUCTURE)
 	var stations : Array[Structure] = []
 	for node in nodes:
 		if(node is Structure && node.is_depot):
@@ -252,7 +252,7 @@ func get_depot_stations() -> Array[Structure]:
 	return stations
 
 func get_dropoff_stations() -> Array[Structure]:
-	var nodes := get_tree().get_nodes_in_group(Strings.GROUP_STRUCTURE)
+	var nodes := get_tree().get_nodes_in_group(Constants.GROUP_STRUCTURE)
 	var stations : Array[Structure] = []
 	for node in nodes:
 		if(node is Structure && node.is_depot && node.has_inventory() && !node.get_inventory().is_full()):

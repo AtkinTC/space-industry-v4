@@ -8,11 +8,11 @@ func setup_from_entity_def() -> void:
 
 func setup_from_init_parameters() -> void:
 	super.setup_from_init_parameters()
-	structure_id = init_parameters.get(Strings.KEY_STRUCTURE_ID, structure_id)
+	structure_id = init_parameters.get(Constants.KEY_STRUCTURE_ID, structure_id)
 
 func _ready() -> void:
 	super._ready()
-	add_to_group(Strings.GROUP_CONSTRUCTION)
+	add_to_group(Constants.GROUP_CONSTRUCTION)
 	
 	##DEBUG##
 	assert(structure_id != null && !structure_id.is_empty())
@@ -55,9 +55,9 @@ func complete_construction():
 	var remaining_contents := get_inventory().get_contents()
 	
 	var spawn_params := {
-		Strings.KEY_POSITION : global_position,
-		Strings.KEY_ROTATION : global_rotation,
-		Strings.KEY_INVENTORY_CONTENTS : remaining_contents
+		Constants.KEY_POSITION : global_position,
+		Constants.KEY_ROTATION : global_rotation,
+		Constants.KEY_INVENTORY_CONTENTS : remaining_contents
 	}
 	
 	SignalBus.spawn_structure.emit(structure_id, spawn_params)
