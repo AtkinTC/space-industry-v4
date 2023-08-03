@@ -1,5 +1,5 @@
 extends Node
-#Singleton Items
+# Singleton Items
 
 const KEY_DISPLAY_NAME := "display_name"
 #const KEY_VOLUME := "volume"

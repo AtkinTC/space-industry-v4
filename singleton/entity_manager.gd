@@ -43,7 +43,7 @@ func spawn_ship(entity_type : String, properties : Dictionary) -> Ship:
 		return
 	
 	var new_node : Ship = ship_def.scene.instantiate()
-	new_node.setup(ship_def, properties)
+	new_node.init(ship_def, properties)
 	
 	ships_parent_node.add_child(new_node)
 	
@@ -76,7 +76,7 @@ func spawn_structure(entity_type : String, properties : Dictionary) -> Structure
 		return
 	
 	var new_node : Structure = structure_def.scene.instantiate()
-	new_node.setup(structure_def, properties)
+	new_node.init(structure_def, properties)
 	
 	structures_parent_node.add_child(new_node)
 	

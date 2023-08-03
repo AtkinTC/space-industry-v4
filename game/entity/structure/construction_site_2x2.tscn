@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://f5tgpd66v4k"]
+
+[ext_resource type="Script" path="res://game/entity/structure/construction_site.gd" id="1_nbahm"]
+[ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="2_46yxd"]
+
+[node name="ConstructionSite2x2" type="Area2D"]
+script = ExtResource("1_nbahm")
+structure_id = "test_structure_2x2"
+default_entity_type = "construction_site_2x2"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, -31, 31, 0, 0, 31, -31, 0)
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, -31, 31, 0, 0, 31, -31, 0)
+
+[node name="EntityDebugDisplay" type="Node2D" parent="."]
+script = ExtResource("2_46yxd")

@@ -3,19 +3,14 @@ class_name ConstructionSite
 
 @export var structure_id : String
 
-func setup_from_entity_def() -> void:
-	super.setup_from_entity_def()
-
-func setup_from_init_parameters() -> void:
-	super.setup_from_init_parameters()
-	structure_id = init_parameters.get(Constants.KEY_STRUCTURE_ID, structure_id)
-
+#Override
 func _ready() -> void:
 	super._ready()
 	add_to_group(Constants.GROUP_CONSTRUCTION)
 	
 	##DEBUG##
 	assert(structure_id != null && !structure_id.is_empty())
+	assert(get_construction_structure_definition() != null)
 	assert(!get_construction_cost().is_empty())
 	assert(has_inventory())
 	assert(get_inventory().get_capacity() >= Items.get_volume_sum(get_construction_cost()))
@@ -23,16 +18,29 @@ func _ready() -> void:
 	SignalBus.register_construction_site.emit(get_instance_id())
 
 #Override
+func setup_from_entity_def() -> void:
+	super.setup_from_entity_def()
+
+#Override
+func setup_from_init_parameters() -> void:
+	super.setup_from_init_parameters()
+	structure_id = init_parameters.get(Constants.KEY_STRUCTURE_ID, structure_id)
+
+#Override
 func setup_inventory() -> void:
 	var construction_materials_volume = Items.get_volume_sum(get_construction_cost())
 	inventory = Inventory.new(construction_materials_volume)
 
+#Override
 func _physics_process(_delta: float) -> void:
 	if(is_ready_to_complete()):
 		complete_construction()
 
+func get_construction_structure_definition() -> StructureDefinition:
+	return EntityDefs.get_structure_definition(structure_id)
+
 func get_construction_cost() -> Dictionary:
-	return EntityDefs.get_structure_definition(structure_id).construction_cost
+	return get_construction_structure_definition().construction_cost
 
 func get_remaining_construction_cost() -> Dictionary:
 	var remaining := get_construction_cost().duplicate()

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StructureDefinition" load_steps=3 format=3 uid="uid://413qpoqrcou6"]
+
+[ext_resource type="PackedScene" uid="uid://ctlwh0snxejfy" path="res://game/entity/structure/construction_site_1x1.tscn" id="1_pevwe"]
+[ext_resource type="Script" path="res://game/entity/resource/structure_definition.gd" id="2_h8j0m"]
+
+[resource]
+script = ExtResource("2_h8j0m")
+dock_range = 50.0
+entity_type = "construction_site_1x1"
+scene = ExtResource("1_pevwe")
+base_inventory_capacity = -1
+construction_cost = {}
+influence_radius = -1.0

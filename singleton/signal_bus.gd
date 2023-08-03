@@ -1,5 +1,5 @@
 extends Node
-#Singleton SignalBus
+# Singleton SignalBus
 
 signal connect_transport_network_component(instance_id : int)
 signal disconnect_transport_network_component(instance_id : int)

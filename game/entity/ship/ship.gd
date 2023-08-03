@@ -41,20 +41,23 @@ var goal_state := GOAL_STATE.STANDBY
 
 var velocity := Vector2.ZERO
 
-func setup_from_entity_def() -> void:
-	if(entity_def == null):
-		entity_def = ShipDefinition.new()
-	super.setup_from_entity_def()
-
-func setup_from_init_parameters() -> void:
-	super.setup_from_init_parameters()
-
+#Override
 func _ready():
 	super._ready()
 	add_to_group(Constants.GROUP_SHIP)
 	
 	SignalBus.register_ship.emit(get_instance_id())
 	clear_assignment()
+
+#Override
+func setup_from_entity_def() -> void:
+	if(entity_def == null):
+		entity_def = ShipDefinition.new()
+	super.setup_from_entity_def()
+
+#Override
+func setup_from_init_parameters() -> void:
+	super.setup_from_init_parameters()
 
 func get_task_groups() -> Array[String]:
 	var task_groups : Array[String] = []

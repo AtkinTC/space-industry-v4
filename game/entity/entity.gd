@@ -1,8 +1,10 @@
 extends Area2D
 class_name Entity
 
-@export var entity_def : EntityDefinition = null
-@export var init_parameters : Dictionary = {}
+@export var default_entity_type : String
+var entity_def : EntityDefinition
+@export var default_init_parameters : Dictionary = {}
+var init_parameters : Dictionary = {}
 
 @export var inventory : Inventory = null
 
@@ -12,27 +14,13 @@ class_name Entity
 @onready var tools_node : Node2D = get_node_or_null("Tools")
 var tools : Dictionary = {}
 
-func _init(_entity_def : EntityDefinition = null, _init_parameters : Dictionary = {}) -> void:
-	setup(_entity_def, _init_parameters)
-
-func setup(_entity_def : EntityDefinition = null, _init_parameters : Dictionary = {}) -> void:
+func init(_entity_def : EntityDefinition = null, _init_parameters : Dictionary = {}) -> void:
 	entity_def = _entity_def
-	setup_from_entity_def()
-	
 	init_parameters = _init_parameters
-	setup_from_init_parameters()
-
-func setup_from_entity_def() -> void:
-	if(entity_def == null):
-		entity_def = EntityDefinition.new()
-
-func setup_from_init_parameters() -> void:
-	global_position = init_parameters.get(Constants.KEY_POSITION, global_position)
-	global_rotation = init_parameters.get(Constants.KEY_ROTATION, global_rotation)
 
 func _ready():
 	deferred_ready.call_deferred()
-	setup_inventory()
+	setup()
 	
 	if(entity_def.influence_radius > 0):
 		var influence_node := InfluenceNode.new(entity_def.influence_radius)
@@ -47,6 +35,25 @@ func _ready():
 
 func deferred_ready():
 	SignalBus.entity_ready.emit(self)
+
+func setup() -> void:
+	if(entity_def == null && !default_entity_type.is_empty()):
+		entity_def = EntityDefs.get_entity_definition(default_entity_type)
+	setup_from_entity_def()
+	
+	if(init_parameters.is_empty() && !default_init_parameters.is_empty()):
+		init_parameters = default_init_parameters
+	setup_from_init_parameters()
+	
+	setup_inventory()
+
+func setup_from_entity_def() -> void:
+	if(entity_def == null):
+		entity_def = EntityDefinition.new()
+
+func setup_from_init_parameters() -> void:
+	global_position = init_parameters.get(Constants.KEY_POSITION, global_position)
+	global_rotation = init_parameters.get(Constants.KEY_ROTATION, global_rotation)
 
 func setup_inventory() -> void:
 	if(inventory == null && entity_def.base_inventory_capacity > 0):

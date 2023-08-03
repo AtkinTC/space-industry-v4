@@ -1,12 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://co8g67bnh8fcs"]
+[gd_scene load_steps=5 format=3 uid="uid://co8g67bnh8fcs"]
 
 [ext_resource type="Script" path="res://game/entity/structure/structure.gd" id="1_wf8uc"]
+[ext_resource type="Script" path="res://game/entity/structure/structure_grid_tool.gd" id="3_6xue6"]
 [ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_hh5cf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m4rl2"]
 size = Vector2(64, 64)
 
-[node name="Station" type="Area2D"]
+[node name="Structure" type="Area2D"]
 script = ExtResource("1_wf8uc")
 is_depot = true
 
@@ -19,3 +20,7 @@ polygon = PackedVector2Array(16, -32, 32, -16, 32, 16, 16, 32, -16, 32, -32, 16,
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
 script = ExtResource("3_hh5cf")
+
+[node name="StructureGridTool" type="Node2D" parent="."]
+script = ExtResource("3_6xue6")
+grid_size = Vector2i(2, 2)
