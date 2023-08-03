@@ -83,6 +83,17 @@ func calculate_extents() -> void:
 			p_min.y = min(p_min.y, p1.y, p2.y, p3.y, p4.y)
 			p_max.x = max(p_max.x, p1.x, p2.x, p3.x, p4.x)
 			p_max.y = max(p_max.y, p1.y, p2.y, p3.y, p4.y)
+		
+		if(col_shape.shape is CircleShape2D):
+			var circle := col_shape.shape as CircleShape2D
+			var p1 := col_shape.position + Vector2(circle.radius, circle.radius)
+			var p2 := col_shape.position + Vector2(circle.radius, -circle.radius)
+			var p3 := col_shape.position + Vector2(-circle.radius, -circle.radius)
+			var p4 := col_shape.position + Vector2(-circle.radius, circle.radius)
+			p_min.x = min(p_min.x, p1.x, p2.x, p3.x, p4.x)
+			p_min.y = min(p_min.y, p1.y, p2.y, p3.y, p4.y)
+			p_max.x = max(p_max.x, p1.x, p2.x, p3.x, p4.x)
+			p_max.y = max(p_max.y, p1.y, p2.y, p3.y, p4.y)
 	
 	for col_polygon in parent_entity.get_collision_polygons():
 		for p in col_polygon.polygon:
