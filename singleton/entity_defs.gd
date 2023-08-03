@@ -1,12 +1,12 @@
 extends Node
-#Singleton EntityDefs
+# Singleton EntityDefs
 
 const ship_def_dir := "res://resources/entity_definitions/ship_definitions"
 const structure_def_dir := "res://resources/entity_definitions/structure_definitions"
 
 var entity_defs : Dictionary = {}
 
-func _ready() -> void:
+func _init() -> void:
 	var ship_def_filenames := DirAccess.get_files_at(ship_def_dir)
 	print("Loading ShipDefinitions from dir : " + ship_def_dir)
 	if(ship_def_filenames == null || ship_def_filenames.is_empty()):
