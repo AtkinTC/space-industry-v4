@@ -1,7 +1,10 @@
 extends EntityDefinition
 class_name StructureDefinition
 
+@export var player_buildable : bool = false
 @export var dock_range : float = 50
+
+@export var construction_scene : PackedScene = null
 
 const GRID_TOOL_NODE_NAME := "StructureGridTool"
 const GRID_TOOL_GRID_SIZE_PROP_NAME := "grid_size"

@@ -1,22 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://co8g67bnh8fcs"]
+[gd_scene load_steps=6 format=3 uid="uid://co8g67bnh8fcs"]
 
 [ext_resource type="Script" path="res://game/entity/structure/structure.gd" id="1_wf8uc"]
 [ext_resource type="Script" path="res://game/entity/structure/structure_grid_tool.gd" id="3_6xue6"]
 [ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_hh5cf"]
+[ext_resource type="Texture2D" uid="uid://cgaulx604qncm" path="res://assets/sprites/station_core_64x64.png" id="4_2yl0q"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_m4rl2"]
-size = Vector2(64, 64)
+[sub_resource type="CircleShape2D" id="CircleShape2D_0dicr"]
+radius = 32.0
 
-[node name="Structure" type="Area2D"]
+[node name="StationCore" type="Area2D"]
 script = ExtResource("1_wf8uc")
 is_depot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_m4rl2")
-
-[node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color(0.498039, 0.741176, 0.768627, 1)
-polygon = PackedVector2Array(16, -32, 32, -16, 32, 16, 16, 32, -16, 32, -32, 16, -32, -16, -16, -32)
+shape = SubResource("CircleShape2D_0dicr")
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
 script = ExtResource("3_hh5cf")
@@ -24,3 +21,6 @@ script = ExtResource("3_hh5cf")
 [node name="StructureGridTool" type="Node2D" parent="."]
 script = ExtResource("3_6xue6")
 grid_size = Vector2i(2, 2)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("4_2yl0q")

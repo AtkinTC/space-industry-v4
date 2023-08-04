@@ -43,6 +43,21 @@ func _init() -> void:
 			continue
 		entity_defs[id] = structure_def
 
+func get_entity_definitions() -> Array[EntityDefinition]:
+	var a : Array[EntityDefinition] = []
+	a.assign(entity_defs.values)
+	return a
+
+func get_ship_definitions() -> Array[ShipDefinition]:
+	var a : Array[ShipDefinition] = []
+	a.assign(entity_defs.values().filter(func lambda(e : EntityDefinition) : return e is ShipDefinition))
+	return a
+
+func get_structure_definitions() -> Array[StructureDefinition]:
+	var a : Array[StructureDefinition] = []
+	a.assign(entity_defs.values().filter(func lambda(e : EntityDefinition) : return e is StructureDefinition))
+	return a
+
 func get_entity_definition(entity_type : String) -> EntityDefinition:
 	return entity_defs.get(entity_type) as EntityDefinition
 

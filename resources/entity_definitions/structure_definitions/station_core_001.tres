@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="StructureDefinition" load_steps=3 format=3 uid="uid://db05x42u1t7ce"]
+[gd_resource type="Resource" script_class="StructureDefinition" load_steps=4 format=3 uid="uid://db05x42u1t7ce"]
 
-[ext_resource type="PackedScene" uid="uid://co8g67bnh8fcs" path="res://game/entity/structure/structure.tscn" id="1_01qrh"]
+[ext_resource type="PackedScene" uid="uid://co8g67bnh8fcs" path="res://game/entity/structure/station_core.tscn" id="1_01qrh"]
+[ext_resource type="Texture2D" uid="uid://cgaulx604qncm" path="res://assets/sprites/station_core_64x64.png" id="1_ua4bs"]
 [ext_resource type="Script" path="res://game/entity/resource/structure_definition.gd" id="2_8ixjl"]
 
 [resource]
@@ -11,3 +12,4 @@ scene = ExtResource("1_01qrh")
 base_inventory_capacity = 100
 construction_cost = {}
 influence_radius = 250.0
+image = ExtResource("1_ua4bs")
