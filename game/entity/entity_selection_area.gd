@@ -1,9 +1,13 @@
 extends Node2D
 class_name EntitySelectionArea
+# UI node intended to andle user interactions with selectable entities
+# displays the selectable area around its connected entity
 
-signal area_clicked(area : EntitySelectionArea)
+signal gui_input(area : EntitySelectionArea, event : InputEvent)
 
 const PADDING := Vector2(4, 4)
+
+var input_enabled := true
 
 var selection_extents : Rect2
 
@@ -30,10 +34,11 @@ func _ready() -> void:
 	
 	if(nine_patch != null):
 		nine_patch.gui_input.connect(_on_nine_patch_rect_gui_input)
-		nine_patch.mouse_entered.connect(_on_none_patch_rect_mouse_entered)
-		nine_patch.mouse_exited.connect(_on_none_patch_rect_mouse_exited)
+		nine_patch.mouse_entered.connect(_on_mouse_entered)
+		nine_patch.mouse_exited.connect(_on_mouse_exited)
 		nine_patch.modulate = default_color
 	
+	update_transform()
 	calculate_extents()
 	reposition_texture()
 
@@ -52,11 +57,14 @@ func _physics_process(_delta : float) -> void:
 	else:
 		nine_patch.modulate = default_color
 	
-	global_transform = parent_entity.global_transform
-	global_rotation = 0
+	update_transform()
 	calculate_extents()
 	reposition_texture()
 	queue_redraw()
+
+func update_transform() -> void:
+	global_transform = parent_entity.global_transform
+	global_rotation = 0
 
 func calculate_extents() -> void:
 	var p_min := Vector2()
@@ -121,13 +129,17 @@ func _draw() -> void:
 
 
 func _on_nine_patch_rect_gui_input(event: InputEvent) -> void:
-	if(event is InputEventMouseButton):
-		if(event.pressed == true):
-			print(event)
-			area_clicked.emit(self)
+	gui_input.emit(self, event)
 
-func _on_none_patch_rect_mouse_entered() -> void:
+func _on_mouse_entered() -> void:
 	highlighted = true
 
-func _on_none_patch_rect_mouse_exited() -> void:
+func _on_mouse_exited() -> void:
 	highlighted = false
+
+func set_input_enabled(enabled : bool) -> void:
+	input_enabled = enabled
+	if(input_enabled):
+		nine_patch.mouse_filter = Control.MOUSE_FILTER_STOP
+	else:
+		nine_patch.mouse_filter = Control.MOUSE_FILTER_IGNORE

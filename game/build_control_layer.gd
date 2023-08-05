@@ -1,10 +1,14 @@
 extends Node2D
 class_name BuildControlLayer
+# Handles logic for player placement of new structures and displays 'build ghost' visuals
+
+signal build_state_complete()
 
 var build_state := false
 var build_structure_def : StructureDefinition = null
 var build_ghost : BuildGhost = null
 
+var build_cell := Vector2i()
 var build_position := Vector2()
 
 func _ready() -> void:
@@ -13,8 +17,8 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if(build_state):
 		var mouse_pos := get_global_mouse_position()
-		var mouse_cell : Vector2 = round((mouse_pos - build_structure_def.get_bounding_rect().position) / (Constants.TILE_SIZE as Vector2))
-		build_position = mouse_cell * (Constants.TILE_SIZE as Vector2) + build_structure_def.get_bounding_rect().position
+		var build_cell = round((mouse_pos - build_structure_def.get_bounding_rect().position) / (Constants.TILE_SIZE as Vector2))
+		build_position = build_cell * (Constants.TILE_SIZE as Vector2) + build_structure_def.get_bounding_rect().position
 		build_ghost.global_position = build_position
 
 func start_build_state(def : StructureDefinition):
@@ -35,6 +39,7 @@ func end_build_state():
 	if(build_ghost != null):
 		build_ghost.queue_free()
 		build_ghost = null
+	build_state_complete.emit()
 
 func confirm_build():
 	if(!build_state):
