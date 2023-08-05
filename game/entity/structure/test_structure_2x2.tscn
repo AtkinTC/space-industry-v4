@@ -11,6 +11,9 @@ radius = 32.0
 [node name="TestStructure2x2" type="Area2D"]
 script = ExtResource("1_4f76t")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("4_k10jo")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_vv7dl")
 
@@ -20,6 +23,3 @@ script = ExtResource("2_td8da")
 [node name="StructureGridTool" type="Node2D" parent="."]
 script = ExtResource("3_20pgd")
 grid_size = Vector2i(2, 2)
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("4_k10jo")

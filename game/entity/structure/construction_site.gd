@@ -1,7 +1,7 @@
 extends Structure
 class_name ConstructionSite
 
-@export var structure_id : String
+@export var structure_type : String
 
 #Override
 func _ready() -> void:
@@ -9,7 +9,7 @@ func _ready() -> void:
 	add_to_group(Constants.GROUP_CONSTRUCTION)
 	
 	##DEBUG##
-	assert(structure_id != null && !structure_id.is_empty())
+	assert(structure_type != null && !structure_type.is_empty())
 	assert(get_construction_structure_definition() != null)
 	assert(!get_construction_cost().is_empty())
 	assert(has_inventory())
@@ -24,7 +24,7 @@ func setup_from_entity_def() -> void:
 #Override
 func setup_from_init_parameters() -> void:
 	super.setup_from_init_parameters()
-	structure_id = init_parameters.get(Constants.KEY_STRUCTURE_ID, structure_id)
+	structure_type = init_parameters.get(Constants.KEY_STRUCTURE_TYPE, structure_type)
 
 #Override
 func setup_inventory() -> void:
@@ -37,7 +37,7 @@ func _physics_process(_delta: float) -> void:
 		complete_construction()
 
 func get_construction_structure_definition() -> StructureDefinition:
-	return EntityDefs.get_structure_definition(structure_id)
+	return EntityDefs.get_structure_definition(structure_type)
 
 func get_construction_cost() -> Dictionary:
 	return get_construction_structure_definition().construction_cost
@@ -68,6 +68,6 @@ func complete_construction():
 		Constants.KEY_INVENTORY_CONTENTS : remaining_contents
 	}
 	
-	SignalBus.spawn_structure.emit(structure_id, spawn_params)
+	SignalBus.spawn_structure.emit(structure_type, spawn_params)
 	queue_free()
 	

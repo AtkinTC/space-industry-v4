@@ -6,9 +6,11 @@ var parent_entity : Entity
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	parent_entity = self.get_parent()
+	top_level = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	self.global_position = parent_entity.global_position
 	self.global_rotation = 0
 	queue_redraw()
 

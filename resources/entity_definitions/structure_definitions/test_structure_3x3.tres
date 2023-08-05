@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="StructureDefinition" load_steps=5 format=3 uid="uid://dxxox0v7wav78"]
+
+[ext_resource type="Resource" uid="uid://nh5qja2edpaw" path="res://resources/entity_definitions/structure_definitions/construction_site_3x3.tres" id="1_jahbx"]
+[ext_resource type="PackedScene" uid="uid://darkcar7wgv0o" path="res://game/entity/structure/test_structure_3x3.tscn" id="2_6ltxw"]
+[ext_resource type="Texture2D" uid="uid://dpy6bipk23oyw" path="res://assets/sprites/example_structure_96x96.png" id="2_erum0"]
+[ext_resource type="Script" path="res://game/entity/resource/structure_definition.gd" id="4_626fa"]
+
+[resource]
+script = ExtResource("4_626fa")
+player_buildable = true
+dock_range = 100.0
+construction_def = ExtResource("1_jahbx")
+display_name = "test struct large"
+entity_type = "test_structure_3x3"
+scene = ExtResource("2_6ltxw")
+base_inventory_capacity = -1
+construction_cost = {
+"iron_ore": 24
+}
+influence_radius = 250.0
+image = ExtResource("2_erum0")

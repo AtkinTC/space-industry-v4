@@ -4,13 +4,13 @@ class_name StructureDefinition
 @export var player_buildable : bool = false
 @export var dock_range : float = 50
 
-@export var construction_scene : PackedScene = null
+@export var construction_def : StructureDefinition = null
 
 const GRID_TOOL_NODE_NAME := "StructureGridTool"
 const GRID_TOOL_GRID_SIZE_PROP_NAME := "grid_size"
 var grid_size_checked := false
 var grid_size_found := false
-var grid_size :=  Vector2i(1, 1) : get = get_grid_size
+var grid_size :=  Vector2i(1, 1) : get = get_grid_size	
 
 func get_grid_size() -> Vector2i:
 	if(grid_size_checked == true):
@@ -27,7 +27,11 @@ func get_grid_size() -> Vector2i:
 			break
 	
 	if(!grid_size_found):
-		print_debug("No grid_size property in scene, using default unit grid size.")
+		print_debug("No grid_size property in scene %s, using default unit grid size." % entity_type)
 	
 	grid_size_checked = true
 	return grid_size
+
+func get_bounding_rect() -> Rect2:
+	var size := get_grid_size()
+	return Rect2(Constants.TILE_SIZE * -size/2.0, Constants.TILE_SIZE * size)

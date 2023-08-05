@@ -23,6 +23,20 @@ AssignmentConductor="*res://singleton/assignment_conductor.gd"
 EntityDefs="*res://singleton/entity_defs.gd"
 InfluenceManger="*res://singleton/influence_manger.gd"
 EntityManager="*res://singleton/entity_manager.gd"
+GameState="*res://singleton/game_state.gd"
+
+[input]
+
+select={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(139, 5),"global_position":Vector2(143, 48),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+select-alt={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(118, 17),"global_position":Vector2(122, 60),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
 
 [rendering]
 

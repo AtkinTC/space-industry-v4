@@ -5,7 +5,9 @@
 
 [resource]
 script = ExtResource("2_h8j0m")
+player_buildable = false
 dock_range = 50.0
+display_name = "construction site small"
 entity_type = "construction_site_1x1"
 scene = ExtResource("1_pevwe")
 base_inventory_capacity = -1

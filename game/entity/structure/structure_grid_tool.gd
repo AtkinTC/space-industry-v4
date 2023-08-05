@@ -2,7 +2,7 @@
 extends Node2D
 class_name StructureGridTool
 
-@export var grid_size := Vector2i(1,1) : set = set_grid_size
+@export var grid_size := Vector2i(0,0) : set = set_grid_size
 
 var top_left : Vector2
 

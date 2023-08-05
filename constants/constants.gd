@@ -2,7 +2,7 @@ class_name Constants
 
 const KEY_POSITION := "position"
 const KEY_ROTATION := "rotation"
-const KEY_STRUCTURE_ID := "structure_id"
+const KEY_STRUCTURE_TYPE := "structure_type"
 const KEY_INVENTORY_CONTENTS := "inventory_contents"
 
 const GROUP_RESOURCE_NODE := "resource_node"

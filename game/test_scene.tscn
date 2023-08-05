@@ -1,16 +1,18 @@
-[gd_scene load_steps=14 format=3 uid="uid://lqf5gy55eirv"]
+[gd_scene load_steps=16 format=3 uid="uid://lqf5gy55eirv"]
 
 [ext_resource type="Shader" path="res://resources/shaders/grid.gdshader" id="1_lnwkc"]
 [ext_resource type="Script" path="res://game/test_scene.gd" id="1_ri3n2"]
 [ext_resource type="Texture2D" uid="uid://d4cd7gowjm2dq" path="res://assets/sprites/black.png" id="2_4g3ld"]
+[ext_resource type="Script" path="res://game/ui/structure_build_menu.gd" id="2_yft4b"]
 [ext_resource type="Script" path="res://game/background/background_grid.gd" id="3_apepi"]
 [ext_resource type="PackedScene" uid="uid://dsl7crppb7ut5" path="res://game/objects/asteroid_iron.tscn" id="4_3tfyi"]
 [ext_resource type="Shader" path="res://resources/shaders/canvas_group_area.gdshader" id="5_b2sve"]
 [ext_resource type="Script" path="res://game/influence_canvas.gd" id="5_w38rg"]
 [ext_resource type="Script" path="res://game/structures_parent_node.gd" id="8_6hhf1"]
-[ext_resource type="PackedScene" uid="uid://co8g67bnh8fcs" path="res://game/entity/structure/structure.tscn" id="9_0ltkj"]
+[ext_resource type="PackedScene" uid="uid://co8g67bnh8fcs" path="res://game/entity/structure/station_core.tscn" id="9_0ltkj"]
 [ext_resource type="Script" path="res://game/ships_parent_node.gd" id="12_t0iog"]
 [ext_resource type="Script" path="res://game/entity/selection_areas_layer.gd" id="15_5qeme"]
+[ext_resource type="Script" path="res://game/build_control_layer.gd" id="15_rs7lq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hglpe"]
 shader = ExtResource("1_lnwkc")
@@ -30,6 +32,39 @@ shader_parameter/inner_color = Color(0.17, 1, 0.36, 0.1)
 
 [node name="TestScene" type="Node2D"]
 script = ExtResource("1_ri3n2")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="LeftPanel" type="Panel" parent="CanvasLayer/Control/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="StructureBuildMenu" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/LeftPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_yft4b")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -88,7 +123,7 @@ position = Vector2(241, -143)
 [node name="StructuresParentNode" type="Node2D" parent="."]
 script = ExtResource("8_6hhf1")
 
-[node name="Structure" parent="StructuresParentNode" instance=ExtResource("9_0ltkj")]
+[node name="StationCore" parent="StructuresParentNode" instance=ExtResource("9_0ltkj")]
 position = Vector2(-20, -18)
 default_entity_type = "station_core_001"
 
@@ -97,3 +132,6 @@ script = ExtResource("12_t0iog")
 
 [node name="SelectionAreasLayer" type="Node2D" parent="."]
 script = ExtResource("15_5qeme")
+
+[node name="BuildControlLayer" type="Node2D" parent="."]
+script = ExtResource("15_rs7lq")

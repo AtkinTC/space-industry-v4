@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="StructureDefinition" load_steps=3 format=3 uid="uid://nh5qja2edpaw"]
+
+[ext_resource type="PackedScene" uid="uid://b1dmup56e23sl" path="res://game/entity/structure/construction_site_3x3.tscn" id="1_r3vme"]
+[ext_resource type="Script" path="res://game/entity/resource/structure_definition.gd" id="2_8y808"]
+
+[resource]
+script = ExtResource("2_8y808")
+player_buildable = false
+dock_range = 50.0
+display_name = "construction site large"
+entity_type = "construction_site_3x3"
+scene = ExtResource("1_r3vme")
+base_inventory_capacity = -1
+construction_cost = {}
+influence_radius = -1.0

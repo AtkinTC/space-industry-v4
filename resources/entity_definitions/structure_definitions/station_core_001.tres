@@ -1,12 +1,16 @@
-[gd_resource type="Resource" script_class="StructureDefinition" load_steps=4 format=3 uid="uid://db05x42u1t7ce"]
+[gd_resource type="Resource" script_class="StructureDefinition" load_steps=5 format=3 uid="uid://db05x42u1t7ce"]
 
 [ext_resource type="PackedScene" uid="uid://co8g67bnh8fcs" path="res://game/entity/structure/station_core.tscn" id="1_01qrh"]
+[ext_resource type="Resource" uid="uid://bofbncnqosvrh" path="res://resources/entity_definitions/structure_definitions/construction_site_2x2.tres" id="1_gux64"]
 [ext_resource type="Texture2D" uid="uid://cgaulx604qncm" path="res://assets/sprites/station_core_64x64.png" id="1_ua4bs"]
 [ext_resource type="Script" path="res://game/entity/resource/structure_definition.gd" id="2_8ixjl"]
 
 [resource]
 script = ExtResource("2_8ixjl")
+player_buildable = false
 dock_range = 50.0
+construction_def = ExtResource("1_gux64")
+display_name = "station core 1"
 entity_type = "station_core_001"
 scene = ExtResource("1_01qrh")
 base_inventory_capacity = 100
