@@ -34,4 +34,5 @@ const TASK_GROUP_TRANSPORTER := "transporter"
 const TASK_GROUP_FIGHTER := "fighter"
 const TASK_GROUPS := [TASK_GROUP_SHIP, TASK_GROUP_MINER, TASK_GROUP_FIGHTER]
 
-const TILE_SIZE := Vector2i(32, 32)
+const TILE_SIZE_I := Vector2i(32, 32)
+const TILE_SIZE := Vector2(32, 32)

@@ -17,8 +17,8 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if(build_state):
 		var mouse_pos := get_global_mouse_position()
-		var build_cell = round((mouse_pos - build_structure_def.get_bounding_rect().position) / (Constants.TILE_SIZE as Vector2))
-		build_position = build_cell * (Constants.TILE_SIZE as Vector2) + build_structure_def.get_bounding_rect().position
+		var build_cell = round((mouse_pos - build_structure_def.get_bounding_rect().position) / Constants.TILE_SIZE)
+		build_position = build_cell * Constants.TILE_SIZE + build_structure_def.get_bounding_rect().position
 		build_ghost.global_position = build_position
 
 func start_build_state(def : StructureDefinition):

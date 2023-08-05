@@ -20,10 +20,10 @@ func set_grid_size(size : Vector2i) -> void:
 	recalculate()
 
 func recalculate() -> void:
-	top_left = -grid_size * Constants.TILE_SIZE / 2.0
+	top_left = -grid_size * Constants.TILE_SIZE_I / 2.0
 	queue_redraw()
 
 func _draw() -> void:
-	draw_rect(Rect2(-grid_size * Constants.TILE_SIZE / 2.0, grid_size * Constants.TILE_SIZE), Color.RED, false)
+	draw_rect(Rect2(-grid_size * Constants.TILE_SIZE_I / 2.0, grid_size * Constants.TILE_SIZE_I), Color.RED, false)
 	draw_circle(top_left, 3, Color.RED)
 	draw_circle(top_left + Constants.TILE_SIZE / 2.0, 3, Color.BLUE)

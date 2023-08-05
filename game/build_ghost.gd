@@ -16,4 +16,11 @@ func _process(_delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	draw_rect(structure_def.get_bounding_rect(), Color.RED, false)
+#	var bounding_rect := structure_def.get_bounding_rect()
+#	draw_rect(bounding_rect, Color.RED, false)
+	
+	var rect_offset := structure_def.get_grid_offset() * Constants.TILE_SIZE
+	for cell in structure_def.get_grid_cells():
+		var rect := Rect2((cell as Vector2) * Constants.TILE_SIZE + rect_offset, Constants.TILE_SIZE)
+		draw_rect(rect, Color.GREEN, false)
+	
