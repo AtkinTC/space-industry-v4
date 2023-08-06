@@ -8,7 +8,8 @@
 [resource]
 script = ExtResource("2_8ixjl")
 player_buildable = false
-dock_range = 50.0
+dock_range = 32.0
+grid_locked = true
 construction_def = ExtResource("1_gux64")
 display_name = "station core 1"
 entity_type = "station_core_001"

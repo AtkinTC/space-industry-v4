@@ -63,6 +63,7 @@ func complete_construction():
 	var remaining_contents := get_inventory().get_contents()
 	
 	var spawn_params := {
+		Constants.KEY_GRID_POSITION : grid_position,
 		Constants.KEY_POSITION : global_position,
 		Constants.KEY_ROTATION : global_rotation,
 		Constants.KEY_INVENTORY_CONTENTS : remaining_contents

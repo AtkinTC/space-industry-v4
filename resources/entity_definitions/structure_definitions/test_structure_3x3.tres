@@ -8,7 +8,8 @@
 [resource]
 script = ExtResource("4_626fa")
 player_buildable = true
-dock_range = 100.0
+dock_range = 48.0
+grid_locked = true
 construction_def = ExtResource("1_jahbx")
 display_name = "test struct large"
 entity_type = "test_structure_3x3"
