@@ -124,7 +124,6 @@ position = Vector2(241, -143)
 script = ExtResource("8_6hhf1")
 
 [node name="StationCore" parent="StructuresParentNode" instance=ExtResource("9_0ltkj")]
-position = Vector2(-20, -18)
 default_entity_type = "station_core_001"
 
 [node name="ShipsParentNode" type="Node2D" parent="."]

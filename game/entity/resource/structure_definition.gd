@@ -3,7 +3,7 @@ class_name StructureDefinition
 
 @export var player_buildable : bool = false
 @export var dock_range : float = 50
-
+@export var grid_locked : bool = true
 @export var construction_def : StructureDefinition = null
 
 const GRID_TOOL_NODE_NAME := "StructureGridTool"
@@ -36,12 +36,9 @@ func get_bounding_rect() -> Rect2:
 	var size := get_grid_size()
 	return Rect2(Constants.TILE_SIZE_I * -size/2.0, Constants.TILE_SIZE_I * size)
 
-func get_grid_offset() -> Vector2:
-	var offset := Vector2()
+func get_grid_alignment_offset() -> Vector2:
 	var size := get_grid_size()
-	offset.x = -1+(size.x % 2)/2.0
-	offset.y = -1+(size.y % 2)/2.0
-	
+	var offset := -(Vector2.ONE - (size % 2)/2.0)
 	return offset
 
 func get_grid_cells() -> Array[Vector2i]:
@@ -56,3 +53,11 @@ func get_grid_cells() -> Array[Vector2i]:
 				grid_cells.append(Vector2i(x,y))
 	
 	return grid_cells
+
+func world_to_grid(world_pos : Vector2) -> Vector2i:
+	var grid_pos : Vector2i = floor((world_pos + get_grid_alignment_offset()) / Constants.TILE_SIZE)
+	return grid_pos
+
+func grid_to_world(grid_pos : Vector2i) -> Vector2:
+	var world_pos : Vector2 = ((grid_pos as Vector2 - get_grid_alignment_offset()) * Constants.TILE_SIZE) as Vector2
+	return world_pos

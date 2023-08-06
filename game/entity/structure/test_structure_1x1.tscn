@@ -22,4 +22,3 @@ script = ExtResource("2_6qqpn")
 
 [node name="StructureGridTool" type="Node2D" parent="."]
 script = ExtResource("3_bmh3h")
-grid_size = Vector2i(1, 1)

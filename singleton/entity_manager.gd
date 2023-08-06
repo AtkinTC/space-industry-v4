@@ -78,6 +78,8 @@ func spawn_structure(entity_type : String, properties : Dictionary) -> Structure
 	var new_node : Structure = structure_def.scene.instantiate()
 	new_node.init(structure_def, properties)
 	
+	assert(!structure_def.grid_locked || properties.has(Constants.KEY_GRID_POSITION))
+	
 	structures_parent_node.add_child(new_node)
 	
 	structures[new_node.get_instance_id()] = new_node

@@ -1,5 +1,6 @@
 class_name Constants
 
+const KEY_GRID_POSITION := "grid_position"
 const KEY_POSITION := "position"
 const KEY_ROTATION := "rotation"
 const KEY_STRUCTURE_TYPE := "structure_type"
