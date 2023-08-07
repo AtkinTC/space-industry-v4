@@ -42,3 +42,11 @@ func start_build_state(structure_def : StructureDefinition) -> void:
 func _on_build_state_complete():
 	if(ui_state == UI_STATE.BUILD):
 		set_ui_state(UI_STATE.NONE)
+
+static func world_to_grid(world_pos : Vector2) -> Vector2i:
+	var grid_pos : Vector2i = floor(world_pos / Constants.TILE_SIZE)
+	return grid_pos
+
+static func grid_to_world(grid_pos : Vector2i) -> Vector2:
+	var world_pos : Vector2 = (grid_pos as Vector2 + Vector2(0.5, 0.5)) * Constants.TILE_SIZE
+	return world_pos

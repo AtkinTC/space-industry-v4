@@ -54,10 +54,12 @@ func get_grid_cells() -> Array[Vector2i]:
 	
 	return grid_cells
 
+# structure specific translation from structure's world position to its center grid cell
 func world_to_grid(world_pos : Vector2) -> Vector2i:
 	var grid_pos : Vector2i = floor((world_pos + get_grid_alignment_offset()) / Constants.TILE_SIZE)
 	return grid_pos
 
+# structure specific translation from structure's center grid cell to its world position
 func grid_to_world(grid_pos : Vector2i) -> Vector2:
 	var world_pos : Vector2 = ((grid_pos as Vector2 - get_grid_alignment_offset()) * Constants.TILE_SIZE) as Vector2
 	return world_pos

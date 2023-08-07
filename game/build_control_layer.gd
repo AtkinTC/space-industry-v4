@@ -83,5 +83,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _draw() -> void:
 	if(build_state):
-		for cell in EntityManager.get_used_structure_cells():
+		var used_strucuture_cells := EntityManager.get_used_structure_cells()
+		for cell in used_strucuture_cells:
 			draw_rect(Rect2(cell * Constants.TILE_SIZE_I, Constants.TILE_SIZE_I), Color(Color.RED, 0.25), true)
+		
+		for cell in InfluenceManger.get_cells_in_influence():
+			if(cell not in used_strucuture_cells):
+				draw_rect(Rect2(cell * Constants.TILE_SIZE_I, Constants.TILE_SIZE_I), Color(Color.GREEN, 0.15), true)
