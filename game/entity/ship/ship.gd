@@ -85,6 +85,7 @@ func clear_assignment():
 	requesting_assignment.emit()
 
 func _physics_process(_delta : float) -> void:
+	super._physics_process(_delta)
 	process_state(_delta)
 	process_movement(_delta)
 

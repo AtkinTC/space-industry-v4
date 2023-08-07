@@ -8,4 +8,6 @@ class_name EntityDefinition
 @export var construction_cost : Dictionary = {}
 @export var influence_radius : float = -1
 
+@export var health : Health = null
+
 @export var image : Texture = null
