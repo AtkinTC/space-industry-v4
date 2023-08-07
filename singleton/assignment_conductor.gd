@@ -1,8 +1,8 @@
 extends Node
 # Singleton AssignmentConductor
 
-var ships : Dictionary = {}
-var ship_assignments : Dictionary = {}
+var units : Dictionary = {}
+var unit_assignments : Dictionary = {}
 var needs_assignment_queue : Array[int] = []
 var needs_assignment_waiting_queue : Array[int] = []
 
@@ -19,7 +19,7 @@ const ASSIGNMENT_WAIT_TIME : float = 1
 var wait_timer : SceneTreeTimer = null
 
 func _ready() -> void:
-	SignalBus.register_ship.connect(register_ship)
+	SignalBus.register_unit.connect(register_unit)
 	SignalBus.register_construction_site.connect(register_construction_site)
 
 func _physics_process(_delta: float) -> void:
@@ -30,40 +30,40 @@ func _physics_process(_delta: float) -> void:
 	assign_tasks()
 
 ###########
-#  Ships  #
+#  Units  #
 ###########
 
-func register_ship(instance_id) -> void:
-	if(ships.has(instance_id)):
-		print_debug("ship %d is already registered" % instance_id)
+func register_unit(instance_id) -> void:
+	if(units.has(instance_id)):
+		print_debug("unit %d is already registered" % instance_id)
 		return
-	var ship : Ship = instance_from_id(instance_id)
-	if(ship == null && !is_instance_valid(ship)):
+	var unit : Unit = instance_from_id(instance_id)
+	if(unit == null && !is_instance_valid(unit)):
 		return
 	
-	ships[instance_id] = ship
-	ship.tree_exiting.connect(_on_ship_freed.bind(instance_id))
-	ship.requesting_assignment.connect(_on_ship_requesting_assignment.bind(instance_id))
+	units[instance_id] = unit
+	unit.tree_exiting.connect(_on_unit_freed.bind(instance_id))
+	unit.requesting_assignment.connect(_on_unit_requesting_assignment.bind(instance_id))
 
-func unregister_ship(instance_id : int) -> void:
-	if(!ships.has(instance_id)):
+func unregister_unit(instance_id : int) -> void:
+	if(!units.has(instance_id)):
 		return
 		
-	clear_ship_assignment(instance_id)
+	clear_unit_assignment(instance_id)
 	needs_assignment_queue.erase(instance_id)
-	ships.erase(instance_id)
+	units.erase(instance_id)
 
-func _on_ship_freed(instance_id : int) -> void:
-	unregister_ship(instance_id)
+func _on_unit_freed(instance_id : int) -> void:
+	unregister_unit(instance_id)
 
-func _on_ship_requesting_assignment(instance_id : int) -> void:
-	if(!ships.has(instance_id)):
-		print_debug("unregistered ship %d is requesting assignment" % instance_id)
+func _on_unit_requesting_assignment(instance_id : int) -> void:
+	if(!units.has(instance_id)):
+		print_debug("unregistered unit %d is requesting assignment" % instance_id)
 		return
 	if(needs_assignment_queue.has(instance_id)):
-		print_debug("ship %d already in assignment queue" % instance_id)
+		print_debug("unit %d already in assignment queue" % instance_id)
 		return
-	clear_ship_assignment(instance_id)
+	clear_unit_assignment(instance_id)
 	needs_assignment_queue.append(instance_id)
 
 func assign_tasks() -> void:
@@ -75,14 +75,14 @@ func assign_tasks() -> void:
 		assign_task(instance_id)
 
 func assign_task(instance_id) -> void:
-	var ship : Ship = ships[instance_id]
+	var unit : Unit = units[instance_id]
 		
-	var task_groups : Array[String] = ship.get_task_groups()
+	var task_groups : Array[String] = unit.get_task_groups()
 	
 	if(task_groups.has(Constants.TASK_GROUP_BUILDER)):
-		#var contents := ship.get_inventory().get_contents()
-		if(ship.can_build() && ship.get_inventory().is_empty()):
-			#var free_capacity := ship.get_inventory().get_available_capacity()
+		#var contents := unit.get_inventory().get_contents()
+		if(unit.can_build() && unit.get_inventory().is_empty()):
+			#var free_capacity := unit.get_inventory().get_available_capacity()
 			var stations : Array[Structure] = get_depot_stations()
 			for site_id in construction_sites_queue:
 				var site_assignments : Array = construction_site_assignments.get(site_id, [])
@@ -113,60 +113,60 @@ func assign_task(instance_id) -> void:
 					#SKIP - no stations with applicable build materials
 					continue
 				
-				var pickup_station : Structure = get_closest_targets(ship.global_position, filtered_stations, 1)[0]
+				var pickup_station : Structure = get_closest_targets(unit.global_position, filtered_stations, 1)[0]
 				
 				var pickup_items : Dictionary = pickup_station.get_inventory().contains_any(needed_materials)
 				
-				set_ship_assignment(ship, Ship.ConstructionAssignment.new(Ship.GOAL_STATE.BUILD, site, pickup_station, pickup_items))
+				set_unit_assignment(unit, Unit.ConstructionAssignment.new(Unit.GOAL_STATE.BUILD, site, pickup_station, pickup_items))
 				return
 	
 	if(task_groups.has(Constants.TASK_GROUP_MINER)):
-		if(ship.can_mine()):
+		if(unit.can_mine()):
 			var filtered_targets : Array[ResourceNode] = find_mining_targets().filter(func lambda(n : ResourceNode) : return (resource_node_assignments.get(n.get_instance_id(), []).size() < MAX_MINERS_PER_RESOURCE_NODE))
-			var targets := get_closest_targets(ship.global_position, filtered_targets)
+			var targets := get_closest_targets(unit.global_position, filtered_targets)
 			if(targets != null && targets.size() > 0 && targets[0] is ResourceNode):
-				set_ship_assignment(ship, Ship.Assignment.new(Ship.GOAL_STATE.MINE, targets[0]))
+				set_unit_assignment(unit, Unit.Assignment.new(Unit.GOAL_STATE.MINE, targets[0]))
 				return
 			else:
 				print_debug("No Resource Nodes to mine")
 		else:
-			var targets := get_closest_targets(ship.global_position, get_dropoff_stations())
+			var targets := get_closest_targets(unit.global_position, get_dropoff_stations())
 			if(targets != null && targets.size() > 0 && targets[0] is Structure):
-				set_ship_assignment(ship, Ship.Assignment.new(Ship.GOAL_STATE.RETURN, targets[0]))
+				set_unit_assignment(unit, Unit.Assignment.new(Unit.GOAL_STATE.RETURN, targets[0]))
 				return
 			else:
 				print_debug("No stations to return to")
 	
-	var depots := get_closest_targets(ship.global_position, get_depot_stations())
+	var depots := get_closest_targets(unit.global_position, get_depot_stations())
 	if(depots != null && depots.size() > 0 && depots[0] is Structure):
-		set_ship_assignment(ship, Ship.Assignment.new(Ship.GOAL_STATE.RETURN, depots[0]))
+		set_unit_assignment(unit, Unit.Assignment.new(Unit.GOAL_STATE.RETURN, depots[0]))
 		return
 	
-	print_debug("No valid to task to assign to ship %d" % instance_id)
+	print_debug("No valid to task to assign to unit %d" % instance_id)
 	# move to the waiting queue
 	needs_assignment_waiting_queue.append(instance_id)
 	needs_assignment_queue.erase(instance_id)
 	
 
-func set_ship_assignment(ship : Ship, assignment : Ship.Assignment) -> void:
-	var instance_id := ship.get_instance_id()
-	ship_assignments[instance_id] = assignment
+func set_unit_assignment(unit : Unit, assignment : Unit.Assignment) -> void:
+	var instance_id := unit.get_instance_id()
+	unit_assignments[instance_id] = assignment
 	needs_assignment_queue.erase(instance_id)
-	ship.set_assignemnt(assignment)
+	unit.set_assignemnt(assignment)
 	
-	if(assignment is Ship.ConstructionAssignment):
+	if(assignment is Unit.ConstructionAssignment):
 		var site_id := assignment.target.get_instance_id()
 		construction_site_assignments[site_id] = construction_site_assignments.get(site_id, []) + [instance_id]
 	
-	if(assignment.goal == Ship.GOAL_STATE.MINE):
+	if(assignment.goal == Unit.GOAL_STATE.MINE):
 		var resource_node_id := assignment.target.get_instance_id()
 		resource_node_assignments[resource_node_id] = resource_node_assignments.get(resource_node_id, []) + [instance_id]
 
-func clear_ship_assignment(instance_id : int) -> void:
-	if(ship_assignments.has(instance_id)):
-		var assignment : Ship.Assignment = ship_assignments[instance_id]
+func clear_unit_assignment(instance_id : int) -> void:
+	if(unit_assignments.has(instance_id)):
+		var assignment : Unit.Assignment = unit_assignments[instance_id]
 		# clear out additional consruction assignment details
-		if(assignment is Ship.ConstructionAssignment):
+		if(assignment is Unit.ConstructionAssignment):
 			var construction_id : int = assignment.target_instance_id
 			var assigned_ids : Array = construction_site_assignments.get(construction_id, [])
 			assigned_ids.erase(instance_id)
@@ -176,7 +176,7 @@ func clear_ship_assignment(instance_id : int) -> void:
 				construction_site_assignments[construction_id] = assigned_ids
 		
 		# clear out assitional mining assignment details
-		if(assignment.goal == Ship.GOAL_STATE.MINE):
+		if(assignment.goal == Unit.GOAL_STATE.MINE):
 			var resource_node_id : int = assignment.target_instance_id
 			var assigned_ids : Array = resource_node_assignments.get(resource_node_id, [])
 			assigned_ids.erase(instance_id)
@@ -185,7 +185,7 @@ func clear_ship_assignment(instance_id : int) -> void:
 			else:
 				resource_node_assignments[resource_node_id] = assigned_ids
 			
-	ship_assignments.erase(instance_id)
+	unit_assignments.erase(instance_id)
 
 ##################
 #  Construction  #

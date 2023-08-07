@@ -1,5 +1,5 @@
 extends Node2D
-class_name ShipsParentNode
+class_name UnitsParentNode
 
 func _ready() -> void:
-	EntityManager.register_ships_parent_node(self)
+	EntityManager.register_units_parent_node(self)

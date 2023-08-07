@@ -1,29 +1,29 @@
 extends Node
 # Singleton EntityDefs
 
-const ship_def_dir := "res://resources/entity_definitions/ship_definitions"
+const unit_def_dir := "res://resources/entity_definitions/unit_definitions"
 const structure_def_dir := "res://resources/entity_definitions/structure_definitions"
 
 var entity_defs : Dictionary = {}
 
 func _init() -> void:
-	var ship_def_filenames := DirAccess.get_files_at(ship_def_dir)
-	print("Loading ShipDefinitions from dir : " + ship_def_dir)
-	if(ship_def_filenames == null || ship_def_filenames.is_empty()):
-		print_rich("[color=red]No Ship Definitions found![/color]")
-	for filename in ship_def_filenames:
+	var unit_def_filenames := DirAccess.get_files_at(unit_def_dir)
+	print("Loading UnitDefinitions from dir : " + unit_def_dir)
+	if(unit_def_filenames == null || unit_def_filenames.is_empty()):
+		print_rich("[color=red]No Unit Definitions found![/color]")
+	for filename in unit_def_filenames:
 		print("\t..." + filename)
-		var file_path := ship_def_dir + "/" + filename
+		var file_path := unit_def_dir + "/" + filename
 		var resource : Resource = load(file_path)
-		if(resource == null || !(resource is ShipDefinition)):
-			print_rich("[color=red]Invalid Ship Definition at : %s![/color]" % file_path)
+		if(resource == null || !(resource is UnitDefinition)):
+			print_rich("[color=red]Invalid Unit Definition at : %s![/color]" % file_path)
 			continue
-		var ship_def := resource as ShipDefinition
-		var id := ship_def.entity_type
+		var unit_def := resource as UnitDefinition
+		var id := unit_def.entity_type
 		if(entity_defs.has(id)):
-			print_rich("[color=red]Duplicate ship entity_type : %s![/color]" % id)
+			print_rich("[color=red]Duplicate unit entity_type : %s![/color]" % id)
 			continue
-		entity_defs[id] = ship_def
+		entity_defs[id] = unit_def
 	
 	var structure_def_filenames := DirAccess.get_files_at(structure_def_dir)
 	print("Loading StructureDefinitions from dir : " + structure_def_dir)
@@ -48,9 +48,9 @@ func get_entity_definitions() -> Array[EntityDefinition]:
 	a.assign(entity_defs.values)
 	return a
 
-func get_ship_definitions() -> Array[ShipDefinition]:
-	var a : Array[ShipDefinition] = []
-	a.assign(entity_defs.values().filter(func lambda(e : EntityDefinition) : return e is ShipDefinition))
+func get_unit_definitions() -> Array[UnitDefinition]:
+	var a : Array[UnitDefinition] = []
+	a.assign(entity_defs.values().filter(func lambda(e : EntityDefinition) : return e is UnitDefinition))
 	return a
 
 func get_structure_definitions() -> Array[StructureDefinition]:
@@ -61,9 +61,9 @@ func get_structure_definitions() -> Array[StructureDefinition]:
 func get_entity_definition(entity_type : String) -> EntityDefinition:
 	return entity_defs.get(entity_type) as EntityDefinition
 
-func get_ship_definition(entity_type : String) -> ShipDefinition:
-	var ship_def : ShipDefinition = entity_defs.get(entity_type) 
-	return ship_def
+func get_unit_definition(entity_type : String) -> UnitDefinition:
+	var unit_def : UnitDefinition = entity_defs.get(entity_type) 
+	return unit_def
 
 func get_structure_definition(entity_type : String) -> StructureDefinition:
 	var structure_def : StructureDefinition = entity_defs.get(entity_type) 

@@ -45,7 +45,9 @@ func get_grid_cells() -> Array[Vector2i]:
 	if(grid_cells.is_empty()):
 		grid_cells = []
 		var size := get_grid_size()
+		@warning_ignore("integer_division")
 		var offset_x : int = -(size.x - 1)/2
+		@warning_ignore("integer_division")
 		var offset_y : int = -(size.y - 1)/2
 		
 		for x in range(offset_x, offset_x + size.x):

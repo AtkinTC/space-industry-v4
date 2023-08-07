@@ -12,7 +12,7 @@ const GROUP_CONSTRUCTION := "construction_site"
 
 const GLOBAL_STORAGE_COMPONENT_GROUP := "global_storage_component"
 
-const GROUP_SHIP := "ship"
+const GROUP_UNIT := "unit"
 const GROUP_MINER := "miner"
 
 const ACCEPTING_CARGO_GROUP := "accepting_cargo"
@@ -28,12 +28,11 @@ const TOOL_TYPE_NULL := "null"
 const TOOL_TYPE_MINER := "miner"
 const TOOL_TYPES := [TOOL_TYPE_NULL, TOOL_TYPE_MINER]
 
-const TASK_GROUP_SHIP := "ship"
 const TASK_GROUP_MINER := "miner"
 const TASK_GROUP_BUILDER := "buider"
 const TASK_GROUP_TRANSPORTER := "transporter"
 const TASK_GROUP_FIGHTER := "fighter"
-const TASK_GROUPS := [TASK_GROUP_SHIP, TASK_GROUP_MINER, TASK_GROUP_FIGHTER]
+const TASK_GROUPS := [TASK_GROUP_MINER, TASK_GROUP_BUILDER, TASK_GROUP_TRANSPORTER, TASK_GROUP_FIGHTER]
 
 const TILE_SIZE_I := Vector2i(32, 32)
 const TILE_SIZE := Vector2(32, 32)

@@ -21,6 +21,7 @@ func add_selection_area(entity : Entity) -> void:
 func _on_selection_area_gui_input(area : EntitySelectionArea, event : InputEvent):
 	if(event is InputEventMouseButton):
 		if(event.pressed == true):
+			print(area)
 			print(event)
 
 func set_input_enabled(enabled : bool) -> void:

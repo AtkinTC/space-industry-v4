@@ -1,5 +1,5 @@
 extends Entity
-class_name Ship
+class_name Unit
 
 enum TASK_FLAG {BUILDER=1, TRANSPORTER=2, MINER=4}
 @export_flags("builder:1", "transporter:2", "miner:4") var task_flags := 0
@@ -44,15 +44,15 @@ var velocity := Vector2.ZERO
 #Override
 func _ready():
 	super._ready()
-	add_to_group(Constants.GROUP_SHIP)
+	add_to_group(Constants.GROUP_UNIT)
 	
-	SignalBus.register_ship.emit(get_instance_id())
+	SignalBus.register_unit.emit(get_instance_id())
 	clear_assignment()
 
 #Override
 func setup_from_entity_def() -> void:
 	if(entity_def == null):
-		entity_def = ShipDefinition.new()
+		entity_def = UnitDefinition.new()
 	super.setup_from_entity_def()
 
 #Override

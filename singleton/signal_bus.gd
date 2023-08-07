@@ -4,10 +4,10 @@ extends Node
 signal connect_transport_network_component(instance_id : int)
 signal disconnect_transport_network_component(instance_id : int)
 
-signal spawn_ship(entity_type : String, properties : Dictionary)
-signal spawn_ship_callback(entity_type : String, properties : Dictionary, callback : Callable)
-signal ships_updated(quantity : int)
-signal register_ship(instance_id : int)
+signal spawn_unit(entity_type : String, properties : Dictionary)
+signal spawn_unit_callback(entity_type : String, properties : Dictionary, callback : Callable)
+signal units_updated(quantity : int)
+signal register_unit(instance_id : int)
 
 signal spawn_structure(entity_type : String, properties : Dictionary)
 signal spawn_structure_callback(entity_type : String, properties : Dictionary, callback : Callable)
