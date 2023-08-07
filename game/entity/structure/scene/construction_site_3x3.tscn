@@ -1,14 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://b1dmup56e23sl"]
 
-[ext_resource type="Script" path="res://game/entity/structure/construction_site.gd" id="1_6g38s"]
-[ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="2_rwbf2"]
-[ext_resource type="Script" path="res://game/entity/structure/structure_grid_tool.gd" id="3_obsai"]
+[ext_resource type="Script" path="res://game/entity/structure/construction_site.gd" id="1_6juyl"]
+[ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="2_sq0gt"]
+[ext_resource type="Script" path="res://game/entity/structure/structure_grid_tool.gd" id="3_k1aa3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_j071k"]
 radius = 46.0
 
 [node name="ConstructionSite3x3" type="Area2D"]
-script = ExtResource("1_6g38s")
+script = ExtResource("1_6juyl")
 structure_type = "test_structure_3x3"
 default_entity_type = "construction_site_3x3"
 
@@ -20,8 +20,8 @@ polygon = PackedVector2Array(0, -46, 46, 0, 0, 46, -46, 0)
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
 position = Vector2(0, 48)
-script = ExtResource("2_rwbf2")
+script = ExtResource("2_sq0gt")
 
 [node name="StructureGridTool" type="Node2D" parent="."]
-script = ExtResource("3_obsai")
+script = ExtResource("3_k1aa3")
 grid_size = Vector2i(3, 3)

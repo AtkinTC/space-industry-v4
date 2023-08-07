@@ -1,15 +1,15 @@
 [gd_scene load_steps=5 format=3 uid="uid://ctrt2fte2x4r5"]
 
-[ext_resource type="Script" path="res://game/entity/unit/unit.gd" id="1_ms0u1"]
-[ext_resource type="Script" path="res://game/entity/tool/miner_tool.gd" id="2_mtnv8"]
-[ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_kvxtg"]
+[ext_resource type="Script" path="res://game/entity/unit/unit.gd" id="1_0ctb3"]
+[ext_resource type="Script" path="res://game/entity/tool/miner_tool.gd" id="2_qop2t"]
+[ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_w4210"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2sl6y"]
 radius = 4.0
 height = 14.0
 
 [node name="MinerShipBasic" type="Area2D"]
-script = ExtResource("1_ms0u1")
+script = ExtResource("1_0ctb3")
 task_flags = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -26,8 +26,8 @@ unique_name_in_owner = true
 
 [node name="MiningLaser" type="Node2D" parent="Tools"]
 position = Vector2(6, 0)
-script = ExtResource("2_mtnv8")
+script = ExtResource("2_qop2t")
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
 position = Vector2(0, 8)
-script = ExtResource("3_kvxtg")
+script = ExtResource("3_w4210")

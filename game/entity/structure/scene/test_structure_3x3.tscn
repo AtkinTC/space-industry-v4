@@ -1,26 +1,26 @@
 [gd_scene load_steps=6 format=3 uid="uid://darkcar7wgv0o"]
 
-[ext_resource type="Script" path="res://game/entity/structure/structure.gd" id="1_c3uli"]
-[ext_resource type="Texture2D" uid="uid://dpy6bipk23oyw" path="res://assets/sprites/example_structure_96x96.png" id="2_42adh"]
-[ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_5g36n"]
-[ext_resource type="Script" path="res://game/entity/structure/structure_grid_tool.gd" id="4_823ct"]
+[ext_resource type="Script" path="res://game/entity/structure/structure.gd" id="1_b2ym2"]
+[ext_resource type="Texture2D" uid="uid://dpy6bipk23oyw" path="res://assets/sprites/example_structure_96x96.png" id="2_a6v3b"]
+[ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_leyro"]
+[ext_resource type="Script" path="res://game/entity/structure/structure_grid_tool.gd" id="4_ltaw6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vv7dl"]
 radius = 46.0
 
 [node name="TestStructure3x3" type="Area2D"]
-script = ExtResource("1_c3uli")
+script = ExtResource("1_b2ym2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_42adh")
+texture = ExtResource("2_a6v3b")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_vv7dl")
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
 position = Vector2(0, 48)
-script = ExtResource("3_5g36n")
+script = ExtResource("3_leyro")
 
 [node name="StructureGridTool" type="Node2D" parent="."]
-script = ExtResource("4_823ct")
+script = ExtResource("4_ltaw6")
 grid_size = Vector2i(3, 3)

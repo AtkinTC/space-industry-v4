@@ -1,27 +1,27 @@
 [gd_scene load_steps=6 format=3 uid="uid://co8g67bnh8fcs"]
 
-[ext_resource type="Script" path="res://game/entity/structure/structure.gd" id="1_wf8uc"]
-[ext_resource type="Script" path="res://game/entity/structure/structure_grid_tool.gd" id="3_6xue6"]
-[ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_hh5cf"]
-[ext_resource type="Texture2D" uid="uid://cgaulx604qncm" path="res://assets/sprites/station_core_64x64.png" id="4_2yl0q"]
+[ext_resource type="Script" path="res://game/entity/structure/structure.gd" id="1_yuhpg"]
+[ext_resource type="Texture2D" uid="uid://cgaulx604qncm" path="res://assets/sprites/station_core_64x64.png" id="2_22wvc"]
+[ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_b3qp2"]
+[ext_resource type="Script" path="res://game/entity/structure/structure_grid_tool.gd" id="4_kchks"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0dicr"]
 radius = 32.0
 
 [node name="StationCore" type="Area2D"]
-script = ExtResource("1_wf8uc")
+script = ExtResource("1_yuhpg")
 is_depot = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("4_2yl0q")
+texture = ExtResource("2_22wvc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_0dicr")
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
 position = Vector2(0, 32)
-script = ExtResource("3_hh5cf")
+script = ExtResource("3_b3qp2")
 
 [node name="StructureGridTool" type="Node2D" parent="."]
-script = ExtResource("3_6xue6")
+script = ExtResource("4_kchks")
 grid_size = Vector2i(2, 2)
