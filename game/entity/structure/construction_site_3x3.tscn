@@ -19,6 +19,7 @@ shape = SubResource("CircleShape2D_j071k")
 polygon = PackedVector2Array(0, -46, 46, 0, 0, 46, -46, 0)
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
+position = Vector2(0, 48)
 script = ExtResource("2_rwbf2")
 
 [node name="StructureGridTool" type="Node2D" parent="."]

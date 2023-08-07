@@ -18,6 +18,7 @@ texture = ExtResource("4_ay5fx")
 shape = SubResource("CircleShape2D_4uq5v")
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
+position = Vector2(0, 16)
 script = ExtResource("2_6qqpn")
 
 [node name="StructureGridTool" type="Node2D" parent="."]

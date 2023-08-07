@@ -26,4 +26,5 @@ polygon = PackedVector2Array(13, -5, 7, 0, 13, 5, 0, 7, -5, 3, -5, -3, 0, -7)
 unique_name_in_owner = true
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
+position = Vector2(0, 10)
 script = ExtResource("3_2rmcj")

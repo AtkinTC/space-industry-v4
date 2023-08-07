@@ -29,4 +29,5 @@ position = Vector2(6, 0)
 script = ExtResource("3_h5scd")
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
+position = Vector2(0, 8)
 script = ExtResource("4_58uhm")
