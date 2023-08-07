@@ -16,9 +16,6 @@ var next_target : ResourceNode = null
 enum STATE {STANDBY, CYCLING}
 var state := STATE.STANDBY
 
-func _ready() -> void:
-	pass
-
 func get_inventory() -> Inventory:
 	return parent_entity.get_inventory()
 

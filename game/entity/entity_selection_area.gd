@@ -5,7 +5,7 @@ class_name EntitySelectionArea
 
 signal gui_input(area : EntitySelectionArea, event : InputEvent)
 
-const PADDING := Vector2(4, 4)
+const PADDING := Vector2(2, 2)
 
 var input_enabled := true
 
@@ -126,7 +126,6 @@ func _draw() -> void:
 		return
 	
 	draw_rect(Rect2(selection_extents.position, selection_extents.size), default_color, false)
-
 
 func _on_nine_patch_rect_gui_input(event: InputEvent) -> void:
 	gui_input.emit(self, event)

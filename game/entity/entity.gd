@@ -61,6 +61,8 @@ func setup_from_entity_def() -> void:
 		entity_def = EntityDefinition.new()
 
 func setup_from_init_parameters() -> void:
+	if(init_parameters.has(Constants.KEY_TRANSFORM)):
+		global_transform = init_parameters.get(Constants.KEY_TRANSFORM)
 	global_position = init_parameters.get(Constants.KEY_POSITION, global_position)
 	global_rotation = init_parameters.get(Constants.KEY_ROTATION, global_rotation)
 

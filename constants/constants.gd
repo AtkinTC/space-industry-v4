@@ -1,6 +1,7 @@
 class_name Constants
 
 const KEY_GRID_POSITION := "grid_position"
+const KEY_TRANSFORM := "transform"
 const KEY_POSITION := "position"
 const KEY_ROTATION := "rotation"
 const KEY_STRUCTURE_TYPE := "structure_type"
@@ -26,7 +27,8 @@ enum WEAPON_TYPE {NONE = 0, MINING, BEAM, PROJECTILE, MISSILE}
 
 const TOOL_TYPE_NULL := "null"
 const TOOL_TYPE_MINER := "miner"
-const TOOL_TYPES := [TOOL_TYPE_NULL, TOOL_TYPE_MINER]
+const TOOL_TYPE_UNITBUILDER := "unit_builder"
+const TOOL_TYPES := [TOOL_TYPE_NULL, TOOL_TYPE_MINER, TOOL_TYPE_UNITBUILDER]
 
 const TASK_GROUP_MINER := "miner"
 const TASK_GROUP_BUILDER := "buider"

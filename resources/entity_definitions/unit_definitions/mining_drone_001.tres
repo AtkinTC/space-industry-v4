@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ShipDefinition" load_steps=5 format=3 uid="uid://bpsbon7pvdr0y"]
+[gd_resource type="Resource" script_class="UnitDefinition" load_steps=5 format=3 uid="uid://bpsbon7pvdr0y"]
 
 [ext_resource type="PackedScene" uid="uid://ctrt2fte2x4r5" path="res://game/entity/unit/scene/miner_ship_basic.tscn" id="1_5pek2"]
 [ext_resource type="Script" path="res://game/entity/resource/health.gd" id="1_nojf2"]
@@ -15,10 +15,11 @@ current_shield = -1.0
 [resource]
 script = ExtResource("1_xmnvb")
 cruise_speed = 75.0
-display_name = ""
+display_name = "mining drone MKI"
 entity_type = "mining_drone_001"
 scene = ExtResource("1_5pek2")
 base_inventory_capacity = 2
 construction_cost = {}
+construction_time = 1.0
 influence_radius = -1.0
 health = SubResource("Resource_anv5p")

@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://co8g67bnh8fcs"]
+[gd_scene load_steps=8 format=3 uid="uid://co8g67bnh8fcs"]
 
 [ext_resource type="Script" path="res://game/entity/structure/structure.gd" id="1_yuhpg"]
 [ext_resource type="Texture2D" uid="uid://cgaulx604qncm" path="res://assets/sprites/station_core_64x64.png" id="2_22wvc"]
 [ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_b3qp2"]
 [ext_resource type="Script" path="res://game/entity/structure/structure_grid_tool.gd" id="4_kchks"]
+[ext_resource type="Script" path="res://game/entity/tool/unit_builder_tool.gd" id="5_t2sxb"]
+[ext_resource type="Script" path="res://game/marker_2d_custom.gd" id="6_vxw5q"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0dicr"]
 radius = 32.0
@@ -25,3 +27,31 @@ script = ExtResource("3_b3qp2")
 [node name="StructureGridTool" type="Node2D" parent="."]
 script = ExtResource("4_kchks")
 grid_size = Vector2i(2, 2)
+
+[node name="ShipyardTool" type="Node2D" parent="."]
+script = ExtResource("5_t2sxb")
+build_speed = null
+build_orders = {
+"construction_drone_001": 2,
+"mining_drone_001": 5
+}
+debug = null
+
+[node name="Marker2DCustom" type="Marker2D" parent="ShipyardTool"]
+position = Vector2(30, 0)
+script = ExtResource("6_vxw5q")
+
+[node name="Marker2DCustom2" type="Marker2D" parent="ShipyardTool"]
+position = Vector2(0, 30)
+rotation = 1.57079
+script = ExtResource("6_vxw5q")
+
+[node name="Marker2DCustom3" type="Marker2D" parent="ShipyardTool"]
+position = Vector2(-30, 0)
+rotation = 3.14159
+script = ExtResource("6_vxw5q")
+
+[node name="Marker2DCustom4" type="Marker2D" parent="ShipyardTool"]
+position = Vector2(0, -30)
+rotation = -1.57079
+script = ExtResource("6_vxw5q")
