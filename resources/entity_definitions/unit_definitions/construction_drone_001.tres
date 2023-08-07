@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://game/entity/resource/unit_definition.gd" id="1_5ww0h"]
 [ext_resource type="Script" path="res://game/entity/resource/health.gd" id="1_8sm5q"]
-[ext_resource type="PackedScene" uid="uid://gijpshyjqirm" path="res://game/entity/unit/builder_ship_basic.tscn" id="2_e7iqk"]
+[ext_resource type="PackedScene" uid="uid://gijpshyjqirm" path="res://game/entity/unit/scene/builder_ship_basic.tscn" id="2_e7iqk"]
 
 [sub_resource type="Resource" id="Resource_ag474"]
 script = ExtResource("1_8sm5q")

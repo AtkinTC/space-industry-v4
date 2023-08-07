@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ShipDefinition" load_steps=5 format=3 uid="uid://bpsbon7pvdr0y"]
 
-[ext_resource type="PackedScene" uid="uid://ctrt2fte2x4r5" path="res://game/entity/unit/miner_ship_basic.tscn" id="1_5pek2"]
+[ext_resource type="PackedScene" uid="uid://ctrt2fte2x4r5" path="res://game/entity/unit/scene/miner_ship_basic.tscn" id="1_5pek2"]
 [ext_resource type="Script" path="res://game/entity/resource/health.gd" id="1_nojf2"]
 [ext_resource type="Script" path="res://game/entity/resource/unit_definition.gd" id="1_xmnvb"]
 

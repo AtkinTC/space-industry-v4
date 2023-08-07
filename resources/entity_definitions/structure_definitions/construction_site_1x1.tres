@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="StructureDefinition" load_steps=3 format=3 uid="uid://413qpoqrcou6"]
 
-[ext_resource type="PackedScene" uid="uid://ctlwh0snxejfy" path="res://game/entity/structure/construction_site_1x1.tscn" id="1_pevwe"]
+[ext_resource type="PackedScene" uid="uid://ctlwh0snxejfy" path="res://game/entity/structure/scene/construction_site_1x1.tscn" id="1_pevwe"]
 [ext_resource type="Script" path="res://game/entity/resource/structure_definition.gd" id="2_h8j0m"]
 
 [resource]

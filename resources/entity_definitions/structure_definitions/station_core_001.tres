@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="StructureDefinition" load_steps=7 format=3 uid="uid://db05x42u1t7ce"]
 
-[ext_resource type="PackedScene" uid="uid://co8g67bnh8fcs" path="res://game/entity/structure/station_core.tscn" id="1_01qrh"]
+[ext_resource type="PackedScene" uid="uid://co8g67bnh8fcs" path="res://game/entity/structure/scene/station_core.tscn" id="1_01qrh"]
 [ext_resource type="Resource" uid="uid://bofbncnqosvrh" path="res://resources/entity_definitions/structure_definitions/construction_site_2x2.tres" id="1_gux64"]
 [ext_resource type="Texture2D" uid="uid://cgaulx604qncm" path="res://assets/sprites/station_core_64x64.png" id="1_ua4bs"]
 [ext_resource type="Script" path="res://game/entity/resource/health.gd" id="2_3cpts"]
