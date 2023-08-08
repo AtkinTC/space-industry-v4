@@ -17,9 +17,6 @@ func _process(_delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-#	var bounding_rect := structure_def.get_bounding_rect()
-#	draw_rect(bounding_rect, Color.RED, false)
-	
 	var used_cells := EntityManager.get_used_structure_cells()
 	
 	for cell in structure_def.get_grid_cells():
@@ -29,3 +26,5 @@ func _draw() -> void:
 		var rect := Rect2((cell as Vector2 + structure_def.get_grid_alignment_offset()) * Constants.TILE_SIZE, Constants.TILE_SIZE - Vector2.ONE)
 		draw_rect(rect, draw_color, false)
 	
+	for point in structure_def.get_connector_points():
+		point.draw_at(self, structure_def.get_center_cell_offset() * Constants.TILE_SIZE)
