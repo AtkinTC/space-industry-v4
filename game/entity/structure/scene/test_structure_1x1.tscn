@@ -1,12 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://dw8ounvht5n8h"]
+[gd_scene load_steps=9 format=3 uid="uid://dw8ounvht5n8h"]
 
 [ext_resource type="Script" path="res://game/entity/structure/structure.gd" id="1_ivmou"]
 [ext_resource type="Texture2D" uid="uid://c4obl14nmxfx3" path="res://assets/sprites/example_structure_32x32.png" id="2_s5tbm"]
 [ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_awgu3"]
 [ext_resource type="Script" path="res://game/entity/structure/structure_grid_tool.gd" id="4_a04i0"]
+[ext_resource type="Script" path="res://game/entity/structure/structure_connector_component.gd" id="5_v1wbp"]
+[ext_resource type="Script" path="res://game/entity/structure/connector_point.gd" id="6_cjrmw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4uq5v"]
 radius = 16.0
+
+[sub_resource type="Resource" id="Resource_tgdow"]
+script = ExtResource("6_cjrmw")
+cell = Vector2i(0, 0)
+directions = Array[Vector2i]([Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)])
 
 [node name="TestStructure1x1" type="Area2D"]
 script = ExtResource("1_ivmou")
@@ -23,3 +30,8 @@ script = ExtResource("3_awgu3")
 
 [node name="StructureGridTool" type="Node2D" parent="."]
 script = ExtResource("4_a04i0")
+cells = Array[Vector2i]([Vector2i(0, 0)])
+
+[node name="StructureConnectorComponent" type="Node2D" parent="."]
+script = ExtResource("5_v1wbp")
+connector_points = Array[ExtResource("6_cjrmw")]([SubResource("Resource_tgdow")])

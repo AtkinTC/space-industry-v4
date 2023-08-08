@@ -8,6 +8,7 @@ var init_parameters : Dictionary = {}
 
 @export var inventory : Inventory = null
 @export var health : Health = null
+var network_component : StructureConnectorComponent
 
 @onready var collision_shape : CollisionShape2D = get_node_or_null("CollisionShape2D")
 @onready var collision_polygon : CollisionPolygon2D = get_node_or_null("CollisionPolygon2D")
@@ -55,6 +56,7 @@ func setup() -> void:
 	
 	setup_inventory()
 	setup_health()
+	setup_network()
 
 func setup_from_entity_def() -> void:
 	if(entity_def == null):
@@ -103,6 +105,23 @@ func _on_hull_depleted() -> void:
 
 func _on_shield_depleted() -> void:
 	print("Shield depleted")
+
+###############
+### NETWORK ###
+###############
+
+func setup_network() -> void:
+	network_component = get_node_or_null("StructureConnectorComponent")
+
+func has_network_component() -> bool:
+	return network_component != null
+
+func get_network_component() -> StructureConnectorComponent:
+	return network_component
+
+#############
+### TOOLS ###
+#############
 
 func get_tools(tool_type : String) -> Array[Tool]:
 	var result : Array = tools.get(tool_type, [])

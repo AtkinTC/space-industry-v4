@@ -24,6 +24,7 @@ EntityDefs="*res://singleton/entity_defs.gd"
 InfluenceManger="*res://singleton/influence_manger.gd"
 EntityManager="*res://singleton/entity_manager.gd"
 GameState="*res://singleton/game_state.gd"
+NetworksManager="*res://singleton/networks_manager.gd"
 
 [input]
 

@@ -7,20 +7,46 @@ class_name StructureDefinition
 @export var construction_def : StructureDefinition = null
 
 const GRID_TOOL_NODE_NAME := "StructureGridTool"
-const GRID_TOOL_GRID_SIZE_PROP_NAME := "grid_size"
+const GRID_SIZE_PROP_NAME := "grid_size"
+const STRUCTURE_CONNECTOR_COMPONENT_NODE_NAME := "StructureConnectorComponent"
+const CONNECTOR_POINTS_PROP_NAME := "connector_points"
+
 var grid_size_found := false
 var grid_size :=  Vector2i(0, 0) : get = get_grid_size
 var grid_cells : Array[Vector2i] = []
 
+var connector_points_found := false
+var connector_points : Array[ConnectorPoint] = []
+
+func get_connector_points() -> Array[ConnectorPoint]:
+	if(connector_points_found):
+		return connector_points
+	
+	var scene_state := scene.get_state()
+	for i in scene_state.get_node_count():
+		if(scene_state.get_node_name(i) == STRUCTURE_CONNECTOR_COMPONENT_NODE_NAME):
+			for j in scene_state.get_node_property_count(i):
+				if(scene_state.get_node_property_name(i, j) == CONNECTOR_POINTS_PROP_NAME):
+					connector_points = scene_state.get_node_property_value(i, j)
+					connector_points_found = true
+					break
+			break
+	if(!connector_points_found):
+		connector_points = []
+		print_debug("No connector_cells property in scene %s." % entity_type)
+		connector_points_found = true
+	
+	return connector_points
+
 func get_grid_size() -> Vector2i:
-	if(grid_size != Vector2i(0, 0)):
+	if(grid_size_found):
 		return grid_size
 	
 	var scene_state := scene.get_state()
 	for i in scene_state.get_node_count():
 		if(scene_state.get_node_name(i) == GRID_TOOL_NODE_NAME):
 			for j in scene_state.get_node_property_count(i):
-				if(scene_state.get_node_property_name(i, j) == GRID_TOOL_GRID_SIZE_PROP_NAME):
+				if(scene_state.get_node_property_name(i, j) == GRID_SIZE_PROP_NAME):
 					grid_size = scene_state.get_node_property_value(i, j)
 					grid_size_found = true
 					break
@@ -28,7 +54,8 @@ func get_grid_size() -> Vector2i:
 	
 	if(!grid_size_found):
 		grid_size = Vector2i(1, 1)
-		print_debug("No grid_size property in scene %s, using default unit grid size." % entity_type)
+		print_debug("Using default grid size for structue scene : %s." % entity_type)
+		grid_size_found = true
 	
 	return grid_size
 
@@ -38,8 +65,12 @@ func get_bounding_rect() -> Rect2:
 
 func get_grid_alignment_offset() -> Vector2:
 	var size := get_grid_size()
-	var offset := -(Vector2.ONE - (size % 2)/2.0)
+	var offset : Vector2 = -(Vector2.ONE - (size % 2)/2.0)
 	return offset
+
+func get_center_cell_offset() -> Vector2:
+	var size := get_grid_size()
+	return -(Vector2.ONE - ((size % 2) as Vector2))/2.0
 
 func get_grid_cells() -> Array[Vector2i]:
 	if(grid_cells.is_empty()):
