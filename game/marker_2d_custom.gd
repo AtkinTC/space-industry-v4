@@ -2,12 +2,12 @@
 extends Marker2D
 class_name Marker2DCustom
 
+const PRIMARY_LENGTH : float = 16
+const COLOR_PRIMARY := Color(Color.BLUE, 1)
+
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		queue_redraw()
-const PRIMARY_LENGTH : float = 16
-
-const COLOR_PRIMARY := Color(Color.BLUE, 1)
 
 func _draw() -> void:
 	var points : PackedVector2Array = [

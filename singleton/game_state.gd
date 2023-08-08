@@ -11,7 +11,7 @@ var build_control_layer : BuildControlLayer = null
 enum UI_STATE {NONE, BUILD}
 var ui_state = UI_STATE.NONE
 
-func _ready() -> void:
+func _init() -> void:
 	trigger_build_state.connect(start_build_state)
 
 func register_selection_areas_layer(layer : SelectionAreasLayer) -> void:

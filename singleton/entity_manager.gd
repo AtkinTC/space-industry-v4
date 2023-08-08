@@ -9,7 +9,7 @@ var structures : Dictionary = {}
 var structures_by_cell = {}
 var structure_cells = {}
 
-func _ready() -> void:
+func _init() -> void:
 	SignalBus.spawn_unit.connect(spawn_unit)
 	SignalBus.spawn_unit_callback.connect(spawn_unit_with_callback)
 	

@@ -8,7 +8,7 @@ var canvas : InfluenceCanvas = null
 var influence_cells : Array[Vector2i] = []
 var influence_cells_needs_recalculate := true
 
-func _ready() -> void:
+func _init() -> void:
 	SignalBus.register_influence_node.connect(register_node)
 
 func register_canvas(_canvas : InfluenceCanvas) -> void:

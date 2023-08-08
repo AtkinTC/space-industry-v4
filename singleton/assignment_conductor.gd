@@ -18,7 +18,7 @@ const MAX_BUILDERS_PER_CONSTRUCTION_SITE : int = 1
 const ASSIGNMENT_WAIT_TIME : float = 1
 var wait_timer : SceneTreeTimer = null
 
-func _ready() -> void:
+func _init() -> void:
 	SignalBus.register_unit.connect(register_unit)
 	SignalBus.register_construction_site.connect(register_construction_site)
 
