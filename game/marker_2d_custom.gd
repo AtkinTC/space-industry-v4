@@ -5,11 +5,10 @@ class_name Marker2DCustom
 const PRIMARY_LENGTH : float = 16
 const COLOR_PRIMARY := Color(Color.BLUE, 1)
 
-func _process(delta: float) -> void:
-	if Engine.is_editor_hint():
-		queue_redraw()
-
 func _draw() -> void:
+	if !Engine.is_editor_hint():
+		return
+		
 	var points : PackedVector2Array = [
 		Vector2.ZERO, Vector2(PRIMARY_LENGTH, 0)
 		]

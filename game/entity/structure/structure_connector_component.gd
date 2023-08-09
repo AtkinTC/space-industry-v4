@@ -3,9 +3,7 @@ extends Node2D
 class_name StructureConnectorComponent
 
 @export var regenerate : bool = false : set = trigger_regenerate
-
-@export var network_source : bool = false
-@export var connector_points : Array[ConnectorPoint] = []
+@export var connector_points : Array[ConnectorPoint] = [] : set = set_connector_points
 
 var parent_structure : Structure
 var structure_grid_tool : StructureGridTool
@@ -24,9 +22,9 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		SignalBus.register_structure_connector_component.emit(self)
 
-func _process(delta: float) -> void:
-	if Engine.is_editor_hint():
-		queue_redraw()
+func set_connector_points(_connector_points) -> void:
+	connector_points = _connector_points
+	queue_redraw()
 
 func get_connector_points() -> Array[ConnectorPoint]:
 	return connector_points
@@ -51,12 +49,13 @@ func trigger_regenerate(_r : bool):
 			continue
 		point.cell = cell
 		connector_points.append(point)
+	queue_redraw()
 
 func get_network_id() -> int:
 	return NetworksManager.get_node_network_id(get_instance_id())
 
-func is_on_network() -> bool:
-	return get_network_id() != -1
+func get_structure() -> Structure:
+	return parent_structure
 
 func _draw() -> void:
 	if not Engine.is_editor_hint():
