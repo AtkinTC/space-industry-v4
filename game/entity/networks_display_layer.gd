@@ -23,7 +23,7 @@ func _draw() -> void:
 			if(!NetworksManager.get_network_connections(network_id).is_empty()):
 				color_index = (color_index + 1) % network_colors.size()
 			for connection in NetworksManager.get_network_connections(network_id):
-				points.append_array([connection.c1.get_structure().global_position, connection.c2.get_structure().global_position])
+				points.append_array([connection.node_1.get_structure().global_position, connection.node_2.get_structure().global_position])
 				colors.append(color)
 		if(!points.is_empty()):
 			draw_multiline_colors(points, colors, 1.0)
