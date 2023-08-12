@@ -2,79 +2,58 @@ extends Node
 # Singleton NetworksManager
 # manages the network connections between StructureConnectorComponent connector nodes
 
-class Connection:
-	var id_1 : int
-	var id_2 : int
-	var node_1 : StructureConnectorComponent
-	var node_2 : StructureConnectorComponent
-	
-	func _init(_node_1 : StructureConnectorComponent, _node_2 : StructureConnectorComponent):
-		id_1 = _node_1.get_instance_id()
-		id_2 = _node_2.get_instance_id()
-		node_1 = _node_1 if (id_1 <= id_2) else _node_2
-		node_2 = _node_2 if (id_1 <= id_2) else _node_1
-		id_1 = node_1.get_instance_id()
-		id_2 = node_2.get_instance_id()
-	
-	func equals(connection : Connection):
-		return (id_1 == connection.id_1 && id_2 == connection.id_2)
+signal network_updated(network_id : int)
 
-class Network:
-	var nodes := {}
-	var connections : Array[Connection] = []
-	
-	func has_connection(node_1 : StructureConnectorComponent, node_2 : StructureConnectorComponent) -> bool:
-		var connection := Connection.new(node_1, node_2)
-		return has_connection_internal(connection)
-	
-	func has_connection_internal(connection : Connection) -> bool:
-		for c in connections:
-			if(c.equals(connection)):
-				return true
-		return false
-	
-	func connect_nodes(node_1 : StructureConnectorComponent, node_2 : StructureConnectorComponent) -> void:
-		var connection := Connection.new(node_1, node_2)
-		add_connection(connection)
-	
-	func add_connection(connection : Connection):
-		if(has_connection_internal(connection)):
+class Graph:
+	var connections := {}
+
+	func has_connection(id_1 : int, id_2 : int) -> bool:
+		return connections.get(id_1, []).has(id_2)
+
+	func add_node(node_id : int) -> void:
+		if(connections.has(node_id)):
 			return
-		connections.append(connection)
+		connections[node_id] = [] as Array[int]
+
+	func erase_node(node_id : int) -> void:
+		connections.erase(node_id)
+		for connected_node_ids in connections.values():
+			(connected_node_ids as Array[int]).erase(node_id)
+
+	func add_connection(id_1 : int, id_2 : int) -> void:
+		var connections_1 : Array[int] = connections.get(id_1, [] as Array[int])
+		if(!connections_1.has(id_2)):
+			connections_1.append(id_2)
+		connections[id_1] = connections_1
+		var connections_2 : Array[int] = connections.get(id_2, [] as Array[int])
+		if(!connections_2.has(id_1)):
+			connections_2.append(id_1)
+		connections[id_2] = connections_2
 	
-	func get_connections() -> Array[Connection]:
-		return connections
-	
-	func get_node_connections(node_id : int) -> Array[Connection]:
-		var node_connections : Array[Connection] = []
-		for connection in connections:
-			if(connection.id_1 == node_id || connection.id_2 == node_id):
-				node_connections.append(connection)
-		return node_connections
-	
-	func erase_node_connections(node_id : int):
-		var updated_connections : Array[Connection] = []
-		for connection in connections:
-			if(connection.id_1 != node_id && connection.id_2 != node_id):
-				updated_connections.append(connection)
-		connections = updated_connections
-	
-	func get_nodes() -> Array[StructureConnectorComponent]:
-		var a : Array[StructureConnectorComponent] = []
-		a.assign(nodes.values())
-		return a
+	func erase_connection(id_1 : int, id_2 : int) -> void:
+		connections.get(id_1, []).erase(id_2)
+		connections.get(id_2, []).erase(id_1)
 	
 	func get_node_ids() -> Array[int]:
 		var a : Array[int] = []
-		a.assign(nodes.keys())
+		a.assign(connections.keys())
 		return a
 	
-	func add_node(node : StructureConnectorComponent) -> void:
-		nodes[node.get_instance_id()] = node
+	func get_connections() -> Dictionary:
+		return connections
 	
-	func remove_node(node_id : int) -> void:
-		nodes.erase(node_id)
-		erase_node_connections(node_id)
+	func get_connected_node_ids(node_id : int) -> Array[int]:
+		var a : Array[int] = []
+		a.assign(connections.get(node_id, []))
+		return a
+	
+	func append(graph : Graph):
+		for key_id in graph.get_connections().keys():
+			var node_connection_ids : Array[int] = connections.get(key_id, [] as Array[int])
+			for node_id in graph.get_connections()[key_id]:
+				if(!node_connection_ids.has(node_id)):
+					node_connection_ids.append(node_id)
+			connections[key_id] = node_connection_ids
 
 var connector_nodes := {} # all StructureConnectorComponent organized by instance_id
 var node_network_ids := {} # each StructureConnectorComponent's network id, organized by node instance_id
@@ -90,6 +69,9 @@ var canvas : NetworkDisplayLayer = null
 
 func _init() -> void:
 	SignalBus.register_structure_connector_component.connect(register_node)
+
+func _physics_process(_delta: float) -> void:
+	recalculate_structure_connections()
 
 func register_canvas(_canvas : Node2D) -> void:
 	canvas = _canvas
@@ -124,26 +106,39 @@ func unregister_node(instance_id : int) -> void:
 		removed_connector_ids.append(instance_id)
 
 func get_network_ids() -> Array[int]:
-	recalculate_structure_connections()
 	var a : Array[int] = []
 	a.assign(networks.keys())
 	return a
 
+func get_connector_node(node_id : int) -> StructureConnectorComponent:
+	return connector_nodes.get(node_id)
+
+func get_network(node_id) -> Graph:
+	return networks.get(node_id)
+
 func get_node_network_id(node_id : int) -> int:
-	recalculate_structure_connections()
 	return node_network_ids.get(node_id, -1)
 
 func get_network_node_ids(network_id : int) -> Array[int]:
-	recalculate_structure_connections()
 	if(networks.has(network_id)):
 		return networks[network_id].get_node_ids()
 	return [] as Array[int]
 
-func get_network_connections(network_id : int) -> Array[Connection]:
-	recalculate_structure_connections()
-	if(networks.has(network_id)):
-		return networks[network_id].get_connections()
-	return [] as Array[Connection]
+func get_network_unique_connections(network_id : int):
+	if(!networks.has(network_id)):
+		return []
+		
+	var unique_connections = []
+	var network : Graph = networks[network_id]
+	var checked_node_ids : Array[int] = []
+	for key_node_id in network.get_node_ids():
+		var node_1 : StructureConnectorComponent = connector_nodes[key_node_id]
+		for connected_node_id in network.get_connected_node_ids(key_node_id):
+			if(!checked_node_ids.has(connected_node_id)):
+				var node_2 : StructureConnectorComponent = connector_nodes[connected_node_id]
+				unique_connections.append([node_1, node_2])
+		checked_node_ids.append(key_node_id)
+	return unique_connections
 
 func get_next_free_network_id() -> int:
 	var id : int = 0
@@ -187,7 +182,9 @@ func calculate_added_connector(added_node_id : int) -> void:
 	var added_node : StructureConnectorComponent = connector_nodes[added_node_id]
 	
 	var connected_network_ids : Array[int] = []
-	var new_connections : Array[Connection] = []
+	
+	var new_network := Graph.new()
+	new_network.add_node(added_node_id)
 	
 	var center_cell := added_node.get_center_cell()
 	for point in added_node.connector_points:
@@ -200,7 +197,7 @@ func calculate_added_connector(added_node_id : int) -> void:
 			if(neighbor_id == added_node_id):
 				# cannot connect with itself
 				continue
-			new_connections.append(Connection.new(added_node, neighbor_node))
+			new_network.add_connection(added_node_id, neighbor_id)
 			
 			var neighbor_network_id : int = node_network_ids[neighbor_node.get_instance_id()]
 			if(!connected_network_ids.has(neighbor_network_id)):
@@ -209,9 +206,9 @@ func calculate_added_connector(added_node_id : int) -> void:
 	if(connected_network_ids.is_empty()):
 		var new_network_id := get_next_free_network_id()
 		node_network_ids[added_node_id] = new_network_id
-		var new_network = Network.new()
-		new_network.add_node(added_node)
 		networks[new_network_id] = new_network
+		
+		network_updated.emit(new_network_id)
 	else:
 		var primary_network_id : int = 9999
 		for network_id in connected_network_ids:
@@ -219,23 +216,20 @@ func calculate_added_connector(added_node_id : int) -> void:
 				primary_network_id = network_id
 		
 		node_network_ids[added_node_id] = primary_network_id
-		var primary_network : Network = networks[primary_network_id]
-		primary_network.add_node(added_node)
+		var primary_network : Graph = networks[primary_network_id]
+		primary_network.append(new_network)
 		
 		for old_network_id in connected_network_ids:
 			if(old_network_id == primary_network_id):
 				continue
 			
-			var old_networks : Network = networks[old_network_id]
-			
-			for node in old_networks.get_nodes():
-				primary_network.add_node(node)
-				node_network_ids[node.get_instance_id()] = primary_network_id
-			
-			for connection in old_networks.get_connections():
-				primary_network.add_connection(connection)
-			
+			var old_networks : Graph = networks[old_network_id]
 			networks.erase(old_network_id)
+			primary_network.append(old_networks)
+			
+			for node_id in old_networks.get_node_ids():
+				node_network_ids[node_id] = primary_network_id
 		
-		for connection in new_connections:
-			primary_network.add_connection(connection)
+		for network_id in connected_network_ids:
+			network_updated.emit(network_id)
+
