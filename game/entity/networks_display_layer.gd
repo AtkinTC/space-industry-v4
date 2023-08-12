@@ -18,7 +18,7 @@ func _process(_delta: float) -> void:
 		queue_redraw()
 		networks_updated = false
 
-func _on_network_updated(network_id : int):
+func _on_network_updated(_network_ids : Array[int]):
 	networks_updated = true
 
 func _draw() -> void:
