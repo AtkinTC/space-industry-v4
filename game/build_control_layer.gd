@@ -13,12 +13,17 @@ var build_position := Vector2()
 
 var valid_build_position := false
 
+var dragging : bool = false
+
 func _ready() -> void:
 	GameState.register_build_control_layer(self)
 
 func _process(_delta: float) -> void:
 	if(build_state):
+		var previous_build_cell := build_cell
 		recalculate_position()
+		if(dragging && previous_build_cell != build_cell):
+			confirm_build()
 	queue_redraw()
 
 func recalculate_position(force : bool = false):
@@ -43,6 +48,7 @@ func clear() -> void:
 	if(build_ghost != null):
 		build_ghost.queue_free()
 		build_ghost = null
+	dragging = false
 
 func start_build_state(def : StructureDefinition):
 	if(def == null):
@@ -71,7 +77,7 @@ func confirm_build():
 		Constants.KEY_GRID_POSITION : build_cell
 	}
 	SignalBus.spawn_structure.emit(build_structure_def.construction_def.entity_type, build_params)
-	end_build_state()
+	#end_build_state()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(!build_state):
@@ -80,6 +86,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		end_build_state()
 	if(event.is_action_pressed("select")):
 		confirm_build()
+		dragging = true
+	if(event.is_action_released("select")):
+		dragging = false
 
 func _draw() -> void:
 	if(build_state):
