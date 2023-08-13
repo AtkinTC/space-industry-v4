@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://co8g67bnh8fcs"]
 
 [ext_resource type="Script" path="res://game/entity/structure/structure.gd" id="1_yuhpg"]
-[ext_resource type="Texture2D" uid="uid://cgaulx604qncm" path="res://assets/sprites/station_core_64x64.png" id="2_22wvc"]
+[ext_resource type="Texture2D" uid="uid://cgaulx604qncm" path="res://assets/sprites/structures/station_core_64x64.png" id="2_5cob2"]
 [ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_b3qp2"]
 [ext_resource type="Script" path="res://game/entity/structure/structure_grid_tool.gd" id="4_kchks"]
 [ext_resource type="Script" path="res://game/entity/tool/unit_builder_tool.gd" id="5_t2sxb"]
@@ -37,7 +37,7 @@ script = ExtResource("1_yuhpg")
 is_depot = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_22wvc")
+texture = ExtResource("2_5cob2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_0dicr")

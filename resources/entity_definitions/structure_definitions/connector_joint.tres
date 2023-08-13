@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="StructureDefinition" load_steps=5 format=3 uid="uid://cpdvu3m7pgyo8"]
+
+[ext_resource type="Resource" uid="uid://df0krplabucgf" path="res://resources/entity_definitions/structure_definitions/connector_joint_construction_site.tres" id="1_irvtu"]
+[ext_resource type="Texture2D" uid="uid://b0ysbmtik7svk" path="res://assets/sprites/structures/connector_joint.png" id="2_hogb5"]
+[ext_resource type="PackedScene" uid="uid://dpketgbrsvahe" path="res://game/entity/structure/scene/connector_joint.tscn" id="3_5tssb"]
+[ext_resource type="Script" path="res://game/entity/resource/structure_definition.gd" id="4_qfsq1"]
+
+[resource]
+script = ExtResource("4_qfsq1")
+player_buildable = true
+dock_range = 16.0
+grid_locked = true
+construction_def = ExtResource("1_irvtu")
+display_name = "connector joint"
+entity_type = "connector_joint"
+scene = ExtResource("3_5tssb")
+base_inventory_capacity = -1
+construction_cost = {
+"iron_ore": 1
+}
+construction_time = 0.0
+influence_radius = -1.0
+image = ExtResource("2_hogb5")

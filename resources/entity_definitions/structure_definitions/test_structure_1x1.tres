@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="StructureDefinition" load_steps=5 format=3 uid="uid://4keam23s7dm6"]
 
-[ext_resource type="Texture2D" uid="uid://c4obl14nmxfx3" path="res://assets/sprites/example_structure_32x32.png" id="1_arev2"]
-[ext_resource type="PackedScene" uid="uid://dw8ounvht5n8h" path="res://game/entity/structure/test_structure_1x1.tscn" id="1_cb2l7"]
+[ext_resource type="PackedScene" uid="uid://dw8ounvht5n8h" path="res://game/entity/structure/scene/test_structure_1x1.tscn" id="1_cb2l7"]
 [ext_resource type="Resource" uid="uid://413qpoqrcou6" path="res://resources/entity_definitions/structure_definitions/construction_site_1x1.tres" id="1_vu4qs"]
+[ext_resource type="Texture2D" uid="uid://cqdvqnq4e0viq" path="res://assets/sprites/placeholders/placeholder_32x32.png" id="2_3adne"]
 [ext_resource type="Script" path="res://game/entity/resource/structure_definition.gd" id="2_cpt5o"]
 
 [resource]
@@ -18,5 +18,6 @@ base_inventory_capacity = -1
 construction_cost = {
 "iron_ore": 4
 }
+construction_time = 0.0
 influence_radius = 150.0
-image = ExtResource("1_arev2")
+image = ExtResource("2_3adne")

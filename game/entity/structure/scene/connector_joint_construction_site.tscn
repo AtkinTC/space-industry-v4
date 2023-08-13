@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cp3y55bdisuij"]
+
+[ext_resource type="Script" path="res://game/entity/structure/construction_site.gd" id="1_ydr2x"]
+[ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="2_qyfuc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o07nr"]
+radius = 8.0
+
+[node name="ConnectJointConstructionSite" type="Area2D"]
+script = ExtResource("1_ydr2x")
+structure_type = "test_structure_1x1"
+default_entity_type = "construction_site_1x1"
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, -8, 8, 0, 0, 8, -8, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_o07nr")
+
+[node name="EntityDebugDisplay" type="Node2D" parent="."]
+position = Vector2(0, 16)
+script = ExtResource("2_qyfuc")

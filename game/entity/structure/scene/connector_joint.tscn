@@ -1,0 +1,37 @@
+[gd_scene load_steps=9 format=3 uid="uid://dpketgbrsvahe"]
+
+[ext_resource type="Script" path="res://game/entity/structure/structure.gd" id="1_a8ga5"]
+[ext_resource type="Texture2D" uid="uid://b0ysbmtik7svk" path="res://assets/sprites/structures/connector_joint.png" id="2_b15pe"]
+[ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_bbx83"]
+[ext_resource type="Script" path="res://game/entity/structure/structure_grid_tool.gd" id="4_4ry82"]
+[ext_resource type="Script" path="res://game/entity/structure/structure_connector_component.gd" id="5_w6wkh"]
+[ext_resource type="Script" path="res://game/entity/structure/connector_point.gd" id="6_1uvuf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0uico"]
+radius = 8.0
+
+[sub_resource type="Resource" id="Resource_x3kb1"]
+script = ExtResource("6_1uvuf")
+cell = Vector2i(0, 0)
+directions = Array[Vector2i]([Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)])
+
+[node name="ConnectorJoint" type="Area2D"]
+script = ExtResource("1_a8ga5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_b15pe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0uico")
+
+[node name="EntityDebugDisplay" type="Node2D" parent="."]
+position = Vector2(0, 16)
+script = ExtResource("3_bbx83")
+
+[node name="StructureGridTool" type="Node2D" parent="."]
+script = ExtResource("4_4ry82")
+cells = Array[Vector2i]([Vector2i(0, 0)])
+
+[node name="StructureConnectorComponent" type="Node2D" parent="."]
+script = ExtResource("5_w6wkh")
+connector_points = Array[ExtResource("6_1uvuf")]([SubResource("Resource_x3kb1")])
