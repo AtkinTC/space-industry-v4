@@ -136,7 +136,8 @@ func add_structure_cells(instance_id : int, cells : Array[Vector2i]) -> void:
 func remove_structure_cells(instance_id : int) -> void:
 	if(structure_cells.has(instance_id)):
 		for cell in structure_cells[instance_id]:
-			structures_by_cell.erase(cell as Vector2i)
+			if(structures_by_cell[(cell as Vector2i)] == instance_id):
+				structures_by_cell.erase(cell as Vector2i)
 		structure_cells.erase(instance_id)
 
 func get_structure_id_at_cell(cell : Vector2i) -> int:
