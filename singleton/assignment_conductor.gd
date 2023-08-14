@@ -117,7 +117,7 @@ func assign_task(instance_id) -> void:
 				
 				var pickup_items : Dictionary = pickup_station.get_inventory().contains_any(needed_materials)
 				
-				set_unit_assignment(unit, Unit.ConstructionAssignment.new(Unit.GOAL_STATE.BUILD, site, pickup_station, pickup_items))
+				set_unit_assignment(unit, UnitAssignment.ConstructionUnitAssignment.new(site, pickup_station, pickup_items))
 				return
 	
 	if(task_groups.has(Constants.TASK_GROUP_MINER)):
@@ -125,21 +125,21 @@ func assign_task(instance_id) -> void:
 			var filtered_targets : Array[ResourceNode] = find_mining_targets().filter(func lambda(n : ResourceNode) : return (resource_node_assignments.get(n.get_instance_id(), []).size() < MAX_MINERS_PER_RESOURCE_NODE))
 			var targets := Utils.get_closest_targets(unit.global_position, filtered_targets)
 			if(targets != null && targets.size() > 0 && targets[0] is ResourceNode):
-				set_unit_assignment(unit, Unit.Assignment.new(Unit.GOAL_STATE.MINE, targets[0]))
+				set_unit_assignment(unit, UnitAssignment.MiningUnitAssignment.new(targets[0]))
 				return
 			else:
 				print_debug("No Resource Nodes to mine")
 		else:
 			var targets := Utils.get_closest_targets(unit.global_position, get_dropoff_stations())
 			if(targets != null && targets.size() > 0 && targets[0] is Structure):
-				set_unit_assignment(unit, Unit.Assignment.new(Unit.GOAL_STATE.RETURN, targets[0]))
+				set_unit_assignment(unit, UnitAssignment.ReturnUnitAssignment.new(targets[0]))
 				return
 			else:
 				print_debug("No stations to return to")
 	
 	var depots := Utils.get_closest_targets(unit.global_position, get_depot_stations())
 	if(depots != null && depots.size() > 0 && depots[0] is Structure):
-		set_unit_assignment(unit, Unit.Assignment.new(Unit.GOAL_STATE.RETURN, depots[0]))
+		set_unit_assignment(unit, UnitAssignment.ReturnUnitAssignment.new(depots[0]))
 		return
 	
 	print_debug("No valid to task to assign to unit %d" % instance_id)
@@ -148,36 +148,37 @@ func assign_task(instance_id) -> void:
 	needs_assignment_queue.erase(instance_id)
 	
 
-func set_unit_assignment(unit : Unit, assignment : Unit.Assignment) -> void:
+func set_unit_assignment(unit : Unit, assignment : UnitAssignment) -> void:
 	var instance_id := unit.get_instance_id()
 	unit_assignments[instance_id] = assignment
 	needs_assignment_queue.erase(instance_id)
 	unit.set_assignemnt(assignment)
 	
-	if(assignment is Unit.ConstructionAssignment):
-		var site_id := assignment.target.get_instance_id()
+	if(assignment is UnitAssignment.ConstructionUnitAssignment):
+		var site_id := (assignment as UnitAssignment.ConstructionUnitAssignment).construction_site_id
 		construction_site_assignments[site_id] = construction_site_assignments.get(site_id, []) + [instance_id]
 	
-	if(assignment.goal == Unit.GOAL_STATE.MINE):
-		var resource_node_id := assignment.target.get_instance_id()
+	if(assignment is UnitAssignment.MiningUnitAssignment):
+		var resource_node_id := (assignment as UnitAssignment.MiningUnitAssignment).resource_node_id
 		resource_node_assignments[resource_node_id] = resource_node_assignments.get(resource_node_id, []) + [instance_id]
 
 func clear_unit_assignment(instance_id : int) -> void:
 	if(unit_assignments.has(instance_id)):
-		var assignment : Unit.Assignment = unit_assignments[instance_id]
-		# clear out additional consruction assignment details
-		if(assignment is Unit.ConstructionAssignment):
-			var construction_id : int = assignment.target_instance_id
-			var assigned_ids : Array = construction_site_assignments.get(construction_id, [])
+		var assignment : UnitAssignment = unit_assignments[instance_id]
+		
+		if(assignment is UnitAssignment.ConstructionUnitAssignment):
+			# clear out additional consruction assignment details
+			var construction_site_id : int = (assignment as UnitAssignment.ConstructionUnitAssignment).construction_site_id
+			var assigned_ids : Array = construction_site_assignments.get(construction_site_id, [])
 			assigned_ids.erase(instance_id)
 			if(assigned_ids.is_empty()):
-				construction_site_assignments.erase(construction_id)
+				construction_site_assignments.erase(construction_site_id)
 			else:
-				construction_site_assignments[construction_id] = assigned_ids
+				construction_site_assignments[construction_site_id] = assigned_ids
 		
 		# clear out assitional mining assignment details
-		if(assignment.goal == Unit.GOAL_STATE.MINE):
-			var resource_node_id : int = assignment.target_instance_id
+		if(assignment is UnitAssignment.MiningUnitAssignment):
+			var resource_node_id : int = (assignment as UnitAssignment.MiningUnitAssignment).resource_node_id
 			var assigned_ids : Array = resource_node_assignments.get(resource_node_id, [])
 			assigned_ids.erase(instance_id)
 			if(assigned_ids.is_empty()):
