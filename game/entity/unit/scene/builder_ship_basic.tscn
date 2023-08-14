@@ -9,6 +9,7 @@ height = 20.0
 
 [node name="BuilderShip" type="Area2D"]
 position = Vector2(46, 37)
+collision_mask = 0
 script = ExtResource("1_oywpv")
 task_flags = 1
 
@@ -17,7 +18,7 @@ position = Vector2(1, 7.62939e-06)
 rotation = 1.57079
 shape = SubResource("CapsuleShape2D_lpno5")
 
-[node name="Polygon2D2" type="Polygon2D" parent="."]
+[node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2(-3, 0)
 color = Color(0.0352941, 0.0352941, 1, 1)
 polygon = PackedVector2Array(13, -5, 7, 0, 13, 5, 0, 7, -5, 3, -5, -3, 0, -7)

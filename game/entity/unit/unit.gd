@@ -44,6 +44,7 @@ var velocity := Vector2.ZERO
 #Override
 func _ready():
 	super._ready()
+	add_to_group(Constants.GROUP_PLAYER_ENTITY)
 	add_to_group(Constants.GROUP_UNIT)
 	
 	SignalBus.register_unit.emit(get_instance_id())
@@ -51,6 +52,8 @@ func _ready():
 
 #Override
 func setup_from_entity_def() -> void:
+	if(entity_def == null && !default_entity_type.is_empty()):
+		entity_def = EntityDefs.get_unit_definition(default_entity_type)
 	if(entity_def == null):
 		entity_def = UnitDefinition.new()
 	super.setup_from_entity_def()
@@ -214,7 +217,7 @@ func process_movement(_delta : float):
 		if(is_zero_approx(distance) || distance <= approach_distance):
 			desired_velocity = Vector2.ZERO
 		else:
-			desired_velocity = global_position.direction_to(move_target.global_position) * entity_def.cruise_speed
+			desired_velocity = global_position.direction_to(move_target.global_position) * entity_def.base_move_speed
 		desired_rotation = global_position.angle_to_point(move_target.global_position)
 	else:
 		desired_velocity = Vector2.ZERO

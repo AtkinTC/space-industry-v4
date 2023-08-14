@@ -10,6 +10,7 @@ func _ready() -> void:
 	#for i in 2:
 	#	SignalBus.spawn_unit.emit("construction_drone_001", {})
 
+	#SignalBus.spawn_enemy.emit("test_enemy_001", {Constants.KEY_POSITION : Vector2(200, 200)})
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:

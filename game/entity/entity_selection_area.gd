@@ -121,6 +121,9 @@ func reposition_texture() -> void:
 	nine_patch.position = selection_extents.position
 	nine_patch.size = selection_extents.size
 
+func get_entity() -> Entity:
+	return parent_entity
+
 func _draw() -> void:
 	if(!debug_draw):
 		return

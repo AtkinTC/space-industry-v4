@@ -2,22 +2,28 @@ extends Node
 # Singleton EntityManager
 
 var units_parent_node : Node2D
-var units : Dictionary = {}
+var units := {}
+
+var enemies_parent_node : Node2D
+var enemies := {}
 
 var structures_parent_node : Node2D
-var structures : Dictionary = {}
+var structures := {}
 var structures_by_cell = {}
 var structure_cells = {}
 
 func _init() -> void:
 	SignalBus.spawn_unit.connect(spawn_unit)
-	SignalBus.spawn_unit_callback.connect(spawn_unit_with_callback)
+	
+	SignalBus.spawn_enemy.connect(spawn_enemy)
 	
 	SignalBus.spawn_structure.connect(spawn_structure)
-	SignalBus.spawn_structure_callback.connect(spawn_structure_with_callback)
 
 func register_units_parent_node(node : Node2D) -> void:
 	units_parent_node = node
+
+func register_enemies_parent_node(node : Node2D) -> void:
+	enemies_parent_node = node
 
 func register_structures_parent_node(node : Node2D) -> void:
 	structures_parent_node = node
@@ -28,6 +34,10 @@ func get_entities_by_type(entity_type : String) -> Array[Entity]:
 		var unit : Unit = units[key]
 		if(unit.entity_def.entity_type == entity_type):
 			filtered.append(unit)
+	for key in enemies.keys():
+		var enemy : Enemy = enemies[key]
+		if(enemy.entity_def.entity_type == entity_type):
+			filtered.append(enemy)
 	for key in structures.keys():
 		var structure : Structure = structures[key]
 		if(structure.entity_def.entity_type == entity_type):
@@ -41,7 +51,7 @@ func get_entities_by_type(entity_type : String) -> Array[Entity]:
 func spawn_unit(entity_type : String, properties : Dictionary) -> Unit:
 	var unit_def := EntityDefs.get_unit_definition(entity_type)
 	if(unit_def == null):
-		print_debug("No UniteDefinition found for type : %s" % entity_type)
+		print_debug("No UnitDefinition found for type : %s" % entity_type)
 		return
 	
 	var new_node : Unit = unit_def.scene.instantiate()
@@ -54,18 +64,39 @@ func spawn_unit(entity_type : String, properties : Dictionary) -> Unit:
 	SignalBus.units_updated.emit(units.size())
 	return new_node
 
-func spawn_unit_with_callback(entity_type : String, properties : Dictionary, callback : Callable) -> Unit:
-		var new_node := spawn_unit(entity_type, properties)
-		if(callback != null):
-			callback.call(new_node)
-		return new_node
-
 func _on_unit_freed(instance_id : int) -> void:
 	if(!units.has(instance_id)):
 		return
 		
 	units.erase(instance_id)
 	SignalBus.units_updated.emit(units.size())
+
+###########
+# ENEMIES #
+###########
+
+func spawn_enemy(entity_type : String, properties : Dictionary) -> Enemy:
+	var enemy_def := EntityDefs.get_enemy_definition(entity_type)
+	if(enemy_def == null):
+		print_debug("No EnemyDefinition found for type : %s" % entity_type)
+		return
+	
+	var new_node : Enemy = enemy_def.scene.instantiate()
+	new_node.init(enemy_def, properties)
+	
+	enemies_parent_node.add_child(new_node)
+	
+	enemies[new_node.get_instance_id()] = new_node
+	new_node.tree_exiting.connect(_on_enemy_freed.bind(new_node.get_instance_id()))
+	SignalBus.enemies_updated.emit(enemies.size())
+	return new_node
+
+func _on_enemy_freed(instance_id : int) -> void:
+	if(!enemies.has(instance_id)):
+		return
+		
+	enemies.erase(instance_id)
+	SignalBus.enemies_updated.emit(enemies.size())
 
 ##############
 # STRUCTURES #
@@ -96,12 +127,6 @@ func spawn_structure(entity_type : String, properties : Dictionary) -> Structure
 	new_node.tree_exiting.connect(_on_structure_freed.bind(new_node.get_instance_id()))
 	SignalBus.structures_updated.emit(structures.size())
 	return new_node
-
-func spawn_structure_with_callback(entity_type : String, properties : Dictionary, callback : Callable) -> Structure:
-		var new_node := spawn_structure(entity_type, properties)
-		if(callback != null):
-			callback.call(new_node)
-		return new_node
 
 func add_structure_cells(instance_id : int, cells : Array[Vector2i]) -> void:
 	for cell in cells:

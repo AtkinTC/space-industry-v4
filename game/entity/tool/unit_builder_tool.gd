@@ -53,7 +53,7 @@ func start_build() -> void:
 	
 	var unit_def := EntityDefs.get_unit_definition(unit_type)
 	if(unit_def == null):
-		print_debug("Attemptng to build invalid unit type : " + unit_type)
+		print_debug("Attempting to build invalid unit type : " + unit_type)
 		return
 	remaining_build_time = unit_def.construction_time
 	in_progress = true

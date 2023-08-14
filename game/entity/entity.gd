@@ -46,8 +46,6 @@ func _physics_process(_delta: float) -> void:
 #############
 
 func setup() -> void:
-	if(entity_def == null && !default_entity_type.is_empty()):
-		entity_def = EntityDefs.get_entity_definition(default_entity_type)
 	setup_from_entity_def()
 	
 	if(init_parameters.is_empty() && !default_init_parameters.is_empty()):

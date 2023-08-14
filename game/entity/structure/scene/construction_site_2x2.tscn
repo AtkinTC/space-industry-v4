@@ -8,6 +8,7 @@
 radius = 32.0
 
 [node name="ConstructionSite2x2" type="Area2D"]
+collision_mask = 0
 script = ExtResource("1_53twg")
 structure_type = "test_structure_2x2"
 default_entity_type = "construction_site_2x2"

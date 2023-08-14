@@ -9,6 +9,7 @@ radius = 4.0
 height = 14.0
 
 [node name="MinerShipBasic" type="Area2D"]
+collision_mask = 0
 script = ExtResource("1_0ctb3")
 task_flags = 4
 

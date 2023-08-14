@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="UnitDefinition" load_steps=5 format=3 uid="uid://epo2fg0v68h5"]
 
-[ext_resource type="Script" path="res://game/entity/resource/unit_definition.gd" id="1_5ww0h"]
+[ext_resource type="Script" path="res://game/entity/resource/definition/unit_definition.gd" id="1_5ww0h"]
 [ext_resource type="Script" path="res://game/entity/resource/health.gd" id="1_8sm5q"]
 [ext_resource type="PackedScene" uid="uid://gijpshyjqirm" path="res://game/entity/unit/scene/builder_ship_basic.tscn" id="2_e7iqk"]
 
@@ -14,11 +14,12 @@ current_shield = -1.0
 
 [resource]
 script = ExtResource("1_5ww0h")
-cruise_speed = 50.0
-display_name = ""
+base_move_speed = 100.0
+display_name = "construction drone MKI"
 entity_type = "construction_drone_001"
 scene = ExtResource("2_e7iqk")
 base_inventory_capacity = 4
 construction_cost = {}
+construction_time = 0.0
 influence_radius = -1.0
 health = SubResource("Resource_ag474")

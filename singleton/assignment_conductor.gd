@@ -113,7 +113,7 @@ func assign_task(instance_id) -> void:
 					#SKIP - no stations with applicable build materials
 					continue
 				
-				var pickup_station : Structure = get_closest_targets(unit.global_position, filtered_stations, 1)[0]
+				var pickup_station : Structure = Utils.get_closest_targets(unit.global_position, filtered_stations, 1)[0]
 				
 				var pickup_items : Dictionary = pickup_station.get_inventory().contains_any(needed_materials)
 				
@@ -123,21 +123,21 @@ func assign_task(instance_id) -> void:
 	if(task_groups.has(Constants.TASK_GROUP_MINER)):
 		if(unit.can_mine()):
 			var filtered_targets : Array[ResourceNode] = find_mining_targets().filter(func lambda(n : ResourceNode) : return (resource_node_assignments.get(n.get_instance_id(), []).size() < MAX_MINERS_PER_RESOURCE_NODE))
-			var targets := get_closest_targets(unit.global_position, filtered_targets)
+			var targets := Utils.get_closest_targets(unit.global_position, filtered_targets)
 			if(targets != null && targets.size() > 0 && targets[0] is ResourceNode):
 				set_unit_assignment(unit, Unit.Assignment.new(Unit.GOAL_STATE.MINE, targets[0]))
 				return
 			else:
 				print_debug("No Resource Nodes to mine")
 		else:
-			var targets := get_closest_targets(unit.global_position, get_dropoff_stations())
+			var targets := Utils.get_closest_targets(unit.global_position, get_dropoff_stations())
 			if(targets != null && targets.size() > 0 && targets[0] is Structure):
 				set_unit_assignment(unit, Unit.Assignment.new(Unit.GOAL_STATE.RETURN, targets[0]))
 				return
 			else:
 				print_debug("No stations to return to")
 	
-	var depots := get_closest_targets(unit.global_position, get_depot_stations())
+	var depots := Utils.get_closest_targets(unit.global_position, get_depot_stations())
 	if(depots != null && depots.size() > 0 && depots[0] is Structure):
 		set_unit_assignment(unit, Unit.Assignment.new(Unit.GOAL_STATE.RETURN, depots[0]))
 		return
@@ -258,30 +258,3 @@ func get_dropoff_stations() -> Array[Structure]:
 		if(node is Structure && node.is_depot && node.has_inventory() && !node.get_inventory().is_full()):
 			stations.append(node)
 	return stations
-
-func get_closest_targets(source_pos : Vector2, targets : Array, amount : int = 1) -> Array[Node2D]:
-	if(amount < 1):
-		amount = targets.size()
-	var closest_targets : Array[Node2D] = []
-	var closest_distances_sqr : Array[float] = []
-	for node in targets:
-		if(!(node is Node2D)):
-			continue
-		var distance_sqr = source_pos.distance_squared_to(node.global_position)
-		if(closest_targets.size() == 0):
-			closest_targets.append(node)
-			closest_distances_sqr.append(distance_sqr)
-		else:
-			for i in min(amount, closest_targets.size()+1):
-				if(i >= closest_targets.size()):
-					closest_targets.append(node)
-					closest_distances_sqr.append(distance_sqr)
-					break
-				elif(distance_sqr < closest_distances_sqr[i]):
-					closest_targets.insert(i, node)
-					closest_distances_sqr.insert(i, distance_sqr)
-					break
-	if(closest_targets.size() > amount):
-		closest_targets.resize(amount)
-		
-	return closest_targets

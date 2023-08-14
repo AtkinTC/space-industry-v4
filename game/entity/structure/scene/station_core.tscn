@@ -33,8 +33,11 @@ cell = Vector2i(1, 1)
 directions = Array[Vector2i]([Vector2i(0, 1), Vector2i(1, 0)])
 
 [node name="StationCore" type="Area2D"]
+collision_mask = 0
 script = ExtResource("1_yuhpg")
 is_depot = true
+hq = true
+attackable = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_5cob2")
@@ -51,30 +54,28 @@ script = ExtResource("4_kchks")
 grid_size = Vector2i(2, 2)
 cells = Array[Vector2i]([Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, 0), Vector2i(1, 1)])
 
-[node name="ShipyardTool" type="Node2D" parent="."]
+[node name="UnitBuilderTool" type="Node2D" parent="."]
 script = ExtResource("5_t2sxb")
-build_speed = null
 build_orders = {
 "construction_drone_001": 2,
 "mining_drone_001": 5
 }
-debug = null
 
-[node name="Marker2DCustom" type="Marker2D" parent="ShipyardTool"]
+[node name="Marker2DCustom" type="Marker2D" parent="UnitBuilderTool"]
 position = Vector2(30, 0)
 script = ExtResource("6_vxw5q")
 
-[node name="Marker2DCustom2" type="Marker2D" parent="ShipyardTool"]
+[node name="Marker2DCustom2" type="Marker2D" parent="UnitBuilderTool"]
 position = Vector2(0, 30)
 rotation = 1.57079
 script = ExtResource("6_vxw5q")
 
-[node name="Marker2DCustom3" type="Marker2D" parent="ShipyardTool"]
+[node name="Marker2DCustom3" type="Marker2D" parent="UnitBuilderTool"]
 position = Vector2(-30, 0)
 rotation = 3.14159
 script = ExtResource("6_vxw5q")
 
-[node name="Marker2DCustom4" type="Marker2D" parent="ShipyardTool"]
+[node name="Marker2DCustom4" type="Marker2D" parent="UnitBuilderTool"]
 position = Vector2(0, -30)
 rotation = -1.57079
 script = ExtResource("6_vxw5q")

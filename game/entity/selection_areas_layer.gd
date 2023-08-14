@@ -21,10 +21,14 @@ func add_selection_area(entity : Entity) -> void:
 func _on_selection_area_gui_input(area : EntitySelectionArea, event : InputEvent):
 	if(event is InputEventMouseButton):
 		if(event.pressed == true):
-			print(area)
-			print(event)
-			if(area.parent_entity.has_network_component()):
-				print(area.parent_entity.get_network_component().get_network_id())
+			if(event.is_action("select")):
+				print(area)
+				print(event)
+				if(area.parent_entity.has_network_component()):
+					print(area.parent_entity.get_network_component().get_network_id())
+			if(event.is_action("select-alt")):
+				print(str("deleting entity : ", area.get_entity()))
+				area.get_entity().queue_free()
 
 func set_input_enabled(enabled : bool) -> void:
 	input_enabled = enabled

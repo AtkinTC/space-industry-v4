@@ -39,6 +39,13 @@ select-alt={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="player_hurtbox"
+2d_physics/layer_2="player_hitbox"
+2d_physics/layer_5="enemy_hurtbox"
+2d_physics/layer_6="enemy_hitbox"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

@@ -3,74 +3,65 @@ extends Node
 
 const unit_def_dir := "res://resources/entity_definitions/unit_definitions"
 const structure_def_dir := "res://resources/entity_definitions/structure_definitions"
+const enemy_def_dir := "res://resources/entity_definitions/enemy_definitions"
 
-var entity_defs : Dictionary = {}
+var unit_defs := {}
+var structure_defs := {}
+var enemy_defs := {}
 
 func _init() -> void:
-	var unit_def_filenames := DirAccess.get_files_at(unit_def_dir)
-	print("Loading UnitDefinitions from dir : " + unit_def_dir)
-	if(unit_def_filenames == null || unit_def_filenames.is_empty()):
-		print_rich("[color=red]No Unit Definitions found![/color]")
-	for filename in unit_def_filenames:
-		print("\t..." + filename)
-		var file_path := unit_def_dir + "/" + filename
-		var resource : Resource = load(file_path)
-		if(resource == null || !(resource is UnitDefinition)):
-			print_rich("[color=red]Invalid Unit Definition at : %s![/color]" % file_path)
-			continue
-		var unit_def := resource as UnitDefinition
-		var id := unit_def.entity_type
-		if(entity_defs.has(id)):
-			print_rich("[color=red]Duplicate unit entity_type : %s![/color]" % id)
-			continue
-		entity_defs[id] = unit_def
+	load_def_type(unit_def_dir, unit_defs)
+	for key in unit_defs.keys():
+		if(!(unit_defs[key] is UnitDefinition)):
+			print_rich("[color=red]Invalid Unit Definition for type : %s![/color]" % key)
 	
-	var structure_def_filenames := DirAccess.get_files_at(structure_def_dir)
-	print("Loading StructureDefinitions from dir : " + structure_def_dir)
-	if(structure_def_filenames == null || structure_def_filenames.is_empty()):
-		print_rich("[color=red]No Structure Definitions found![/color]")
-	for filename in structure_def_filenames:
-		print("\t..." + filename)
-		var file_path := structure_def_dir + "/" + filename
-		var resource : Resource = load(file_path)
-		if(resource == null || !(resource is StructureDefinition)):
-			print_rich("[color=red]Invalid Structure Definition at : %s![/color]" % file_path)
-			continue
-		var structure_def := resource as StructureDefinition
-		var id := structure_def.entity_type
-		if(entity_defs.has(id)):
-			print_rich("[color=red]Duplicate Structure entity_type : %s![/color]" % id)
-			continue
-		entity_defs[id] = structure_def
+	load_def_type(structure_def_dir, structure_defs)
+	for key in structure_defs.keys():
+		if(!(structure_defs[key] is StructureDefinition)):
+			print_rich("[color=red]Invalid Structure Definition for type : %s![/color]" % key)
+	
+	load_def_type(enemy_def_dir, enemy_defs)
+	for key in enemy_defs.keys():
+		if(!(enemy_defs[key] is EnemyDefinition)):
+			print_rich("[color=red]Invalid Enemy Definition for type : %s![/color]" % key)
 
-func get_entity_definitions() -> Array[EntityDefinition]:
-	var a : Array[EntityDefinition] = []
-	a.assign(entity_defs.values)
-	return a
+func load_def_type(source_directory : String, target_dictionary : Dictionary) -> void:
+	print("Loading Definitions from dir : " + source_directory)
+	var def_filenames := DirAccess.get_files_at(source_directory)
+	if(def_filenames == null || def_filenames.is_empty()):
+		print_rich("[color=red]No Definitions found![/color]")
+	for filename in def_filenames:
+		print("\t..." + filename)
+		var file_path := source_directory + "/" + filename
+		var resource : Resource = load(file_path)
+		if(resource == null):
+			print_rich("[color=red]Invalid Definition at : %s![/color]" % file_path)
+			continue
+		var entity_def := resource as EntityDefinition
+		var id := entity_def.entity_type
+		if(target_dictionary.has(id)):
+			print_rich("[color=red]Duplicate Definiton entity_type : %s![/color]" % id)
+			continue
+		target_dictionary[id] = resource
 
 func get_unit_definitions() -> Array[UnitDefinition]:
 	var a : Array[UnitDefinition] = []
-	a.assign(entity_defs.values().filter(func lambda(e : EntityDefinition) : return e is UnitDefinition))
+	a.assign(unit_defs.values())
 	return a
 
 func get_structure_definitions() -> Array[StructureDefinition]:
 	var a : Array[StructureDefinition] = []
-	a.assign(entity_defs.values().filter(func lambda(e : EntityDefinition) : return e is StructureDefinition))
+	a.assign(structure_defs.values())
 	return a
 
-func get_entity_definition(entity_type : String) -> EntityDefinition:
-	return entity_defs.get(entity_type) as EntityDefinition
-
 func get_unit_definition(entity_type : String) -> UnitDefinition:
-	var unit_def : UnitDefinition = entity_defs.get(entity_type) 
+	var unit_def : UnitDefinition = unit_defs.get(entity_type) 
 	return unit_def
 
 func get_structure_definition(entity_type : String) -> StructureDefinition:
-	var structure_def : StructureDefinition = entity_defs.get(entity_type) 
+	var structure_def : StructureDefinition = structure_defs.get(entity_type) 
 	return structure_def
 
-func get_scene(entity_type : String) -> PackedScene:
-	var entity_def := get_entity_definition(entity_type)
-	if(entity_def == null):
-		return null
-	return entity_def.scene
+func get_enemy_definition(entity_type : String) -> EnemyDefinition:
+	var enemy_def : EnemyDefinition = enemy_defs.get(entity_type) 
+	return enemy_def

@@ -1,4 +1,4 @@
 extends EntityDefinition
 class_name UnitDefinition
 
-@export var cruise_speed : float = 100
+@export var base_move_speed : float = 100

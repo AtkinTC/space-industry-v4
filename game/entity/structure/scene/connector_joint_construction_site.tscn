@@ -7,6 +7,7 @@
 radius = 8.0
 
 [node name="ConnectJointConstructionSite" type="Area2D"]
+collision_mask = 0
 script = ExtResource("1_ydr2x")
 structure_type = "test_structure_1x1"
 default_entity_type = "construction_site_1x1"
