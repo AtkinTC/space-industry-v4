@@ -1,9 +1,16 @@
-[gd_resource type="Resource" script_class="StructureDefinition" load_steps=5 format=3 uid="uid://cpdvu3m7pgyo8"]
+[gd_resource type="Resource" script_class="StructureDefinition" load_steps=7 format=3 uid="uid://cpdvu3m7pgyo8"]
 
 [ext_resource type="Resource" uid="uid://df0krplabucgf" path="res://resources/entity_definitions/structure_definitions/connector_joint_construction_site.tres" id="1_irvtu"]
 [ext_resource type="Texture2D" uid="uid://b0ysbmtik7svk" path="res://assets/sprites/structures/connector_joint.png" id="2_hogb5"]
 [ext_resource type="PackedScene" uid="uid://dpketgbrsvahe" path="res://game/entity/structure/scene/connector_joint.tscn" id="3_5tssb"]
 [ext_resource type="Script" path="res://game/entity/resource/definition/structure_definition.gd" id="4_qfsq1"]
+[ext_resource type="Script" path="res://game/entity/selection_area_definition.gd" id="5_2hpek"]
+
+[sub_resource type="Resource" id="Resource_y7q3v"]
+script = ExtResource("5_2hpek")
+default_color = Color(0.678431, 1, 0.184314, 0)
+highlighted_color = Color(0.529412, 0.807843, 0.921569, 1)
+selected_color = Color(0, 0, 1, 1)
 
 [resource]
 script = ExtResource("4_qfsq1")
@@ -21,3 +28,4 @@ construction_cost = {
 construction_time = 0.0
 influence_radius = -1.0
 image = ExtResource("2_hogb5")
+selection_area_definition = SubResource("Resource_y7q3v")

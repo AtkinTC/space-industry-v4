@@ -12,3 +12,5 @@ class_name EntityDefinition
 @export var health : Health = null
 
 @export var image : Texture = null
+
+@export var selection_area_definition : SelectionAreaDefinition

@@ -30,6 +30,12 @@ func _ready() -> void:
 		queue_free()
 		return
 	
+	var selection_area_definition := parent_entity.entity_def.selection_area_definition
+	if(selection_area_definition != null):
+		default_color = selection_area_definition.default_color
+		highlighted_color = selection_area_definition.highlighted_color
+		selected_color = selection_area_definition.selected_color
+	
 	assert(nine_patch != null)
 	
 	if(nine_patch != null):
