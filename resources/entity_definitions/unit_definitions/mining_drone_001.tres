@@ -14,12 +14,12 @@ current_shield = -1.0
 
 [resource]
 script = ExtResource("1_xmnvb")
-base_move_speed = 100.0
+base_move_speed = 75.0
 display_name = "mining drone MKI"
 entity_type = "mining_drone_001"
 scene = ExtResource("1_5pek2")
 base_inventory_capacity = 2
 construction_cost = {}
-construction_time = 1.0
+construction_time = 2.0
 influence_radius = -1.0
 health = SubResource("Resource_anv5p")
