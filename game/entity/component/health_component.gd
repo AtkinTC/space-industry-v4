@@ -1,5 +1,5 @@
 extends Resource
-class_name Health
+class_name HealthComponent
 
 signal hull_depleted()
 signal shield_depleted()

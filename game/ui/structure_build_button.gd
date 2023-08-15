@@ -34,7 +34,7 @@ func setup() -> void:
 		icon = null
 		return
 	text = structure_def.display_name
-	icon = structure_def.image
+	icon = structure_def.display_image
 
 func _on_pressed() -> void:
 	GameState.trigger_build_state.emit(structure_def)

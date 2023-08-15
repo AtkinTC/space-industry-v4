@@ -6,8 +6,8 @@ var entity_def : EntityDefinition
 @export var default_init_parameters : Dictionary = {}
 var init_parameters : Dictionary = {}
 
-@export var inventory : Inventory = null
-@export var health : Health = null
+@export var inventory_component : InventoryComponent = null
+@export var health_component : HealthComponent = null
 var network_component : StructureConnectorComponent
 
 @onready var collision_shape : CollisionShape2D = get_node_or_null("CollisionShape2D")
@@ -71,32 +71,34 @@ func setup_from_init_parameters() -> void:
 #################
 
 func setup_inventory() -> void:
-	if(inventory == null && entity_def.base_inventory_capacity > 0):
-		inventory = Inventory.new(entity_def.base_inventory_capacity)
+	if(entity_def.inventory_component != null):
+		inventory_component = entity_def.inventory_component.duplicate(true)
+	if(inventory_component == null):
+		inventory_component = InventoryComponent.new()
 
 func has_inventory() -> bool:
-	return inventory != null
+	return inventory_component != null
 
-func get_inventory() -> Inventory:
-	return inventory
+func get_inventory_component() -> InventoryComponent:
+	return inventory_component
 
 ##############
 ### HEALTH ###
 ##############
 
 func setup_health() -> void:
-	if(health == null && entity_def.health != null):
-		health = entity_def.health.duplicate()
-	if(health != null):
-		health.initialize()
-		health.hull_depleted.connect(_on_hull_depleted)
-		health.shield_depleted.connect(_on_shield_depleted)
+	if(entity_def.health_component != null):
+		health_component = entity_def.health_component.duplicate(true)
+	if(health_component != null):
+		health_component.initialize()
+		health_component.hull_depleted.connect(_on_hull_depleted)
+		health_component.shield_depleted.connect(_on_shield_depleted)
 
 func has_health() -> bool:
-	return health != null
+	return health_component != null
 
-func get_health() -> Health:
-	return health
+func get_health_component() -> HealthComponent:
+	return health_component
 
 func _on_hull_depleted() -> void:
 	print("Hull depleted")
@@ -137,3 +139,19 @@ func get_collision_polygons() -> Array[CollisionPolygon2D]:
 	if(collision_polygon == null):
 		return []
 	return [collision_polygon]
+
+##############
+### STATUS ###
+##############
+
+func can_mine() -> bool:
+	if(!has_inventory() || get_inventory_component().is_full()):
+		return false
+	if(get_tools(Constants.TOOL_TYPE_MINER).is_empty()):
+		return false
+	return true
+
+func can_build() -> bool:
+	if(!has_inventory()):
+		return false
+	return true

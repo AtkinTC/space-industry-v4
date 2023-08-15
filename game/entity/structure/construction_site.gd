@@ -13,7 +13,7 @@ func _ready() -> void:
 	assert(get_construction_structure_definition() != null)
 	assert(!get_construction_cost().is_empty())
 	assert(has_inventory())
-	assert(get_inventory().get_capacity() >= Items.get_volume_sum(get_construction_cost()))
+	assert(get_inventory_component().get_capacity() >= Items.get_volume_sum(get_construction_cost()))
 	
 	SignalBus.register_construction_site.emit(get_instance_id())
 
@@ -29,7 +29,7 @@ func setup_from_init_parameters() -> void:
 #Override
 func setup_inventory() -> void:
 	var construction_materials_volume = Items.get_volume_sum(get_construction_cost())
-	inventory = Inventory.new(construction_materials_volume)
+	inventory_component = InventoryComponent.new(construction_materials_volume)
 
 #Override
 func _physics_process(_delta: float) -> void:
@@ -44,7 +44,7 @@ func get_construction_cost() -> Dictionary:
 
 func get_remaining_construction_cost() -> Dictionary:
 	var remaining := get_construction_cost().duplicate()
-	var contents := get_inventory().get_contents()
+	var contents := get_inventory_component().get_contents()
 	
 	for item_id in remaining.keys():
 		remaining[item_id] = remaining[item_id] - contents.get(item_id, 0)
@@ -54,13 +54,13 @@ func get_remaining_construction_cost() -> Dictionary:
 	return remaining
 
 func is_ready_to_complete():
-	if(has_inventory() && get_inventory().contains_all(get_construction_cost())):
+	if(has_inventory() && get_inventory_component().contains_all(get_construction_cost())):
 		return true
 	return false
 
 func complete_construction():
-	get_inventory().remove_items(get_construction_cost())
-	var remaining_contents := get_inventory().get_contents()
+	get_inventory_component().remove_items(get_construction_cost())
+	var remaining_contents := get_inventory_component().get_contents()
 	
 	var spawn_params := {
 		Constants.KEY_GRID_POSITION : grid_position,

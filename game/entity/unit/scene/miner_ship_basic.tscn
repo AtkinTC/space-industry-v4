@@ -1,19 +1,19 @@
 [gd_scene load_steps=9 format=3 uid="uid://ctrt2fte2x4r5"]
 
 [ext_resource type="Script" path="res://game/entity/unit/unit.gd" id="1_0ctb3"]
-[ext_resource type="Script" path="res://game/entity/resource/logic/assignment_receiver_logic.gd" id="2_1yi8b"]
+[ext_resource type="Script" path="res://game/entity/component/logic_component/assignment_receiver_logic_component.gd" id="2_6esa1"]
 [ext_resource type="Script" path="res://game/entity/tool/miner_tool.gd" id="2_qop2t"]
-[ext_resource type="Script" path="res://game/entity/resource/logic/basic_movement_logic.gd" id="3_07s77"]
+[ext_resource type="Script" path="res://game/entity/component/movement_component/basic_movement_component.gd" id="3_vdspj"]
 [ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_w4210"]
 
-[sub_resource type="Resource" id="Resource_2jvn5"]
+[sub_resource type="Resource" id="Resource_77og3"]
 resource_local_to_scene = true
-script = ExtResource("2_1yi8b")
+script = ExtResource("2_6esa1")
 task_flags = 4
 
-[sub_resource type="Resource" id="Resource_h3r2t"]
+[sub_resource type="Resource" id="Resource_d4xd7"]
 resource_local_to_scene = true
-script = ExtResource("3_07s77")
+script = ExtResource("3_vdspj")
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2sl6y"]
 radius = 4.0
@@ -22,8 +22,8 @@ height = 14.0
 [node name="MinerShipBasic" type="Area2D"]
 collision_mask = 0
 script = ExtResource("1_0ctb3")
-decision_logic = SubResource("Resource_2jvn5")
-movement_logic = SubResource("Resource_h3r2t")
+logic_component = SubResource("Resource_77og3")
+movement_component = SubResource("Resource_d4xd7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 0)

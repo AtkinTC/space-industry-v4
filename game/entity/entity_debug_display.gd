@@ -34,22 +34,22 @@ func _draw():
 	var line : int = 0
 	
 	if(parent_entity.has_health()):
-		var health := parent_entity.get_health()
+		var health_component := parent_entity.get_health_component()
 		
-		if(health.max_hull > 0):
-			var hull_percentage : float = max(0, health.current_hull / health.max_hull)
+		if(health_component.max_hull > 0):
+			var hull_percentage : float = max(0, health_component.current_hull / health_component.max_hull)
 			draw_bar(Color.GREEN, Color.DARK_GREEN, hull_percentage, line)
 			line+=1
 		
-		if(health.max_shield > 0):
-			var shield_percentage : float = max(0, health.current_shield / health.max_shield)
+		if(health_component.max_shield > 0):
+			var shield_percentage : float = max(0, health_component.current_shield / health_component.max_shield)
 			draw_bar(Color.DEEP_SKY_BLUE, Color.BLUE, shield_percentage, line)
 			line+=1
 		
 	if(parent_entity.has_inventory()):
-		var inventory := parent_entity.get_inventory()
+		var inventory_component := parent_entity.get_inventory_component()
 		
-		if(inventory.capacity > 0):
-			var percentage : float = inventory.get_contents_size() as float / inventory.get_capacity()
+		if(inventory_component.capacity > 0):
+			var percentage : float = inventory_component.get_contents_size() as float / inventory_component.get_capacity()
 			draw_bar(Color.YELLOW, Color.GOLD, percentage, line)
 			line+=1

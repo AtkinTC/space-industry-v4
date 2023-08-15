@@ -1,5 +1,5 @@
-extends DecisionLogic
-class_name BasicDecisionLogic
+extends LogicComponent
+class_name BasicEnemyLogicComponent
 
 func process(_delta : float):
 	if(parent.move_target == null || !is_instance_valid(parent.move_target)):

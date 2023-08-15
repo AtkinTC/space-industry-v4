@@ -1,5 +1,5 @@
-extends DecisionLogic
-class_name AssignmentReceiverLogic
+extends LogicComponent
+class_name AssignmentReceiverLogicComponent
 
 signal requesting_assignment()
 
@@ -8,14 +8,14 @@ enum TASK_FLAG {BUILDER=1, TRANSPORTER=2, MINER=4}
 func has_task_flag(flag : TASK_FLAG) -> bool:
 	return task_flags & flag
 
-var assignment : UnitAssignment = null
+var assignment : Assignment = null
 
 func initialize() -> void:
 	super.initialize()
 	SignalBus.register_assignment_receiver.emit(get_instance_id())
 	clear_assignment()
 
-func set_assignemnt(_assignment : UnitAssignment) -> void:
+func set_assignemnt(_assignment : Assignment) -> void:
 	parent.move_state = Unit.MOVE_STATE.STANDBY
 	parent.move_target = null
 	assignment = _assignment
@@ -23,7 +23,7 @@ func set_assignemnt(_assignment : UnitAssignment) -> void:
 func clear_assignment():
 	parent.move_state = Unit.MOVE_STATE.STANDBY
 	parent.move_target = null
-	assignment = UnitAssignment.new()
+	assignment = Assignment.new()
 	requesting_assignment.emit()
 
 func get_task_groups() -> Array[String]:
@@ -41,7 +41,7 @@ func get_task_groups() -> Array[String]:
 func can_mine() -> bool:
 	if(!has_task_flag(TASK_FLAG.MINER)):
 		return false
-	if(!parent.has_inventory() || parent.get_inventory().is_full()):
+	if(!parent.has_inventory() || parent.get_inventory_component().is_full()):
 		return false
 	if(parent.get_tools(Constants.TOOL_TYPE_MINER).is_empty()):
 		return false
@@ -57,11 +57,11 @@ func can_build() -> bool:
 func process(_delta : float) -> void:
 	parent.approach_distance = 0.0
 	match(assignment.goal_state):
-		UnitAssignment.GOAL_STATE.STANDBY:
+		Assignment.GOAL_STATE.STANDBY:
 			parent.move_state = Unit.MOVE_STATE.STANDBY
 		
-		UnitAssignment.GOAL_STATE.BUILD:
-			var construction_assignment := (assignment as UnitAssignment.ConstructionUnitAssignment)
+		Assignment.GOAL_STATE.BUILD:
+			var construction_assignment := (assignment as Assignment.BuildStructureAssignment)
 			
 			var construction_site := construction_assignment.construction_site
 			var construction_site_valid : bool = (construction_site != null && is_instance_valid(construction_site))
@@ -84,12 +84,12 @@ func process(_delta : float) -> void:
 					parent.approach_distance = pickup_structure.get_dock_range() * 0.9
 				else:
 					var remaining_construction_cost := construction_site.get_remaining_construction_cost()
-					var valid_insert_items := parent.get_inventory().precalculate_insert_result(remaining_construction_cost)
-					Inventory.transfer_items(pickup_structure.get_inventory(), parent.get_inventory(), valid_insert_items)
+					var valid_insert_items := parent.get_inventory_component().precalculate_insert_result(remaining_construction_cost)
+					InventoryComponent.transfer_items(pickup_structure.get_inventory_component(), parent.get_inventory_component(), valid_insert_items)
 					construction_assignment.assigned_items = valid_insert_items
 					construction_assignment.picked_up = true
 					
-					if(valid_insert_items.is_empty() || parent.get_inventory().is_empty()):
+					if(valid_insert_items.is_empty() || parent.get_inventory_component().is_empty()):
 						# could not pick up any building material
 						clear_assignment()
 						return
@@ -104,12 +104,12 @@ func process(_delta : float) -> void:
 					parent.approach_distance = construction_site.get_dock_range() * 0.9
 				else:
 					# transfer over any inventory still needed for construction
-					Inventory.transfer_items(parent.get_inventory(), construction_site.get_inventory(), construction_site.get_remaining_construction_cost())
+					InventoryComponent.transfer_items(parent.get_inventory_component(), construction_site.get_inventory_component(), construction_site.get_remaining_construction_cost())
 					clear_assignment()
 					return
 		
-		UnitAssignment.GOAL_STATE.MINE:
-			var mining_assignment := (assignment as UnitAssignment.MiningUnitAssignment)
+		Assignment.GOAL_STATE.MINE:
+			var mining_assignment := (assignment as Assignment.MiningAssignment)
 			
 			var resource_node := mining_assignment.resource_node
 			var mining_valid : bool = (resource_node != null && is_instance_valid(resource_node)  && can_mine())
@@ -132,8 +132,8 @@ func process(_delta : float) -> void:
 				else:
 					parent.move_state = Unit.MOVE_STATE.STANDBY
 		
-		UnitAssignment.GOAL_STATE.RETURN:
-			var return_assignment := (assignment as UnitAssignment.ReturnUnitAssignment)
+		Assignment.GOAL_STATE.RETURN:
+			var return_assignment := (assignment as Assignment.ReturnToStructureAssignment)
 			
 			var structure := return_assignment.structure
 			var structure_valid : bool = (structure != null && is_instance_valid(structure))
@@ -147,7 +147,7 @@ func process(_delta : float) -> void:
 					parent.move_state = Unit.MOVE_STATE.APPROACH
 					parent.move_target = structure
 				else:
-					if(!parent.get_inventory().is_empty() && structure.has_inventory()):
-						Inventory.transfer_all(parent.get_inventory(), structure.get_inventory())
+					if(!parent.get_inventory_component().is_empty() && structure.has_inventory()):
+						InventoryComponent.transfer_all(parent.get_inventory_component(), structure.get_inventory_component())
 					clear_assignment()
 					return

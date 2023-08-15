@@ -1,5 +1,5 @@
-extends MovementLogic
-class_name BasicMovementLogic
+extends MovementComponent
+class_name BasicMovementComponent
 
 func process(_delta : float):
 	var desired_velocity := Vector2.ZERO

@@ -16,8 +16,8 @@ var next_target : ResourceNode = null
 enum STATE {STANDBY, CYCLING}
 var state := STATE.STANDBY
 
-func get_inventory() -> Inventory:
-	return parent_entity.get_inventory()
+func get_inventory_component() -> InventoryComponent:
+	return parent_entity.get_inventory_component()
 
 func _physics_process(_delta: float) -> void:
 	if(state == STATE.STANDBY && next_target != null):
@@ -46,7 +46,7 @@ func _physics_process(_delta: float) -> void:
 	queue_redraw()
 
 func start_cycle():
-	if(get_inventory().is_full()):
+	if(get_inventory_component().is_full()):
 		return
 	state = STATE.CYCLING
 	cycle_time = 0.0
@@ -65,7 +65,7 @@ func complete_cycle():
 	completion = max(min(completion, 0.0), 1.0)
 
 	var mine_result := target.mine(floori(mining_power))
-	get_inventory().insert_items(mine_result, true)
+	get_inventory_component().insert_items(mine_result, true)
 	
 func set_target(_target : ResourceNode) -> void:
 	next_target = _target

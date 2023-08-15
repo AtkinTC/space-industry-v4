@@ -11,13 +11,12 @@ player_buildable = true
 dock_range = 48.0
 grid_locked = true
 construction_def = ExtResource("1_jahbx")
-display_name = "test struct large"
 entity_type = "test_structure_3x3"
 scene = ExtResource("2_6ltxw")
-base_inventory_capacity = -1
+influence_radius = 250.0
+display_name = "test 3x3"
+display_image = ExtResource("2_4htgs")
 construction_cost = {
 "iron_ore": 24
 }
 construction_time = 0.0
-influence_radius = 250.0
-image = ExtResource("2_4htgs")

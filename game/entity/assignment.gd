@@ -1,5 +1,5 @@
 extends Node
-class_name UnitAssignment
+class_name Assignment
 
 enum GOAL_STATE {STANDBY, MINE, BUILD, RETURN}
 
@@ -8,7 +8,7 @@ var goal_state : GOAL_STATE = GOAL_STATE.STANDBY
 func _init(_goal_state : GOAL_STATE = GOAL_STATE.STANDBY) -> void:
 	goal_state = _goal_state
 
-class ReturnUnitAssignment extends UnitAssignment:
+class ReturnToStructureAssignment extends Assignment:
 	var structure : Structure = null
 	var structure_id : int = -1
 	
@@ -17,7 +17,7 @@ class ReturnUnitAssignment extends UnitAssignment:
 		structure = _structure
 		structure_id = structure.get_instance_id()
 
-class MiningUnitAssignment extends UnitAssignment:
+class MiningAssignment extends Assignment:
 	var resource_node : ResourceNode = null
 	var resource_node_id : int = -1
 	
@@ -26,7 +26,7 @@ class MiningUnitAssignment extends UnitAssignment:
 		resource_node = _resource_node
 		resource_node_id = resource_node.get_instance_id()
 
-class ConstructionUnitAssignment extends UnitAssignment:
+class BuildStructureAssignment extends Assignment:
 	var construction_site: ConstructionSite = null
 	var construction_site_id : int = -1
 	var pickup_structure : Structure = null

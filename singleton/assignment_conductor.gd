@@ -38,7 +38,7 @@ func register_receiver(instance_id : int) -> void:
 	if(receivers.has(instance_id)):
 		print_debug("receiver %d is already registered" % instance_id)
 		return
-	var receiver : AssignmentReceiverLogic = instance_from_id(instance_id)
+	var receiver : AssignmentReceiverLogicComponent = instance_from_id(instance_id)
 	if(receiver == null):
 		return
 	
@@ -50,10 +50,10 @@ func unregister_receiver(instance_id : int) -> void:
 	if(!receivers.has(instance_id)):
 		return
 	
-	var receiver : AssignmentReceiverLogic = receivers[instance_id]
+	var receiver : AssignmentReceiverLogicComponent = receivers[instance_id]
 	if(is_instance_valid(receiver)):
-		if(receiver.receiver_assignments.is_connected(_on_receiver_requesting_assignment)):
-			receiver.receiver_assignments.disconnect(_on_receiver_requesting_assignment)
+		if(receiver.requesting_assignment.is_connected(_on_receiver_requesting_assignment)):
+			receiver.requesting_assignment.disconnect(_on_receiver_requesting_assignment)
 	
 	clear_receiver_assignment(instance_id)
 	needs_assignment_queue.erase(instance_id)
@@ -87,14 +87,14 @@ func assign_tasks() -> void:
 		assign_task(instance_id)
 
 func assign_task(instance_id : int) -> void:
-	var receiver : AssignmentReceiverLogic = receivers[instance_id]
+	var receiver : AssignmentReceiverLogicComponent = receivers[instance_id]
 		
 	var task_groups : Array[String] = receiver.get_task_groups()
 	
 	if(task_groups.has(Constants.TASK_GROUP_BUILDER)):
-		#var contents := unit.get_inventory().get_contents()
-		if(receiver.can_build() && receiver.get_parent().get_inventory().is_empty()):
-			#var free_capacity := unit.get_inventory().get_available_capacity()
+		#var contents := unit.get_inventory_component().get_contents()
+		if(receiver.can_build() && receiver.get_parent().get_inventory_component().is_empty()):
+			#var free_capacity := unit.get_inventory_component().get_available_capacity()
 			var stations : Array[Structure] = get_depot_stations()
 			for site_id in construction_sites_queue:
 				var site_assignments : Array = construction_site_assignments.get(site_id, [])
@@ -112,24 +112,24 @@ func assign_task(instance_id : int) -> void:
 				#TODO - should only look for 'unassigned' materials
 				var needed_materials : Dictionary = site.get_remaining_construction_cost()
 #				for s in stations:
-#					var i := s.get_inventory().get_contents()
-#					var r := s.get_inventory().contains_any(needed_materials)
+#					var i := s.get_inventory_component().get_contents()
+#					var r := s.get_inventory_component().contains_any(needed_materials)
 #					pass
 				
 				if(needed_materials.is_empty()):
 					#SKIP - site already has needed materials
 					continue
 				
-				var filtered_stations : Array[Structure] = stations.filter(func lambda(s : Structure) : return !s.get_inventory().contains_any(needed_materials).is_empty())
+				var filtered_stations : Array[Structure] = stations.filter(func lambda(s : Structure) : return !s.get_inventory_component().contains_any(needed_materials).is_empty())
 				if(filtered_stations.is_empty()):
 					#SKIP - no stations with applicable build materials
 					continue
 				
 				var pickup_station : Structure = Utils.get_closest_targets(receiver.get_parent().global_position, filtered_stations, 1)[0]
 				
-				var pickup_items : Dictionary = pickup_station.get_inventory().contains_any(needed_materials)
+				var pickup_items : Dictionary = pickup_station.get_inventory_component().contains_any(needed_materials)
 				
-				set_receiver_assignment(receiver, UnitAssignment.ConstructionUnitAssignment.new(site, pickup_station, pickup_items))
+				set_receiver_assignment(receiver, Assignment.BuildStructureAssignment.new(site, pickup_station, pickup_items))
 				return
 	
 	if(task_groups.has(Constants.TASK_GROUP_MINER)):
@@ -137,21 +137,21 @@ func assign_task(instance_id : int) -> void:
 			var filtered_targets : Array[ResourceNode] = find_mining_targets().filter(func lambda(n : ResourceNode) : return (resource_node_assignments.get(n.get_instance_id(), []).size() < MAX_MINERS_PER_RESOURCE_NODE))
 			var targets := Utils.get_closest_targets(receiver.get_parent().global_position, filtered_targets)
 			if(targets != null && targets.size() > 0 && targets[0] is ResourceNode):
-				set_receiver_assignment(receiver, UnitAssignment.MiningUnitAssignment.new(targets[0]))
+				set_receiver_assignment(receiver, Assignment.MiningAssignment.new(targets[0]))
 				return
 			else:
 				print_debug("No Resource Nodes to mine")
 		else:
 			var targets := Utils.get_closest_targets(receiver.get_parent().global_position, get_dropoff_stations())
 			if(targets != null && targets.size() > 0 && targets[0] is Structure):
-				set_receiver_assignment(receiver, UnitAssignment.ReturnUnitAssignment.new(targets[0]))
+				set_receiver_assignment(receiver, Assignment.ReturnToStructureAssignment.new(targets[0]))
 				return
 			else:
 				print_debug("No stations to return to")
 	
 	var depots := Utils.get_closest_targets(receiver.get_parent().global_position, get_depot_stations())
 	if(depots != null && depots.size() > 0 && depots[0] is Structure):
-		set_receiver_assignment(receiver, UnitAssignment.ReturnUnitAssignment.new(depots[0]))
+		set_receiver_assignment(receiver, Assignment.ReturnToStructureAssignment.new(depots[0]))
 		return
 	
 	print_debug("No valid to task to assign to unit %d" % instance_id)
@@ -160,27 +160,27 @@ func assign_task(instance_id : int) -> void:
 	needs_assignment_queue.erase(instance_id)
 	
 
-func set_receiver_assignment(receiver : AssignmentReceiverLogic, assignment : UnitAssignment) -> void:
+func set_receiver_assignment(receiver : AssignmentReceiverLogicComponent, assignment : Assignment) -> void:
 	var instance_id := receiver.get_instance_id()
 	receiver_assignments[instance_id] = assignment
 	needs_assignment_queue.erase(instance_id)
 	receiver.set_assignemnt(assignment)
 	
-	if(assignment is UnitAssignment.ConstructionUnitAssignment):
-		var site_id := (assignment as UnitAssignment.ConstructionUnitAssignment).construction_site_id
+	if(assignment is Assignment.BuildStructureAssignment):
+		var site_id := (assignment as Assignment.BuildStructureAssignment).construction_site_id
 		construction_site_assignments[site_id] = construction_site_assignments.get(site_id, []) + [instance_id]
 	
-	if(assignment is UnitAssignment.MiningUnitAssignment):
-		var resource_node_id := (assignment as UnitAssignment.MiningUnitAssignment).resource_node_id
+	if(assignment is Assignment.MiningAssignment):
+		var resource_node_id := (assignment as Assignment.MiningAssignment).resource_node_id
 		resource_node_assignments[resource_node_id] = resource_node_assignments.get(resource_node_id, []) + [instance_id]
 
 func clear_receiver_assignment(instance_id : int) -> void:
 	if(receiver_assignments.has(instance_id)):
-		var assignment : UnitAssignment = receiver_assignments[instance_id]
+		var assignment : Assignment = receiver_assignments[instance_id]
 		
-		if(assignment is UnitAssignment.ConstructionUnitAssignment):
+		if(assignment is Assignment.BuildStructureAssignment):
 			# clear out additional consruction assignment details
-			var construction_site_id : int = (assignment as UnitAssignment.ConstructionUnitAssignment).construction_site_id
+			var construction_site_id : int = (assignment as Assignment.BuildStructureAssignment).construction_site_id
 			var assigned_ids : Array = construction_site_assignments.get(construction_site_id, [])
 			assigned_ids.erase(instance_id)
 			if(assigned_ids.is_empty()):
@@ -189,8 +189,8 @@ func clear_receiver_assignment(instance_id : int) -> void:
 				construction_site_assignments[construction_site_id] = assigned_ids
 		
 		# clear out assitional mining assignment details
-		if(assignment is UnitAssignment.MiningUnitAssignment):
-			var resource_node_id : int = (assignment as UnitAssignment.MiningUnitAssignment).resource_node_id
+		if(assignment is Assignment.MiningAssignment):
+			var resource_node_id : int = (assignment as Assignment.MiningAssignment).resource_node_id
 			var assigned_ids : Array = resource_node_assignments.get(resource_node_id, [])
 			assigned_ids.erase(instance_id)
 			if(assigned_ids.is_empty()):
@@ -268,6 +268,6 @@ func get_dropoff_stations() -> Array[Structure]:
 	var nodes := get_tree().get_nodes_in_group(Constants.GROUP_STRUCTURE)
 	var stations : Array[Structure] = []
 	for node in nodes:
-		if(node is Structure && node.is_depot && node.has_inventory() && !node.get_inventory().is_full()):
+		if(node is Structure && node.is_depot && node.has_inventory() && !node.get_inventory_component().is_full()):
 			stations.append(node)
 	return stations

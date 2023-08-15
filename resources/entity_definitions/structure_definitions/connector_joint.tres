@@ -11,6 +11,7 @@ script = ExtResource("5_2hpek")
 default_color = Color(0.678431, 1, 0.184314, 0)
 highlighted_color = Color(0.529412, 0.807843, 0.921569, 1)
 selected_color = Color(0, 0, 1, 1)
+additional_padding = 0
 
 [resource]
 script = ExtResource("4_qfsq1")
@@ -18,14 +19,13 @@ player_buildable = true
 dock_range = 16.0
 grid_locked = true
 construction_def = ExtResource("1_irvtu")
-display_name = "connector joint"
 entity_type = "connector_joint"
 scene = ExtResource("3_5tssb")
-base_inventory_capacity = -1
+influence_radius = -1.0
+selection_area_definition = SubResource("Resource_y7q3v")
+display_name = "connector"
+display_image = ExtResource("2_hogb5")
 construction_cost = {
 "iron_ore": 1
 }
 construction_time = 0.0
-influence_radius = -1.0
-image = ExtResource("2_hogb5")
-selection_area_definition = SubResource("Resource_y7q3v")

@@ -1,10 +1,10 @@
 extends Resource
-class_name Inventory
+class_name InventoryComponent
 
-@export var capacity : int = 100 : set = set_capacity
+@export var capacity : int = 0 : set = set_capacity
 @export var contents : Dictionary = {}
 
-func _init(_capacity : int = 100):
+func _init(_capacity : int = 0):
 	capacity = _capacity
 	contents = {}
 
@@ -97,15 +97,15 @@ func contains_any(items : Dictionary) -> Dictionary:
 			result[item_id] = min(contents.get(item_id, 0), items[item_id])
 	return result
 
-static func transfer_items(from_inventory : Inventory, to_inventory : Inventory, items : Dictionary) -> void:
+static func transfer_items(from_inventory : InventoryComponent, to_inventory : InventoryComponent, items : Dictionary) -> void:
 	var removed_items := from_inventory.remove_items(items, true)
 	to_inventory.insert_items(removed_items, true)
 
-static func transfer_all(from_inventory : Inventory, to_inventory : Inventory) -> void:
+static func transfer_all(from_inventory : InventoryComponent, to_inventory : InventoryComponent) -> void:
 	to_inventory.insert_items(from_inventory.get_contents(), true)
 	from_inventory.remove_all()
 
-#static func transfer_as_much_as_possible(from_inventory : Inventory, to_inventory : Inventory) -> void:
+#static func transfer_as_much_as_possible(from_inventory : InventoryComponent, to_inventory : InventoryComponent) -> void:
 #	var remaining_transfer_capacity : int = to_inventory.get_available_capacity()
 #	for item_id in from_inventory.contents.keys():
 #		var transfer_quantity : int = min(from_inventory.contents[item_id], remaining_transfer_capacity)

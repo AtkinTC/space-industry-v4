@@ -1,16 +1,13 @@
 [gd_resource type="Resource" script_class="UnitDefinition" load_steps=5 format=3 uid="uid://oeduoajpa1cy"]
 
-[ext_resource type="Script" path="res://game/entity/resource/health.gd" id="1_st5ov"]
+[ext_resource type="Script" path="res://game/entity/component/inventory_component.gd" id="1_n2qbd"]
 [ext_resource type="PackedScene" uid="uid://ctuerwuqwtgbv" path="res://game/entity/unit/scene/worker_ship_basic.tscn" id="2_ra8f8"]
 [ext_resource type="Script" path="res://game/entity/resource/definition/unit_definition.gd" id="3_v7bpt"]
 
-[sub_resource type="Resource" id="Resource_anv5p"]
-script = ExtResource("1_st5ov")
-destroyed = false
-max_hull = 10.0
-current_hull = -1.0
-max_shield = -1.0
-current_shield = -1.0
+[sub_resource type="Resource" id="Resource_1bm6b"]
+script = ExtResource("1_n2qbd")
+capacity = 1
+contents = {}
 
 [resource]
 script = ExtResource("3_v7bpt")
@@ -22,4 +19,4 @@ base_inventory_capacity = 1
 construction_cost = {}
 construction_time = 1.0
 influence_radius = -1.0
-health = SubResource("Resource_anv5p")
+inventory_component = SubResource("Resource_1bm6b")
