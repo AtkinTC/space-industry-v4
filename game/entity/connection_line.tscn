@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://btqcfjdk58wo0"]
+
+[ext_resource type="Texture2D" uid="uid://d10jhhb2w02p7" path="res://assets/sprites/structures/connector_line.png" id="1_dhnhr"]
+
+[node name="ConnectorNode" type="Line2D"]
+texture_repeat = 2
+points = PackedVector2Array(0, 0, 32, 0)
+width = 32.0
+texture = ExtResource("1_dhnhr")
+texture_mode = 1

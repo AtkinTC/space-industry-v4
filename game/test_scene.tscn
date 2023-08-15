@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://lqf5gy55eirv"]
+[gd_scene load_steps=17 format=3 uid="uid://lqf5gy55eirv"]
 
 [ext_resource type="Shader" path="res://resources/shaders/grid.gdshader" id="1_lnwkc"]
 [ext_resource type="Script" path="res://game/test_scene.gd" id="1_ri3n2"]
@@ -9,6 +9,7 @@
 [ext_resource type="Shader" path="res://resources/shaders/canvas_group_area.gdshader" id="5_b2sve"]
 [ext_resource type="Script" path="res://game/influence_canvas.gd" id="5_w38rg"]
 [ext_resource type="Script" path="res://game/structures_parent_node.gd" id="8_6hhf1"]
+[ext_resource type="Script" path="res://game/entity/connection_lines_layer.gd" id="8_wksh4"]
 [ext_resource type="Script" path="res://game/entity/networks_display_layer.gd" id="12_55yge"]
 [ext_resource type="Script" path="res://game/ships_parent_node.gd" id="12_t0iog"]
 [ext_resource type="Script" path="res://game/entity/selection_areas_layer.gd" id="15_5qeme"]
@@ -78,6 +79,9 @@ script = ExtResource("3_apepi")
 [node name="InfluenceCanvas" type="CanvasGroup" parent="."]
 material = SubResource("ShaderMaterial_reaj2")
 script = ExtResource("5_w38rg")
+
+[node name="ConnectionLinesLayer" type="Node2D" parent="."]
+script = ExtResource("8_wksh4")
 
 [node name="Objects" type="Node2D" parent="."]
 
