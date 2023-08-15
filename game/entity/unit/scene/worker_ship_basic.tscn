@@ -1,0 +1,46 @@
+[gd_scene load_steps=9 format=3 uid="uid://ctuerwuqwtgbv"]
+
+[ext_resource type="Script" path="res://game/entity/unit/unit.gd" id="1_ojsdw"]
+[ext_resource type="Script" path="res://game/entity/resource/logic/assignment_receiver_logic.gd" id="2_nbo1j"]
+[ext_resource type="Script" path="res://game/entity/resource/logic/basic_movement_logic.gd" id="3_pry1h"]
+[ext_resource type="Script" path="res://game/entity/tool/miner_tool.gd" id="4_6g7pq"]
+[ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="4_p4lyg"]
+
+[sub_resource type="Resource" id="Resource_25wfm"]
+resource_local_to_scene = true
+script = ExtResource("2_nbo1j")
+task_flags = 7
+
+[sub_resource type="Resource" id="Resource_iaj53"]
+resource_local_to_scene = true
+script = ExtResource("3_pry1h")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xncqu"]
+size = Vector2(12, 17.0001)
+
+[node name="WorkerShip" type="Area2D"]
+collision_mask = 0
+script = ExtResource("1_ojsdw")
+decision_logic = SubResource("Resource_25wfm")
+movement_logic = SubResource("Resource_iaj53")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.499997, 5.32866e-05)
+rotation = 1.57079
+shape = SubResource("RectangleShape2D_xncqu")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(-3, 0)
+color = Color(0.0352941, 0.0352941, 1, 1)
+polygon = PackedVector2Array(12, -5, 12, 5, -2, 7, -5, 3, -5, -3, -2, -7)
+
+[node name="Tools" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="MiningLaser" type="Node2D" parent="Tools"]
+position = Vector2(6, 0)
+script = ExtResource("4_6g7pq")
+
+[node name="EntityDebugDisplay" type="Node2D" parent="."]
+position = Vector2(0, 10)
+script = ExtResource("4_p4lyg")
