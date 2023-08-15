@@ -12,7 +12,7 @@ var assignment : UnitAssignment = null
 
 func initialize() -> void:
 	super.initialize()
-	SignalBus.register_assignment_reciever.emit(get_instance_id())
+	SignalBus.register_assignment_receiver.emit(get_instance_id())
 	clear_assignment()
 
 func set_assignemnt(_assignment : UnitAssignment) -> void:

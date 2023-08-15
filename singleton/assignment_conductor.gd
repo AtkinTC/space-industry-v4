@@ -20,7 +20,7 @@ const ASSIGNMENT_WAIT_TIME : float = 0.5
 var wait_timer : SceneTreeTimer = null
 
 func _init() -> void:
-	SignalBus.register_assignment_reciever.connect(register_receiver)
+	SignalBus.register_assignment_receiver.connect(register_receiver)
 	SignalBus.register_construction_site.connect(register_construction_site)
 
 func _physics_process(_delta: float) -> void:
@@ -38,27 +38,37 @@ func register_receiver(instance_id : int) -> void:
 	if(receivers.has(instance_id)):
 		print_debug("receiver %d is already registered" % instance_id)
 		return
-	var reciever : AssignmentReceiverLogic = instance_from_id(instance_id)
-	if(reciever == null):
+	var receiver : AssignmentReceiverLogic = instance_from_id(instance_id)
+	if(receiver == null):
 		return
 	
-	receivers[instance_id] = reciever
-	reciever.get_parent().tree_exiting.connect(_on_reciever_freed.bind(instance_id))
-	reciever.requesting_assignment.connect(_on_reciever_requesting_assignment.bind(instance_id))
+	receivers[instance_id] = receiver
+	receiver.get_parent().tree_exiting.connect(_on_receiver_freed.bind(instance_id))
+	receiver.requesting_assignment.connect(_on_receiver_requesting_assignment.bind(instance_id))
 
 func unregister_receiver(instance_id : int) -> void:
 	if(!receivers.has(instance_id)):
 		return
-		
+	
+	var receiver : AssignmentReceiverLogic = receivers[instance_id]
+	if(is_instance_valid(receiver)):
+		if(receiver.receiver_assignments.is_connected(_on_receiver_requesting_assignment)):
+			receiver.receiver_assignments.disconnect(_on_receiver_requesting_assignment)
+	
 	clear_receiver_assignment(instance_id)
 	needs_assignment_queue.erase(instance_id)
 	needs_assignment_waiting_queue.erase(instance_id)
 	receivers.erase(instance_id)
+	
+	if(is_instance_id_valid(instance_id)):
+		pass
+	
+	
 
-func _on_reciever_freed(instance_id : int) -> void:
+func _on_receiver_freed(instance_id : int) -> void:
 	unregister_receiver(instance_id)
 
-func _on_reciever_requesting_assignment(instance_id : int) -> void:
+func _on_receiver_requesting_assignment(instance_id : int) -> void:
 	if(!receivers.has(instance_id)):
 		print_debug("unregistered receiver %d is requesting assignment" % instance_id)
 		return
