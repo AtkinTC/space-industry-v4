@@ -8,13 +8,23 @@ var offset : Vector2
 func _ready():
 	parent_entity = self.get_parent()
 	offset = self.position
+	process_transform()
 	top_level = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	self.global_position = parent_entity.global_position + offset
-	self.global_rotation = 0
-	queue_redraw()
+	process_transform()
+
+func process_transform():
+	var updated := false
+	if(parent_entity.global_position + offset != self.global_position):
+		self.global_position = parent_entity.global_position + offset
+		updated = true
+	if(self.global_rotation != 0):
+		self.global_rotation = 0
+		updated = true
+	if(updated):
+		queue_redraw()
 
 const LEFT : int = -12
 const LINE_LENGTH : int = 24

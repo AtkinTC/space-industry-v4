@@ -8,36 +8,48 @@ var build_state := false
 var build_structure_def : StructureDefinition = null
 var build_ghost : BuildGhost = null
 
-var build_cell := Vector2i()
-var build_position := Vector2()
+var ghost_cell := Vector2i()
+var previous_ghost_cell := Vector2i()
+var ghost_position := Vector2()
 
 var valid_build_position := false
 
 var dragging : bool = false
 
+var trigger_build : bool = false
+var build_cell := Vector2i()
+
 func _ready() -> void:
 	GameState.register_build_control_layer(self)
+	previous_ghost_cell = ghost_cell
 
 func _process(_delta: float) -> void:
 	if(build_state):
-		var previous_build_cell := build_cell
 		recalculate_position()
-		if(dragging && previous_build_cell != build_cell):
-			confirm_build()
+		if(!trigger_build):
+			if(dragging && previous_ghost_cell != ghost_cell):
+				trigger_build = true
+				build_cell = ghost_cell
+			previous_ghost_cell = ghost_cell
 	queue_redraw()
 
+func _physics_process(_delta: float) -> void:
+	if(trigger_build):
+		trigger_build = false
+		confirm_build()
+	
 func recalculate_position(force : bool = false):
 	var mouse_pos := get_global_mouse_position()
 	var new_cell : Vector2i = build_structure_def.world_to_grid(mouse_pos)
-	if(force || new_cell != build_cell):
-		build_cell = build_structure_def.world_to_grid(mouse_pos)
-		build_position = build_structure_def.grid_to_world(build_cell)
-		build_ghost.global_position = build_position
-		build_ghost.grid_position = build_cell
+	if(force || new_cell != ghost_cell):
+		ghost_cell = build_structure_def.world_to_grid(mouse_pos)
+		ghost_position = build_structure_def.grid_to_world(ghost_cell)
+		build_ghost.global_position = ghost_position
+		build_ghost.grid_position = ghost_cell
 		
 		var used_cells := EntityManager.get_used_structure_cells()
 		for cell in build_structure_def.get_grid_cells():
-			if((cell + build_cell) in used_cells):
+			if((cell + ghost_cell) in used_cells):
 				valid_build_position = false
 				return
 		valid_build_position = true
@@ -74,7 +86,7 @@ func confirm_build():
 		return
 	var build_params := {
 		Constants.KEY_STRUCTURE_TYPE : build_structure_def.entity_type,
-		Constants.KEY_GRID_POSITION : build_cell
+		Constants.KEY_GRID_POSITION : ghost_cell
 	}
 	SignalBus.spawn_structure.emit(build_structure_def.construction_def.entity_type, build_params)
 	#end_build_state()
@@ -85,7 +97,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if(event.is_action_pressed("select-alt")):
 		end_build_state()
 	if(event.is_action_pressed("select")):
-		confirm_build()
+		if(!trigger_build):
+			trigger_build = true
+			build_cell = ghost_cell
 		dragging = true
 	if(event.is_action_released("select")):
 		dragging = false
