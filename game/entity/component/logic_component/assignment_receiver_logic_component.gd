@@ -15,6 +15,10 @@ func initialize() -> void:
 	SignalBus.register_assignment_receiver.emit(get_instance_id())
 	clear_assignment()
 
+func set_controlled_parent(_parent : Entity):
+	assert(_parent is Unit)
+	super.set_controlled_parent(_parent)
+
 func set_assignemnt(_assignment : Assignment) -> void:
 	parent.move_state = Unit.MOVE_STATE.STANDBY
 	parent.move_target = null

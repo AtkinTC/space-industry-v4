@@ -8,7 +8,9 @@ var init_parameters : Dictionary = {}
 
 @export var inventory_component : InventoryComponent = null
 @export var health_component : HealthComponent = null
-var network_component : StructureConnectorComponent
+@export var logic_component : LogicComponent = null
+@export var movement_component : MovementComponent = null
+var network_component : StructureConnectorComponent = null
 
 @onready var collision_shape : CollisionShape2D = get_node_or_null("CollisionShape2D")
 @onready var collision_polygon : CollisionPolygon2D = get_node_or_null("CollisionPolygon2D")
@@ -39,7 +41,8 @@ func deferred_ready():
 	SignalBus.entity_ready.emit(self)
 
 func _physics_process(_delta: float) -> void:
-	pass
+	process_logic(_delta)
+	process_movement(_delta)
 
 #############
 ### SETUP ###
@@ -55,6 +58,8 @@ func setup() -> void:
 	setup_inventory()
 	setup_health()
 	setup_network()
+	setup_logic_component()
+	setup_movement_component()
 
 func setup_from_entity_def() -> void:
 	if(entity_def == null):
@@ -106,6 +111,50 @@ func _on_hull_depleted() -> void:
 func _on_shield_depleted() -> void:
 	print("Shield depleted")
 
+#############
+### LOGIC ###
+#############
+
+func setup_logic_component() -> void:
+	if(entity_def.logic_component != null):
+		logic_component = entity_def.logic_component.duplicate()
+	else:
+		if(logic_component != null && !logic_component.resource_local_to_scene):
+				print_debug("LogicComponent resource is not local_to_scene for entity : %s" % entity_def.entity_type)
+	
+	if(logic_component == null):
+		return
+	
+	logic_component.set_controlled_parent(self)
+	logic_component.initialize()
+
+func process_logic(_delta : float) -> void:
+	if(logic_component == null):
+		return
+	logic_component.process(_delta)
+
+################
+### MOVEMENT ###
+################
+
+func setup_movement_component() -> void:
+	if(entity_def.movement_component != null):
+		movement_component = entity_def.movement_component.duplicate()
+	else:
+		if(!movement_component == null && !movement_component.resource_local_to_scene):
+				print_debug("MovementComponent resource is not local_to_scene for entity : %s" % entity_def.entity_type)
+	
+	if(movement_component == null):
+		return
+	
+	movement_component.set_controlled_parent(self)
+	movement_component.initialize()
+
+func process_movement(_delta : float) -> void:
+	if(movement_component == null):
+		return
+	movement_component.process(_delta)
+	
 ###############
 ### NETWORK ###
 ###############

@@ -1,17 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://bca0apqfa3wvw"]
+[gd_scene load_steps=4 format=3 uid="uid://bca0apqfa3wvw"]
 
 [ext_resource type="Script" path="res://game/entity/unit/unit.gd" id="1_dcs4y"]
 [ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="2_f7dp1"]
-[ext_resource type="Script" path="res://game/entity/component/logic_component/basic_enemy_logic_component.gd" id="2_smifq"]
-[ext_resource type="Script" path="res://game/entity/component/movement_component/basic_movement_component.gd" id="3_4qu7l"]
-
-[sub_resource type="Resource" id="Resource_xgsou"]
-resource_local_to_scene = true
-script = ExtResource("2_smifq")
-
-[sub_resource type="Resource" id="Resource_y3x1i"]
-resource_local_to_scene = true
-script = ExtResource("3_4qu7l")
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_obyyp"]
 radius = 5.0
@@ -19,8 +9,6 @@ height = 16.0
 
 [node name="TestEnemy" type="Area2D"]
 script = ExtResource("1_dcs4y")
-decision_logic = SubResource("Resource_xgsou")
-movement_logic = SubResource("Resource_y3x1i")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2(-3, 0)

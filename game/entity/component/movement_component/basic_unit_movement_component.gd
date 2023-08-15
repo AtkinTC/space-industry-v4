@@ -1,5 +1,9 @@
 extends MovementComponent
-class_name BasicMovementComponent
+class_name BasicUnitMovementComponent
+
+func set_controlled_parent(_parent : Entity):
+	assert(_parent is Unit)
+	super.set_controlled_parent(_parent)
 
 func process(_delta : float):
 	var desired_velocity := Vector2.ZERO

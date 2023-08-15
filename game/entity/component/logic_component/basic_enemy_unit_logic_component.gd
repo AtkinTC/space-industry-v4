@@ -1,5 +1,9 @@
 extends LogicComponent
-class_name BasicEnemyLogicComponent
+class_name BasicEnemyUnitLogicComponent
+
+func set_controlled_parent(_parent : Entity):
+	assert(_parent is Unit)
+	super.set_controlled_parent(_parent)
 
 func process(_delta : float):
 	if(parent.move_target == null || !is_instance_valid(parent.move_target)):

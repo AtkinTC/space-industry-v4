@@ -9,9 +9,9 @@ func _init(def : StructureDefinition) -> void:
 
 func _ready() -> void:
 	assert(structure_def != null)
-	assert(structure_def.image != null)
+	assert(structure_def.display_image != null)
 	
-	texture = structure_def.image
+	texture = structure_def.display_image
 
 func _process(_delta: float) -> void:
 	queue_redraw()

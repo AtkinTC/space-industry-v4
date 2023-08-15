@@ -1,14 +1,23 @@
-[gd_resource type="Resource" script_class="UnitDefinition" load_steps=7 format=3 uid="uid://bpsbon7pvdr0y"]
+[gd_resource type="Resource" script_class="UnitDefinition" load_steps=11 format=3 uid="uid://bpsbon7pvdr0y"]
 
 [ext_resource type="PackedScene" uid="uid://ctrt2fte2x4r5" path="res://game/entity/unit/scene/miner_ship_basic.tscn" id="1_5pek2"]
 [ext_resource type="Script" path="res://game/entity/component/inventory_component.gd" id="1_qi02m"]
 [ext_resource type="Script" path="res://game/entity/resource/definition/unit_definition.gd" id="1_xmnvb"]
+[ext_resource type="Script" path="res://game/entity/component/logic_component/assignment_receiver_logic_component.gd" id="2_yw1af"]
+[ext_resource type="Script" path="res://game/entity/component/movement_component/basic_unit_movement_component.gd" id="3_iacik"]
 [ext_resource type="Script" path="res://game/entity/selection_area_definition.gd" id="4_jc7nq"]
 
 [sub_resource type="Resource" id="Resource_ksj85"]
 script = ExtResource("1_qi02m")
 capacity = 2
 contents = {}
+
+[sub_resource type="Resource" id="Resource_o1h65"]
+script = ExtResource("2_yw1af")
+task_flags = 4
+
+[sub_resource type="Resource" id="Resource_je6sv"]
+script = ExtResource("3_iacik")
 
 [sub_resource type="Resource" id="Resource_terox"]
 script = ExtResource("4_jc7nq")
@@ -20,12 +29,13 @@ additional_padding = 2
 [resource]
 script = ExtResource("1_xmnvb")
 base_move_speed = 75.0
-display_name = "mining drone MKI"
 entity_type = "mining_drone_001"
 scene = ExtResource("1_5pek2")
-base_inventory_capacity = 2
-construction_cost = {}
-construction_time = 2.0
 influence_radius = -1.0
 selection_area_definition = SubResource("Resource_terox")
+display_name = "mining drone MKI"
+construction_cost = {}
+construction_time = 2.0
 inventory_component = SubResource("Resource_ksj85")
+logic_component = SubResource("Resource_o1h65")
+movement_component = SubResource("Resource_je6sv")
