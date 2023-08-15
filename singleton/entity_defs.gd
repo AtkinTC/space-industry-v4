@@ -3,11 +3,9 @@ extends Node
 
 const unit_def_dir := "res://resources/entity_definitions/unit_definitions"
 const structure_def_dir := "res://resources/entity_definitions/structure_definitions"
-const enemy_def_dir := "res://resources/entity_definitions/enemy_definitions"
 
 var unit_defs := {}
 var structure_defs := {}
-var enemy_defs := {}
 
 func _init() -> void:
 	load_def_type(unit_def_dir, unit_defs)
@@ -19,11 +17,6 @@ func _init() -> void:
 	for key in structure_defs.keys():
 		if(!(structure_defs[key] is StructureDefinition)):
 			print_rich("[color=red]Invalid Structure Definition for type : %s![/color]" % key)
-	
-	load_def_type(enemy_def_dir, enemy_defs)
-	for key in enemy_defs.keys():
-		if(!(enemy_defs[key] is EnemyDefinition)):
-			print_rich("[color=red]Invalid Enemy Definition for type : %s![/color]" % key)
 
 func load_def_type(source_directory : String, target_dictionary : Dictionary) -> void:
 	print("Loading Definitions from dir : " + source_directory)
@@ -49,19 +42,16 @@ func get_unit_definitions() -> Array[UnitDefinition]:
 	a.assign(unit_defs.values())
 	return a
 
+func get_unit_definition(entity_type : String) -> UnitDefinition:
+	var unit_def : UnitDefinition = unit_defs.get(entity_type) 
+	return unit_def
+
 func get_structure_definitions() -> Array[StructureDefinition]:
 	var a : Array[StructureDefinition] = []
 	a.assign(structure_defs.values())
 	return a
 
-func get_unit_definition(entity_type : String) -> UnitDefinition:
-	var unit_def : UnitDefinition = unit_defs.get(entity_type) 
-	return unit_def
-
 func get_structure_definition(entity_type : String) -> StructureDefinition:
 	var structure_def : StructureDefinition = structure_defs.get(entity_type) 
 	return structure_def
 
-func get_enemy_definition(entity_type : String) -> EnemyDefinition:
-	var enemy_def : EnemyDefinition = enemy_defs.get(entity_type) 
-	return enemy_def

@@ -5,7 +5,7 @@ func process(_delta : float):
 	var desired_velocity := Vector2.ZERO
 	var desired_rotation := parent.global_rotation
 	
-	if(parent.move_state == Enemy.MOVE_STATE.APPROACH && parent.move_target != null):
+	if(parent.move_state == Unit.MOVE_STATE.APPROACH && parent.move_target != null):
 		var distance := parent.global_position.distance_to(parent.move_target.global_position)
 		if(is_zero_approx(distance) || distance <= parent.approach_distance):
 			desired_velocity = Vector2.ZERO

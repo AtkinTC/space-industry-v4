@@ -10,6 +10,6 @@ func process(_delta : float):
 			parent.move_target = targets[0]
 	
 	if(parent.move_target != null):
-		parent.move_state = Enemy.MOVE_STATE.APPROACH
+		parent.move_state = Unit.MOVE_STATE.APPROACH
 	else:
-		parent.move_state = Enemy.MOVE_STATE.STANDBY
+		parent.move_state = Unit.MOVE_STATE.STANDBY

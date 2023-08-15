@@ -1,8 +1,9 @@
 extends Node
 # Singleton AssignmentConductor
 
-var units : Dictionary = {}
-var unit_assignments : Dictionary = {}
+var receivers := {}
+var receiver_assignments := {}
+
 var needs_assignment_queue : Array[int] = []
 var needs_assignment_waiting_queue : Array[int] = []
 
@@ -15,11 +16,11 @@ var construction_site_assignments : Dictionary = {}
 const MAX_MINERS_PER_RESOURCE_NODE : int = 2
 const MAX_BUILDERS_PER_CONSTRUCTION_SITE : int = 1
 
-const ASSIGNMENT_WAIT_TIME : float = 1
+const ASSIGNMENT_WAIT_TIME : float = 0.5
 var wait_timer : SceneTreeTimer = null
 
 func _init() -> void:
-	SignalBus.register_unit.connect(register_unit)
+	SignalBus.register_assignment_reciever.connect(register_receiver)
 	SignalBus.register_construction_site.connect(register_construction_site)
 
 func _physics_process(_delta: float) -> void:
@@ -33,38 +34,39 @@ func _physics_process(_delta: float) -> void:
 #  Units  #
 ###########
 
-func register_unit(instance_id) -> void:
-	if(units.has(instance_id)):
-		print_debug("unit %d is already registered" % instance_id)
+func register_receiver(instance_id : int) -> void:
+	if(receivers.has(instance_id)):
+		print_debug("receiver %d is already registered" % instance_id)
 		return
-	var unit : Unit = instance_from_id(instance_id)
-	if(unit == null && !is_instance_valid(unit)):
+	var reciever : AssignmentReceiverLogic = instance_from_id(instance_id)
+	if(reciever == null):
 		return
 	
-	units[instance_id] = unit
-	unit.tree_exiting.connect(_on_unit_freed.bind(instance_id))
-	unit.requesting_assignment.connect(_on_unit_requesting_assignment.bind(instance_id))
+	receivers[instance_id] = reciever
+	reciever.get_parent().tree_exiting.connect(_on_reciever_freed.bind(instance_id))
+	reciever.requesting_assignment.connect(_on_reciever_requesting_assignment.bind(instance_id))
 
-func unregister_unit(instance_id : int) -> void:
-	if(!units.has(instance_id)):
+func unregister_receiver(instance_id : int) -> void:
+	if(!receivers.has(instance_id)):
 		return
 		
-	clear_unit_assignment(instance_id)
+	clear_receiver_assignment(instance_id)
 	needs_assignment_queue.erase(instance_id)
-	units.erase(instance_id)
+	needs_assignment_waiting_queue.erase(instance_id)
+	receivers.erase(instance_id)
 
-func _on_unit_freed(instance_id : int) -> void:
-	unregister_unit(instance_id)
+func _on_reciever_freed(instance_id : int) -> void:
+	unregister_receiver(instance_id)
 
-func _on_unit_requesting_assignment(instance_id : int) -> void:
-	if(!units.has(instance_id)):
-		print_debug("unregistered unit %d is requesting assignment" % instance_id)
+func _on_reciever_requesting_assignment(instance_id : int) -> void:
+	if(!receivers.has(instance_id)):
+		print_debug("unregistered receiver %d is requesting assignment" % instance_id)
 		return
-	if(needs_assignment_queue.has(instance_id)):
-		print_debug("unit %d already in assignment queue" % instance_id)
+	if(needs_assignment_queue.has(instance_id) || needs_assignment_waiting_queue.has(instance_id)):
+		print_debug("receiver %d already in assignment queue" % instance_id)
 		return
-	clear_unit_assignment(instance_id)
-	needs_assignment_queue.append(instance_id)
+	clear_receiver_assignment(instance_id)
+	needs_assignment_waiting_queue.append(instance_id)
 
 func assign_tasks() -> void:
 	if(needs_assignment_queue.is_empty()):
@@ -74,14 +76,14 @@ func assign_tasks() -> void:
 	for instance_id in needs_assignment_queue.duplicate():
 		assign_task(instance_id)
 
-func assign_task(instance_id) -> void:
-	var unit : Unit = units[instance_id]
+func assign_task(instance_id : int) -> void:
+	var receiver : AssignmentReceiverLogic = receivers[instance_id]
 		
-	var task_groups : Array[String] = unit.get_task_groups()
+	var task_groups : Array[String] = receiver.get_task_groups()
 	
 	if(task_groups.has(Constants.TASK_GROUP_BUILDER)):
 		#var contents := unit.get_inventory().get_contents()
-		if(unit.can_build() && unit.get_inventory().is_empty()):
+		if(receiver.can_build() && receiver.get_parent().get_inventory().is_empty()):
 			#var free_capacity := unit.get_inventory().get_available_capacity()
 			var stations : Array[Structure] = get_depot_stations()
 			for site_id in construction_sites_queue:
@@ -113,33 +115,33 @@ func assign_task(instance_id) -> void:
 					#SKIP - no stations with applicable build materials
 					continue
 				
-				var pickup_station : Structure = Utils.get_closest_targets(unit.global_position, filtered_stations, 1)[0]
+				var pickup_station : Structure = Utils.get_closest_targets(receiver.get_parent().global_position, filtered_stations, 1)[0]
 				
 				var pickup_items : Dictionary = pickup_station.get_inventory().contains_any(needed_materials)
 				
-				set_unit_assignment(unit, UnitAssignment.ConstructionUnitAssignment.new(site, pickup_station, pickup_items))
+				set_receiver_assignment(receiver, UnitAssignment.ConstructionUnitAssignment.new(site, pickup_station, pickup_items))
 				return
 	
 	if(task_groups.has(Constants.TASK_GROUP_MINER)):
-		if(unit.can_mine()):
+		if(receiver.can_mine()):
 			var filtered_targets : Array[ResourceNode] = find_mining_targets().filter(func lambda(n : ResourceNode) : return (resource_node_assignments.get(n.get_instance_id(), []).size() < MAX_MINERS_PER_RESOURCE_NODE))
-			var targets := Utils.get_closest_targets(unit.global_position, filtered_targets)
+			var targets := Utils.get_closest_targets(receiver.get_parent().global_position, filtered_targets)
 			if(targets != null && targets.size() > 0 && targets[0] is ResourceNode):
-				set_unit_assignment(unit, UnitAssignment.MiningUnitAssignment.new(targets[0]))
+				set_receiver_assignment(receiver, UnitAssignment.MiningUnitAssignment.new(targets[0]))
 				return
 			else:
 				print_debug("No Resource Nodes to mine")
 		else:
-			var targets := Utils.get_closest_targets(unit.global_position, get_dropoff_stations())
+			var targets := Utils.get_closest_targets(receiver.get_parent().global_position, get_dropoff_stations())
 			if(targets != null && targets.size() > 0 && targets[0] is Structure):
-				set_unit_assignment(unit, UnitAssignment.ReturnUnitAssignment.new(targets[0]))
+				set_receiver_assignment(receiver, UnitAssignment.ReturnUnitAssignment.new(targets[0]))
 				return
 			else:
 				print_debug("No stations to return to")
 	
-	var depots := Utils.get_closest_targets(unit.global_position, get_depot_stations())
+	var depots := Utils.get_closest_targets(receiver.get_parent().global_position, get_depot_stations())
 	if(depots != null && depots.size() > 0 && depots[0] is Structure):
-		set_unit_assignment(unit, UnitAssignment.ReturnUnitAssignment.new(depots[0]))
+		set_receiver_assignment(receiver, UnitAssignment.ReturnUnitAssignment.new(depots[0]))
 		return
 	
 	print_debug("No valid to task to assign to unit %d" % instance_id)
@@ -148,11 +150,11 @@ func assign_task(instance_id) -> void:
 	needs_assignment_queue.erase(instance_id)
 	
 
-func set_unit_assignment(unit : Unit, assignment : UnitAssignment) -> void:
-	var instance_id := unit.get_instance_id()
-	unit_assignments[instance_id] = assignment
+func set_receiver_assignment(receiver : AssignmentReceiverLogic, assignment : UnitAssignment) -> void:
+	var instance_id := receiver.get_instance_id()
+	receiver_assignments[instance_id] = assignment
 	needs_assignment_queue.erase(instance_id)
-	unit.set_assignemnt(assignment)
+	receiver.set_assignemnt(assignment)
 	
 	if(assignment is UnitAssignment.ConstructionUnitAssignment):
 		var site_id := (assignment as UnitAssignment.ConstructionUnitAssignment).construction_site_id
@@ -162,9 +164,9 @@ func set_unit_assignment(unit : Unit, assignment : UnitAssignment) -> void:
 		var resource_node_id := (assignment as UnitAssignment.MiningUnitAssignment).resource_node_id
 		resource_node_assignments[resource_node_id] = resource_node_assignments.get(resource_node_id, []) + [instance_id]
 
-func clear_unit_assignment(instance_id : int) -> void:
-	if(unit_assignments.has(instance_id)):
-		var assignment : UnitAssignment = unit_assignments[instance_id]
+func clear_receiver_assignment(instance_id : int) -> void:
+	if(receiver_assignments.has(instance_id)):
+		var assignment : UnitAssignment = receiver_assignments[instance_id]
 		
 		if(assignment is UnitAssignment.ConstructionUnitAssignment):
 			# clear out additional consruction assignment details
@@ -186,7 +188,7 @@ func clear_unit_assignment(instance_id : int) -> void:
 			else:
 				resource_node_assignments[resource_node_id] = assigned_ids
 			
-	unit_assignments.erase(instance_id)
+	receiver_assignments.erase(instance_id)
 
 ##################
 #  Construction  #

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://lqf5gy55eirv"]
+[gd_scene load_steps=16 format=3 uid="uid://lqf5gy55eirv"]
 
 [ext_resource type="Shader" path="res://resources/shaders/grid.gdshader" id="1_lnwkc"]
 [ext_resource type="Script" path="res://game/test_scene.gd" id="1_ri3n2"]
@@ -9,7 +9,6 @@
 [ext_resource type="Shader" path="res://resources/shaders/canvas_group_area.gdshader" id="5_b2sve"]
 [ext_resource type="Script" path="res://game/influence_canvas.gd" id="5_w38rg"]
 [ext_resource type="Script" path="res://game/structures_parent_node.gd" id="8_6hhf1"]
-[ext_resource type="Script" path="res://game/enemies_parent_node.gd" id="10_g0qh4"]
 [ext_resource type="Script" path="res://game/entity/networks_display_layer.gd" id="12_55yge"]
 [ext_resource type="Script" path="res://game/ships_parent_node.gd" id="12_t0iog"]
 [ext_resource type="Script" path="res://game/entity/selection_areas_layer.gd" id="15_5qeme"]
@@ -123,9 +122,6 @@ position = Vector2(241, -143)
 
 [node name="StructuresParentNode" type="Node2D" parent="."]
 script = ExtResource("8_6hhf1")
-
-[node name="EnemiesParentNode" type="Node2D" parent="."]
-script = ExtResource("10_g0qh4")
 
 [node name="ShipsParentNode" type="Node2D" parent="."]
 script = ExtResource("12_t0iog")
