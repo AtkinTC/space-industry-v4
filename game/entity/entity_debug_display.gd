@@ -16,15 +16,9 @@ func _process(_delta):
 	process_transform()
 
 func process_transform():
-	var updated := false
-	if(parent_entity.global_position + offset != self.global_position):
-		self.global_position = parent_entity.global_position + offset
-		updated = true
-	if(self.global_rotation != 0):
-		self.global_rotation = 0
-		updated = true
-	if(updated):
-		queue_redraw()
+	self.global_position = parent_entity.global_position + offset
+	self.global_rotation = 0
+	queue_redraw()
 
 const LEFT : int = -12
 const LINE_LENGTH : int = 24
@@ -59,11 +53,3 @@ func _draw():
 			var percentage : float = inventory.get_contents_size() as float / inventory.get_capacity()
 			draw_bar(Color.YELLOW, Color.GOLD, percentage, line)
 			line+=1
-		
-		
-#	var power_supply : PowerSupplyComponent = parent_entity.components.get(Constants.COMPONENT_CLASS.POWER_SUPPLY)
-#	if(power_supply != null):
-#		line+=1
-#		draw_line(Vector2(LEFT, line * LINE_SPACING), Vector2(LEFT + LINE_LENGTH, line * LINE_SPACING), Color.BLACK, LINE_WIDTH)
-#		var percentage : float = power_supply.get_supply() / power_supply.get_capacity()
-#		draw_line(Vector2(LEFT, line * LINE_SPACING), Vector2(LEFT + LINE_LENGTH * percentage, line * LINE_SPACING), Color.YELLOW, LINE_WIDTH)
