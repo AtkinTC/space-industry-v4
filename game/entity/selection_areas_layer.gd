@@ -17,6 +17,7 @@ func add_selection_area(entity : Entity) -> void:
 	area.parent_entity = entity
 	area.gui_input.connect(_on_selection_area_gui_input)
 	add_child(area)
+	area.set_input_enabled(input_enabled)
 
 func _on_selection_area_gui_input(area : EntitySelectionArea, event : InputEvent):
 	if(event is InputEventMouseButton):
