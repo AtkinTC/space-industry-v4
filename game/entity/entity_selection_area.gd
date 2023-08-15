@@ -5,7 +5,7 @@ class_name EntitySelectionArea
 
 signal gui_input(area : EntitySelectionArea, event : InputEvent)
 
-const PADDING := Vector2(2, 2)
+const BASE_PADDING := Vector2(2, 2)
 
 var input_enabled := true
 
@@ -16,6 +16,8 @@ var selection_extents : Rect2
 @export var default_color := Color.GREEN_YELLOW
 @export var highlighted_color := Color.SKY_BLUE
 @export var selected_color := Color.BLUE
+
+var additional_padding := Vector2(0, 0)
 
 @export var debug_draw : bool = false
 
@@ -35,6 +37,8 @@ func _ready() -> void:
 		default_color = selection_area_definition.default_color
 		highlighted_color = selection_area_definition.highlighted_color
 		selected_color = selection_area_definition.selected_color
+		
+		additional_padding = Vector2(selection_area_definition.additional_padding, selection_area_definition.additional_padding)
 	
 	assert(nine_patch != null)
 	
@@ -117,8 +121,8 @@ func calculate_extents() -> void:
 			p_max.x = max(p_max.x, p1.x)
 			p_max.y = max(p_max.y, p1.y)
 	
-	p_min -= PADDING
-	p_max += PADDING
+	p_min -= BASE_PADDING + additional_padding
+	p_max += BASE_PADDING + additional_padding
 	selection_extents = Rect2(p_min, p_max-p_min)
 
 func reposition_texture() -> void:

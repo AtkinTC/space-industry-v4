@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="UnitDefinition" load_steps=5 format=3 uid="uid://epo2fg0v68h5"]
+[gd_resource type="Resource" script_class="UnitDefinition" load_steps=7 format=3 uid="uid://epo2fg0v68h5"]
 
 [ext_resource type="Script" path="res://game/entity/resource/definition/unit_definition.gd" id="1_5ww0h"]
 [ext_resource type="Script" path="res://game/entity/resource/health.gd" id="1_8sm5q"]
 [ext_resource type="PackedScene" uid="uid://gijpshyjqirm" path="res://game/entity/unit/scene/builder_ship_basic.tscn" id="2_e7iqk"]
+[ext_resource type="Script" path="res://game/entity/selection_area_definition.gd" id="4_1u7ha"]
 
 [sub_resource type="Resource" id="Resource_ag474"]
 script = ExtResource("1_8sm5q")
@@ -11,6 +12,13 @@ max_hull = 20.0
 current_hull = -1.0
 max_shield = 4.0
 current_shield = -1.0
+
+[sub_resource type="Resource" id="Resource_1twqp"]
+script = ExtResource("4_1u7ha")
+default_color = Color(0.678431, 1, 0.184314, 1)
+highlighted_color = Color(0.529412, 0.807843, 0.921569, 1)
+selected_color = Color(0, 0, 1, 1)
+additional_padding = 2
 
 [resource]
 script = ExtResource("1_5ww0h")
@@ -23,3 +31,4 @@ construction_cost = {}
 construction_time = 2.0
 influence_radius = -1.0
 health = SubResource("Resource_ag474")
+selection_area_definition = SubResource("Resource_1twqp")
