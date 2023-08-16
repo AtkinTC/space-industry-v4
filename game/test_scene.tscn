@@ -1,10 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://lqf5gy55eirv"]
+[gd_scene load_steps=19 format=3 uid="uid://lqf5gy55eirv"]
 
 [ext_resource type="Shader" path="res://resources/shaders/grid.gdshader" id="1_lnwkc"]
 [ext_resource type="Script" path="res://game/test_scene.gd" id="1_ri3n2"]
 [ext_resource type="Texture2D" uid="uid://d4cd7gowjm2dq" path="res://assets/sprites/black.png" id="2_4g3ld"]
 [ext_resource type="Script" path="res://game/ui/structure_build_menu.gd" id="2_yft4b"]
 [ext_resource type="Script" path="res://game/background/background_grid.gd" id="3_apepi"]
+[ext_resource type="Script" path="res://game/controlled_camera_2d.gd" id="3_gfo3c"]
+[ext_resource type="Script" path="res://game/ui/fps_label.gd" id="3_sf1tg"]
 [ext_resource type="PackedScene" uid="uid://dsl7crppb7ut5" path="res://game/objects/asteroid_iron.tscn" id="4_3tfyi"]
 [ext_resource type="Shader" path="res://resources/shaders/canvas_group_area.gdshader" id="5_b2sve"]
 [ext_resource type="Script" path="res://game/influence_canvas.gd" id="5_w38rg"]
@@ -18,7 +20,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hglpe"]
 shader = ExtResource("1_lnwkc")
 shader_parameter/radius = 32.0
-shader_parameter/position = Vector2(-640, -360)
+shader_parameter/position = Vector2(-639, -359)
 shader_parameter/gridWidth_1 = Vector2(32, 32)
 shader_parameter/lineWidth_1 = 1.0
 shader_parameter/gridColor_1 = Vector4(0.25, 0.25, 0.25, 0.25)
@@ -67,7 +69,18 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_yft4b")
 
+[node name="FPSLabel" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("3_sf1tg")
+
 [node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_speed = 10.0
+script = ExtResource("3_gfo3c")
+left_action = "left"
+right_action = "right"
+up_action = "up"
+down_action = "down"
 
 [node name="BackgroundGrid" type="Sprite2D" parent="Camera2D"]
 material = SubResource("ShaderMaterial_hglpe")
