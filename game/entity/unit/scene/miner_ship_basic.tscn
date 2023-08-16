@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://ctrt2fte2x4r5"]
+[gd_scene load_steps=6 format=3 uid="uid://ctrt2fte2x4r5"]
 
 [ext_resource type="Script" path="res://game/entity/unit/unit.gd" id="1_0ctb3"]
+[ext_resource type="Texture2D" uid="uid://bhm51mno7y6hc" path="res://assets/sprites/units/player_ships/miner_drone_001.png" id="2_13hys"]
 [ext_resource type="Script" path="res://game/entity/tool/miner_tool.gd" id="2_qop2t"]
 [ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_w4210"]
 
@@ -12,14 +13,13 @@ height = 14.0
 collision_mask = 0
 script = ExtResource("1_0ctb3")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_13hys")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 0)
 rotation = 1.57079
 shape = SubResource("CapsuleShape2D_2sl6y")
-
-[node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color(0.0352941, 0.0352941, 1, 1)
-polygon = PackedVector2Array(8, 0, -2, 4, -6, 0, -2, -4)
 
 [node name="Tools" type="Node2D" parent="."]
 unique_name_in_owner = true
