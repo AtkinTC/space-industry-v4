@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="StructureDefinition" load_steps=3 format=3 uid="uid://nh5qja2edpaw"]
 
 [ext_resource type="PackedScene" uid="uid://b1dmup56e23sl" path="res://game/entity/structure/scene/construction_site_3x3.tscn" id="1_r3vme"]
-[ext_resource type="Script" path="res://game/entity/resource/definition/structure_definition.gd" id="2_8y808"]
+[ext_resource type="Script" path="res://game/entity/resource/definition/entity_definition.gd" id="2_8y808"]
 
 [resource]
 script = ExtResource("2_8y808")

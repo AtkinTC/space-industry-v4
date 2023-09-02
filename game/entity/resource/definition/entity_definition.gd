@@ -83,7 +83,7 @@ func get_grid_size() -> Vector2i:
 	
 	if(!grid_size_found):
 		grid_size = Vector2i(1, 1)
-		print_debug("Using default grid size for structue scene : %s." % entity_type)
+		print_debug("Using default grid size for entity scene : %s." % entity_type)
 		grid_size_found = true
 	
 	return grid_size

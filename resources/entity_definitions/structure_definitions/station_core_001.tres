@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://co8g67bnh8fcs" path="res://game/entity/structure/scene/station_core.tscn" id="1_01qrh"]
 [ext_resource type="Texture2D" uid="uid://cgaulx604qncm" path="res://assets/sprites/structures/station_core_64x64.png" id="1_ua4bs"]
 [ext_resource type="Script" path="res://game/entity/component/health_component.gd" id="2_3cpts"]
-[ext_resource type="Script" path="res://game/entity/resource/definition/structure_definition.gd" id="2_8ixjl"]
+[ext_resource type="Script" path="res://game/entity/resource/definition/entity_definition.gd" id="2_8ixjl"]
 [ext_resource type="Script" path="res://game/entity/component/inventory_component.gd" id="4_enltm"]
 
 [sub_resource type="Resource" id="Resource_7ts5o"]
