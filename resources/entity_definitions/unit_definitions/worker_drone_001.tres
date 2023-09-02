@@ -20,13 +20,17 @@ script = ExtResource("3_a3nqg")
 
 [resource]
 script = ExtResource("3_v7bpt")
-base_move_speed = 50.0
 entity_type = "worker_drone_001"
 scene = ExtResource("2_ra8f8")
 influence_radius = -1.0
 display_name = "worker drone MKI"
+default_display_layer = 0
 construction_cost = {}
 construction_time = 1.0
 inventory_component = SubResource("Resource_1bm6b")
 logic_component = SubResource("Resource_1yr85")
 movement_component = SubResource("Resource_xrfxq")
+base_move_speed = 50.0
+player_buildable = false
+dock_range = 0.0
+grid_locked = false

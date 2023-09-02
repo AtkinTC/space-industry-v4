@@ -5,12 +5,14 @@
 
 [resource]
 script = ExtResource("2_q8tas")
-player_buildable = false
-dock_range = 32.0
-grid_locked = true
-display_name = "construction site med"
 entity_type = "construction_site_2x2"
 scene = ExtResource("1_lb3u4")
-base_inventory_capacity = -1
-construction_cost = {}
+dock_range = 32.0
 influence_radius = -1.0
+grid_locked = true
+display_name = "construction site med"
+default_display_layer = -1
+construction_cost = {}
+construction_time = 0.0
+player_buildable = false
+base_move_speed = 0.0

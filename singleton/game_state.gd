@@ -1,7 +1,7 @@
 extends Node
 # Singleton GameState
 
-signal trigger_build_state(structure_def : StructureDefinition)
+signal trigger_build_state(entity_def : EntityDefinition)
 
 var mining_drone_type : String = "mining_drone_001"
 
@@ -34,10 +34,10 @@ func set_ui_state(state : UI_STATE):
 			if(selection_areas_layer != null):
 				selection_areas_layer.set_input_enabled(false)
 
-func start_build_state(structure_def : StructureDefinition) -> void:
+func start_build_state(entity_def : EntityDefinition) -> void:
 	if(build_control_layer != null):
 		set_ui_state(UI_STATE.BUILD)
-		build_control_layer.start_build_state(structure_def)
+		build_control_layer.start_build_state(entity_def)
 
 func _on_build_state_complete():
 	if(ui_state == UI_STATE.BUILD):

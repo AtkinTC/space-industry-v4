@@ -17,16 +17,17 @@ additional_padding = 0
 script = ExtResource("4_qfsq1")
 entity_type = "connector_joint"
 scene = ExtResource("3_5tssb")
+dock_range = 16.0
 influence_radius = -1.0
 selection_area_definition = SubResource("Resource_y7q3v")
+grid_locked = true
 display_name = "connector"
 display_image = ExtResource("2_hogb5")
+default_display_layer = -1
 construction_cost = {
 "iron_ore": 1
 }
 construction_time = 0.0
-base_move_speed = 0.0
+construction_site_def = ExtResource("1_irvtu")
 player_buildable = true
-dock_range = 16.0
-grid_locked = true
-construction_def = ExtResource("1_irvtu")
+base_move_speed = 0.0

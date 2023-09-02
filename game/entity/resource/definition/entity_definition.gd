@@ -1,19 +1,27 @@
 extends Resource
 class_name EntityDefinition
 
+enum DISPLAY_LAYER {UNIT=0, STRUCTURE=-1}
+
 @export var entity_type : String = ""
 @export var scene : PackedScene
 
+@export var dock_range : float = 0
 @export var influence_radius : float = -1
 @export var selection_area_definition : SelectionAreaDefinition
+
+@export var grid_locked : bool = false
 
 @export_group("Display")
 @export var display_name : String = ""
 @export var display_image : Texture = null
+@export var default_display_layer : DISPLAY_LAYER = 0
 
 @export_group("Construction")
 @export var construction_cost : Dictionary = {}
 @export var construction_time : float = 0
+@export var construction_site_def : EntityDefinition = null
+@export var player_buildable : bool = false
 
 @export_group("Components")
 @export var inventory_component : InventoryComponent = null
@@ -24,11 +32,8 @@ class_name EntityDefinition
 @export_group("Movement")
 @export var base_move_speed : float = 0
 
-@export_group("Structure")
-@export var player_buildable : bool = false
-@export var dock_range : float = 50
-@export var grid_locked : bool = true
-@export var construction_def : StructureDefinition = null
+
+
 
 const GRID_TOOL_NODE_NAME := "EntityGridTool"
 const GRID_SIZE_PROP_NAME := "grid_size"
@@ -111,12 +116,12 @@ func get_grid_cells() -> Array[Vector2i]:
 	
 	return grid_cells
 
-# structure specific translation from structure's world position to its center grid cell
+# entity specific translation from entity's world position to its center grid cell
 func world_to_grid(world_pos : Vector2) -> Vector2i:
 	var grid_pos : Vector2i = floor((world_pos + get_grid_alignment_offset()) / Constants.TILE_SIZE)
 	return grid_pos
 
-# structure specific translation from structure's center grid cell to its world position
+# entity specific translation from entity's center grid cell to its world position
 func grid_to_world(grid_pos : Vector2i) -> Vector2:
 	var world_pos : Vector2 = ((grid_pos as Vector2 - get_grid_alignment_offset()) * Constants.TILE_SIZE) as Vector2
 	return world_pos

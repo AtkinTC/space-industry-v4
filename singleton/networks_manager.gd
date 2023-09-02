@@ -62,7 +62,7 @@ const DIRECTIONS_I : Array[Vector2i] = [Vector2i.UP, Vector2i.DOWN, Vector2i.RIG
 var connector_nodes := {} # all GridNeighborConnectorComponent organized by instance_id
 var node_network_ids := {} # each nodes's network id, organized by node instance_id
 var node_id_by_cell := {} # node instance_id organized by their cell positions
-var cells_by_node_id := {} # structure point cells organized by node instance_id
+var cells_by_node_id := {} # entity point cells organized by node instance_id
 
 var networks := {} 
 
@@ -75,7 +75,7 @@ func _init() -> void:
 	SignalBus.register_grid_neighbor_connector_component.connect(register_node)
 
 func _physics_process(_delta: float) -> void:
-	recalculate_structure_connections()
+	recalculate_entity_connections()
 
 func register_canvas(_canvas : Node2D) -> void:
 	canvas = _canvas
@@ -178,7 +178,7 @@ func erase_node_cells(node_id : int) -> void:
 	cells_by_node_id.erase(node_id)
 
 # handle all node changes and network recalculations
-func recalculate_structure_connections() -> void:
+func recalculate_entity_connections() -> void:
 	var updated_network_ids : Array[int] = []
 	updated_network_ids.append_array(calculate_removed_connectors())
 	updated_network_ids.append_array(calculate_added_connectors())

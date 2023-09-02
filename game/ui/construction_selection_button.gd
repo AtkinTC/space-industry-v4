@@ -1,8 +1,8 @@
 @tool
 extends Button
-class_name StructureBuildButton
+class_name ConstructionSelectionButton
 
-@export var structure_def : StructureDefinition : set = set_structure_def
+@export var entity_def : EntityDefinition : set = set_entity_def
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -24,17 +24,17 @@ func _ready() -> void:
 	
 	setup()
 
-func set_structure_def(def : StructureDefinition) -> void:
-	structure_def = def
+func set_entity_def(def : EntityDefinition) -> void:
+	entity_def = def
 	setup()
 
 func setup() -> void:
-	if(structure_def == null):
+	if(entity_def == null):
 		text = ""
 		icon = null
 		return
-	text = structure_def.display_name
-	icon = structure_def.display_image
+	text = entity_def.display_name
+	icon = entity_def.display_image
 
 func _on_pressed() -> void:
-	GameState.trigger_build_state.emit(structure_def)
+	GameState.trigger_build_state.emit(entity_def)

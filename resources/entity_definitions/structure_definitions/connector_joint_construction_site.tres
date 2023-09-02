@@ -5,13 +5,14 @@
 
 [resource]
 script = ExtResource("2_ekct3")
-player_buildable = false
-dock_range = 16.0
-grid_locked = true
-display_name = "connector joint construction site"
 entity_type = "connector_joint_construction_site"
 scene = ExtResource("1_2rbnp")
-base_inventory_capacity = -1
+dock_range = 16.0
+influence_radius = -1.0
+grid_locked = true
+display_name = "connector joint construction site"
+default_display_layer = -1
 construction_cost = {}
 construction_time = 0.0
-influence_radius = -1.0
+player_buildable = false
+base_move_speed = 0.0

@@ -88,6 +88,8 @@ func setup_from_entity_def() -> void:
 		entity_def = EntityDefs.get_entity_definition(default_entity_type)
 	if(entity_def == null):
 		entity_def = EntityDefs.new()
+	
+	self.z_index = entity_def.default_display_layer
 
 func setup_from_init_parameters() -> void:
 	if(init_parameters.has(Constants.KEY_TRANSFORM)):

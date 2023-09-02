@@ -4,18 +4,16 @@ const KEY_GRID_POSITION := "grid_position"
 const KEY_TRANSFORM := "transform"
 const KEY_POSITION := "position"
 const KEY_ROTATION := "rotation"
-const KEY_STRUCTURE_TYPE := "structure_type"
+const KEY_CONSTRUCTION_TARGET_ENTITY_TYPE := "construction_target_entity_type"
 const KEY_INVENTORY_CONTENTS := "inventory_contents"
 
 const GROUP_RESOURCE_NODE := "resource_node"
-const GROUP_STRUCTURE := "structure"
 const GROUP_CONSTRUCTION := "construction_site"
 const GROUP_DEPOT := "depot"
 
 const GROUP_PLAYER_ENTITY := "player_entity"
 const GROUP_ENEMY_ENTITY := "enemy_entity"
 const GROUP_PLAYER_HQ := "player_hq"
-const GROUP_PLAYER_ATTACKABLE_STRUCTURE := "player_attackable_structure"
 
 
 const GROUP_UNIT := "unit"

@@ -1,7 +1,7 @@
 extends Node2D
 class_name NetworkDisplayLayer
-# UI Node inteded for the display of structure network related visuals
-# such as overall network shapes and individual connection between structures
+# UI Node inteded for the display of entity network related visuals
+# such as overall network shapes and individual connection between entities
 
 var display_networks : bool = true
 

@@ -11,10 +11,6 @@ radius = 32.0
 collision_mask = 0
 script = ExtResource("1_53twg")
 default_entity_type = "construction_site_2x2"
-default_init_parameters = null
-is_depot = null
-hq = null
-attackable = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_j071k")

@@ -1,7 +1,7 @@
 extends Entity
 class_name ConstructionSite
 
-@export var entity_type : String
+@export var construction_target_entity_type : String
 
 #Override
 func _ready() -> void:
@@ -9,8 +9,8 @@ func _ready() -> void:
 	add_to_group(Constants.GROUP_CONSTRUCTION)
 	
 	##DEBUG##
-	assert(entity_type != null && !entity_type.is_empty())
-	assert(get_construction_structure_definition() != null)
+	assert(construction_target_entity_type != null && !construction_target_entity_type.is_empty())
+	assert(get_construction_target_entity_definition() != null)
 	assert(!get_construction_cost().is_empty())
 	assert(has_inventory())
 	assert(get_inventory_component().get_capacity() >= Items.get_volume_sum(get_construction_cost()))
@@ -24,8 +24,8 @@ func setup_from_entity_def() -> void:
 #Override
 func setup_from_init_parameters() -> void:
 	super.setup_from_init_parameters()
-	if(init_parameters.has(Constants.KEY_STRUCTURE_TYPE)):
-		entity_type = init_parameters.get(Constants.KEY_STRUCTURE_TYPE)
+	if(init_parameters.has(Constants.KEY_CONSTRUCTION_TARGET_ENTITY_TYPE)):
+		construction_target_entity_type = init_parameters.get(Constants.KEY_CONSTRUCTION_TARGET_ENTITY_TYPE)
 
 #Override
 func setup_inventory() -> void:
@@ -37,11 +37,11 @@ func _physics_process(_delta: float) -> void:
 	if(is_ready_to_complete()):
 		complete_construction()
 
-func get_construction_structure_definition() -> EntityDefinition:
-	return EntityDefs.get_entity_definition(entity_type)
+func get_construction_target_entity_definition() -> EntityDefinition:
+	return EntityDefs.get_entity_definition(construction_target_entity_type)
 
 func get_construction_cost() -> Dictionary:
-	return get_construction_structure_definition().construction_cost
+	return get_construction_target_entity_definition().construction_cost
 
 func get_remaining_construction_cost() -> Dictionary:
 	var remaining := get_construction_cost().duplicate()
@@ -70,6 +70,6 @@ func complete_construction():
 		Constants.KEY_INVENTORY_CONTENTS : remaining_contents
 	}
 	
-	SignalBus.spawn_structure.emit(entity_type, spawn_params)
+	SignalBus.spawn_entity.emit(construction_target_entity_type, spawn_params)
 	queue_free()
 	

@@ -65,7 +65,7 @@ func complete_build() -> void:
 		Constants.KEY_TRANSFORM : spawn_transform
 	}
 		
-	SignalBus.spawn_unit.emit(unit_type, spawn_params)
+	SignalBus.spawn_entity.emit(unit_type, spawn_params)
 	remaining_build_time = 0
 	in_progress = false
 	

@@ -7,16 +7,18 @@
 
 [resource]
 script = ExtResource("2_cpt5o")
-player_buildable = true
-dock_range = 16.0
-grid_locked = true
-construction_def = ExtResource("1_vu4qs")
 entity_type = "test_structure_1x1"
 scene = ExtResource("1_cb2l7")
+dock_range = 16.0
 influence_radius = 150.0
+grid_locked = true
 display_name = "test 1x1"
 display_image = ExtResource("2_3adne")
+default_display_layer = -1
 construction_cost = {
 "iron_ore": 4
 }
 construction_time = 0.0
+construction_site_def = ExtResource("1_vu4qs")
+player_buildable = true
+base_move_speed = 0.0

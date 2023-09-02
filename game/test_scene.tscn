@@ -1,19 +1,18 @@
-[gd_scene load_steps=19 format=3 uid="uid://lqf5gy55eirv"]
+[gd_scene load_steps=18 format=3 uid="uid://lqf5gy55eirv"]
 
 [ext_resource type="Shader" path="res://resources/shaders/grid.gdshader" id="1_lnwkc"]
 [ext_resource type="Script" path="res://game/test_scene.gd" id="1_ri3n2"]
 [ext_resource type="Texture2D" uid="uid://d4cd7gowjm2dq" path="res://assets/sprites/black.png" id="2_4g3ld"]
-[ext_resource type="Script" path="res://game/ui/structure_build_menu.gd" id="2_yft4b"]
+[ext_resource type="Script" path="res://game/ui/construction_selection_menu.gd" id="2_wgfyk"]
 [ext_resource type="Script" path="res://game/background/background_grid.gd" id="3_apepi"]
 [ext_resource type="Script" path="res://game/controlled_camera_2d.gd" id="3_gfo3c"]
 [ext_resource type="Script" path="res://game/ui/fps_label.gd" id="3_sf1tg"]
 [ext_resource type="PackedScene" uid="uid://dsl7crppb7ut5" path="res://game/objects/asteroid_iron.tscn" id="4_3tfyi"]
 [ext_resource type="Shader" path="res://resources/shaders/canvas_group_area.gdshader" id="5_b2sve"]
 [ext_resource type="Script" path="res://game/influence_canvas.gd" id="5_w38rg"]
-[ext_resource type="Script" path="res://game/structures_parent_node.gd" id="8_6hhf1"]
 [ext_resource type="Script" path="res://game/entity/connection_lines_layer.gd" id="8_wksh4"]
 [ext_resource type="Script" path="res://game/entity/networks_display_layer.gd" id="12_55yge"]
-[ext_resource type="Script" path="res://game/ships_parent_node.gd" id="12_t0iog"]
+[ext_resource type="Script" path="res://game/entities_parent_node.gd" id="12_ds866"]
 [ext_resource type="Script" path="res://game/entity/selection_areas_layer.gd" id="15_5qeme"]
 [ext_resource type="Script" path="res://game/build_control_layer.gd" id="15_rs7lq"]
 
@@ -67,7 +66,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("2_yft4b")
+script = ExtResource("2_wgfyk")
 
 [node name="FPSLabel" type="Label" parent="CanvasLayer"]
 offset_right = 40.0
@@ -83,6 +82,7 @@ up_action = "up"
 down_action = "down"
 
 [node name="BackgroundGrid" type="Sprite2D" parent="Camera2D"]
+z_index = -100
 material = SubResource("ShaderMaterial_hglpe")
 texture = ExtResource("2_4g3ld")
 region_enabled = true
@@ -90,10 +90,12 @@ region_rect = Rect2(0, 0, 1280, 720)
 script = ExtResource("3_apepi")
 
 [node name="InfluenceCanvas" type="CanvasGroup" parent="."]
+z_index = -95
 material = SubResource("ShaderMaterial_reaj2")
 script = ExtResource("5_w38rg")
 
 [node name="ConnectionLinesLayer" type="Node2D" parent="."]
+z_index = -90
 script = ExtResource("8_wksh4")
 
 [node name="Objects" type="Node2D" parent="."]
@@ -137,11 +139,8 @@ position = Vector2(431, -14)
 [node name="IronAsteroid8" parent="Objects" instance=ExtResource("4_3tfyi")]
 position = Vector2(241, -143)
 
-[node name="StructuresParentNode" type="Node2D" parent="."]
-script = ExtResource("8_6hhf1")
-
-[node name="ShipsParentNode" type="Node2D" parent="."]
-script = ExtResource("12_t0iog")
+[node name="Entities" type="Node2D" parent="."]
+script = ExtResource("12_ds866")
 
 [node name="NetworkDisplayLayer" type="Node2D" parent="."]
 script = ExtResource("12_55yge")
