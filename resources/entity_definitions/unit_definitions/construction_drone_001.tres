@@ -28,7 +28,6 @@ additional_padding = 2
 
 [resource]
 script = ExtResource("1_5ww0h")
-base_move_speed = 40.0
 entity_type = "construction_drone_001"
 scene = ExtResource("2_e7iqk")
 influence_radius = -1.0
@@ -39,3 +38,7 @@ construction_time = 2.0
 inventory_component = SubResource("Resource_dedmk")
 logic_component = SubResource("Resource_ulrfr")
 movement_component = SubResource("Resource_01car")
+base_move_speed = 40.0
+player_buildable = false
+dock_range = 50.0
+grid_locked = true

@@ -65,7 +65,7 @@ func process(_delta : float) -> void:
 			parent.move_state = Unit.MOVE_STATE.STANDBY
 		
 		Assignment.GOAL_STATE.BUILD:
-			var construction_assignment := (assignment as Assignment.BuildStructureAssignment)
+			var construction_assignment := (assignment as Assignment.BuildConstructionSiteAssignment)
 			
 			var construction_site := construction_assignment.construction_site
 			var construction_site_valid : bool = (construction_site != null && is_instance_valid(construction_site))
@@ -75,21 +75,21 @@ func process(_delta : float) -> void:
 				
 			if(!construction_assignment.picked_up):
 				# pickup building materials
-				var pickup_structure := construction_assignment.pickup_structure
-				var pickup_structure_valid : bool = (pickup_structure != null && is_instance_valid(pickup_structure))
-				if(!pickup_structure_valid):
+				var pickup_site := construction_assignment.pickup_site
+				var pickup_site_valid : bool = (pickup_site != null && is_instance_valid(pickup_site))
+				if(!pickup_site_valid):
 					#TODO : check for partial item pickup
 					clear_assignment()
 					return
 				
-				if(parent.global_position.distance_squared_to(pickup_structure.global_position) > pow(pickup_structure.get_dock_range(), 2)):
+				if(parent.global_position.distance_squared_to(pickup_site.global_position) > pow(pickup_site.get_dock_range(), 2)):
 					parent.move_state = Unit.MOVE_STATE.APPROACH
-					parent.move_target = pickup_structure
-					parent.approach_distance = pickup_structure.get_dock_range() * 0.9
+					parent.move_target = pickup_site
+					parent.approach_distance = pickup_site.get_dock_range() * 0.9
 				else:
 					var remaining_construction_cost := construction_site.get_remaining_construction_cost()
 					var valid_insert_items := parent.get_inventory_component().precalculate_insert_result(remaining_construction_cost)
-					InventoryComponent.transfer_items(pickup_structure.get_inventory_component(), parent.get_inventory_component(), valid_insert_items)
+					InventoryComponent.transfer_items(pickup_site.get_inventory_component(), parent.get_inventory_component(), valid_insert_items)
 					construction_assignment.assigned_items = valid_insert_items
 					construction_assignment.picked_up = true
 					
@@ -137,21 +137,20 @@ func process(_delta : float) -> void:
 					parent.move_state = Unit.MOVE_STATE.STANDBY
 		
 		Assignment.GOAL_STATE.RETURN:
-			var return_assignment := (assignment as Assignment.ReturnToStructureAssignment)
+			var return_assignment := (assignment as Assignment.ReturnToEntityAssignment)
+			var entity := return_assignment.entity
+			var entity_valid : bool = (entity != null && is_instance_valid(entity))
 			
-			var structure := return_assignment.structure
-			var structure_valid : bool = (structure != null && is_instance_valid(structure))
-			
-			if(!structure_valid):
+			if(!entity_valid):
 				clear_assignment()
 				return
 			else:
-				parent.approach_distance = structure.get_dock_range() * 0.9
-				if(parent.global_position.distance_squared_to(structure.global_position) > pow(parent.approach_distance, 2)):
+				parent.approach_distance = entity.get_dock_range() * 0.9
+				if(parent.global_position.distance_squared_to(entity.global_position) > pow(parent.approach_distance, 2)):
 					parent.move_state = Unit.MOVE_STATE.APPROACH
-					parent.move_target = structure
+					parent.move_target = entity
 				else:
-					if(!parent.get_inventory_component().is_empty() && structure.has_inventory()):
-						InventoryComponent.transfer_all(parent.get_inventory_component(), structure.get_inventory_component())
+					if(!parent.get_inventory_component().is_empty() && entity.has_inventory()):
+						InventoryComponent.transfer_all(parent.get_inventory_component(), entity.get_inventory_component())
 					clear_assignment()
 					return

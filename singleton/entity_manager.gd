@@ -26,7 +26,7 @@ func get_entities_by_type(entity_type : String) -> Array[Entity]:
 		if(unit.entity_def.entity_type == entity_type):
 			filtered.append(unit)
 	for key in structures.keys():
-		var structure : Structure = structures[key]
+		var structure : Entity = structures[key]
 		if(structure.entity_def.entity_type == entity_type):
 			filtered.append(structure)
 	return filtered
@@ -36,7 +36,7 @@ func get_entities_by_type(entity_type : String) -> Array[Entity]:
 #########
 
 func spawn_unit(entity_type : String, properties : Dictionary) -> Unit:
-	var unit_def := EntityDefs.get_unit_definition(entity_type)
+	var unit_def := EntityDefs.get_entity_definition(entity_type)
 	if(unit_def == null):
 		print_debug("No UnitDefinition found for type : %s" % entity_type)
 		return
@@ -62,15 +62,15 @@ func _on_unit_freed(instance_id : int) -> void:
 # STRUCTURES #
 ##############
 
-func spawn_structure(entity_type : String, properties : Dictionary) -> Structure:
-	var structure_def := EntityDefs.get_structure_definition(entity_type)
+func spawn_structure(entity_type : String, properties : Dictionary) -> Entity:
+	var structure_def := EntityDefs.get_entity_definition(entity_type)
 	if(structure_def == null):
 		print_debug("No StructureDefinition found for type : %s" % entity_type)
 		return
 	
 	assert(!structure_def.grid_locked || properties.has(Constants.KEY_GRID_POSITION))
 	
-	var new_node : Structure = structure_def.scene.instantiate()
+	var new_node : Entity = structure_def.scene.instantiate()
 	new_node.init(structure_def, properties)
 	
 	if(structure_def.grid_locked):

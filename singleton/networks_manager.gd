@@ -1,6 +1,6 @@
 extends Node
 # Singleton NetworksManager
-# manages the network connections between StructureConnectorComponent connector nodes
+# manages the network connections between GridNeighborConnectorComponent connector nodes
 
 signal network_updated(network_ids : Array[int])
 
@@ -59,7 +59,7 @@ class Graph:
 
 const DIRECTIONS_I : Array[Vector2i] = [Vector2i.UP, Vector2i.DOWN, Vector2i.RIGHT, Vector2i.LEFT]
 
-var connector_nodes := {} # all StructureConnectorComponent organized by instance_id
+var connector_nodes := {} # all GridNeighborConnectorComponent organized by instance_id
 var node_network_ids := {} # each nodes's network id, organized by node instance_id
 var node_id_by_cell := {} # node instance_id organized by their cell positions
 var cells_by_node_id := {} # structure point cells organized by node instance_id
@@ -72,7 +72,7 @@ var removed_connector_ids : Array[int] = []
 var canvas : NetworkDisplayLayer = null
 
 func _init() -> void:
-	SignalBus.register_structure_connector_component.connect(register_node)
+	SignalBus.register_grid_neighbor_connector_component.connect(register_node)
 
 func _physics_process(_delta: float) -> void:
 	recalculate_structure_connections()
@@ -82,7 +82,7 @@ func register_canvas(_canvas : Node2D) -> void:
 	#for instance_id in connector_nodes.keys():
 	#	canvas.add_influence_node(connector_nodes[instance_id])
 
-func register_node(node : StructureConnectorComponent) -> void:
+func register_node(node : GridNeighborConnectorComponent) -> void:
 	if(node == null):
 		return
 	
@@ -114,7 +114,7 @@ func get_network_ids() -> Array[int]:
 	a.assign(networks.keys())
 	return a
 
-func get_connector_node(node_id : int) -> StructureConnectorComponent:
+func get_connector_node(node_id : int) -> GridNeighborConnectorComponent:
 	return connector_nodes.get(node_id)
 
 func get_network(node_id) -> Graph:
@@ -136,7 +136,7 @@ func get_network_node_ids(network_id : int) -> Array[int]:
 
 # get all unique (non-repeating) connections between connectors in the specifiednetwork
 # -> network_id : int - id of the specified network
-# <- unique_connections : Array[Array[StructureConnectorComponent]] - each connection represented by an array containing two StructureConnectorComponent nodes
+# <- unique_connections : Array[Array[GridNeighborConnectorComponent]] - each connection represented by an array containing two GridNeighborConnectorComponent nodes
 func get_network_unique_connections(network_id : int) -> Array:
 	if(!networks.has(network_id)):
 		return []
@@ -144,10 +144,10 @@ func get_network_unique_connections(network_id : int) -> Array:
 	var network : Graph = networks[network_id]
 	var checked_node_ids : Array[int] = []
 	for key_node_id in network.get_node_ids():
-		var node_1 : StructureConnectorComponent = connector_nodes[key_node_id]
+		var node_1 : GridNeighborConnectorComponent = connector_nodes[key_node_id]
 		for connected_node_id in network.get_connected_node_ids(key_node_id):
 			if(!checked_node_ids.has(connected_node_id)):
-				var node_2 : StructureConnectorComponent = connector_nodes[connected_node_id]
+				var node_2 : GridNeighborConnectorComponent = connector_nodes[connected_node_id]
 				unique_connections.append([node_1, node_2])
 		checked_node_ids.append(key_node_id)
 	return unique_connections
@@ -161,7 +161,7 @@ func get_next_free_network_id() -> int:
 # record connector cell positions for a connector node
 # -> node_id : int - instance_id of the specified connector node
 func record_node_cells(node_id : int) -> void:
-	var node : StructureConnectorComponent = connector_nodes[node_id]
+	var node : GridNeighborConnectorComponent = connector_nodes[node_id]
 	var center_cell := node.get_center_cell()
 	var point_cells : Array[Vector2i] = []
 	for point in node.connector_points:

@@ -1,6 +1,6 @@
 @tool
 extends Node2D
-class_name StructureGridTool
+class_name EntityGridTool
 
 @export var grid_size := Vector2i(1,1) : set = set_grid_size
 @export var cells : Array[Vector2i] = []

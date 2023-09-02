@@ -18,6 +18,6 @@ signal register_construction_site(instance_id : int)
 signal entity_ready(entity : Entity)
 
 signal register_influence_node(node : InfluenceNode)
-signal register_structure_connector_component(node : StructureConnectorComponent)
+signal register_grid_neighbor_connector_component(node : GridNeighborConnectorComponent)
 
 signal register_assignment_receiver(instance_id : int)

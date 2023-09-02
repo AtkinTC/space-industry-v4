@@ -1,10 +1,10 @@
 [gd_scene load_steps=16 format=3 uid="uid://darkcar7wgv0o"]
 
-[ext_resource type="Script" path="res://game/entity/structure/structure.gd" id="1_b2ym2"]
+[ext_resource type="Script" path="res://game/entity/entity.gd" id="1_7fbj7"]
 [ext_resource type="Texture2D" uid="uid://laarrakh5kmo" path="res://assets/sprites/placeholders/placeholder_96x96.png" id="2_uadso"]
 [ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_leyro"]
 [ext_resource type="Script" path="res://game/entity/structure/structure_grid_tool.gd" id="4_ltaw6"]
-[ext_resource type="Script" path="res://game/entity/structure/structure_connector_component.gd" id="5_qdk75"]
+[ext_resource type="Script" path="res://game/entity/structure/grid_neighbor_connector_component.gd" id="5_qdk75"]
 [ext_resource type="Script" path="res://game/entity/structure/connector_point.gd" id="6_mu1tw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ndpt7"]
@@ -52,7 +52,7 @@ directions = Array[Vector2i]([Vector2i(0, 1), Vector2i(1, 0)])
 
 [node name="TestStructure3x3" type="Area2D"]
 collision_mask = 0
-script = ExtResource("1_b2ym2")
+script = ExtResource("1_7fbj7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_uadso")
@@ -64,11 +64,11 @@ shape = SubResource("RectangleShape2D_ndpt7")
 position = Vector2(0, 48)
 script = ExtResource("3_leyro")
 
-[node name="StructureGridTool" type="Node2D" parent="."]
+[node name="EntityGridTool" type="Node2D" parent="."]
 script = ExtResource("4_ltaw6")
 grid_size = Vector2i(3, 3)
 cells = Array[Vector2i]([Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -1), Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)])
 
-[node name="StructureConnectorComponent" type="Node2D" parent="."]
+[node name="GridNeighborConnectorComponent" type="Node2D" parent="."]
 script = ExtResource("5_qdk75")
 connector_points = Array[ExtResource("6_mu1tw")]([SubResource("Resource_t8viu"), SubResource("Resource_5iyqs"), SubResource("Resource_oauya"), SubResource("Resource_t343y"), SubResource("Resource_pf3h8"), SubResource("Resource_k8yd4"), SubResource("Resource_b7l3x"), SubResource("Resource_b7sil")])

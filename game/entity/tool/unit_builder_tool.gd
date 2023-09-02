@@ -51,7 +51,7 @@ func start_build() -> void:
 			continue
 		unit_type = key
 	
-	var unit_def := EntityDefs.get_unit_definition(unit_type)
+	var unit_def := EntityDefs.get_entity_definition(unit_type)
 	if(unit_def == null):
 		print_debug("Attempting to build invalid unit type : " + unit_type)
 		return

@@ -10,13 +10,27 @@ var init_parameters : Dictionary = {}
 @export var health_component : HealthComponent = null
 @export var logic_component : LogicComponent = null
 @export var movement_component : MovementComponent = null
-var network_component : StructureConnectorComponent = null
+var network_component : GridNeighborConnectorComponent = null
 
 @onready var collision_shape : CollisionShape2D = get_node_or_null("CollisionShape2D")
 @onready var collision_polygon : CollisionPolygon2D = get_node_or_null("CollisionPolygon2D")
 
 @onready var tools_node : Node2D = get_node_or_null("Tools")
 var tools : Dictionary = {}
+
+@export var is_depot : bool = false
+@export var hq : bool = false
+@export var attackable: bool = false
+
+var grid_position := Vector2i()
+
+enum MOVE_STATE {STANDBY, APPROACH}
+var move_state := MOVE_STATE.STANDBY
+var move_target : Node2D = null
+
+var approach_distance : float = 0
+
+var velocity := Vector2.ZERO
 
 func init(_entity_def : EntityDefinition = null, _init_parameters : Dictionary = {}) -> void:
 	entity_def = _entity_def
@@ -25,6 +39,14 @@ func init(_entity_def : EntityDefinition = null, _init_parameters : Dictionary =
 func _ready():
 	deferred_ready.call_deferred()
 	setup()
+	
+	add_to_group(Constants.GROUP_PLAYER_ENTITY)
+	
+	if(hq):
+		add_to_group(Constants.GROUP_PLAYER_HQ)
+	
+	if(is_depot):
+		add_to_group(Constants.GROUP_DEPOT)
 	
 	if(entity_def.influence_radius > 0):
 		var influence_node := InfluenceNode.new(entity_def.influence_radius)
@@ -62,14 +84,25 @@ func setup() -> void:
 	setup_movement_component()
 
 func setup_from_entity_def() -> void:
+	if(entity_def == null && !default_entity_type.is_empty()):
+		entity_def = EntityDefs.get_entity_definition(default_entity_type)
 	if(entity_def == null):
-		entity_def = EntityDefinition.new()
+		entity_def = EntityDefs.new()
 
 func setup_from_init_parameters() -> void:
 	if(init_parameters.has(Constants.KEY_TRANSFORM)):
 		global_transform = init_parameters.get(Constants.KEY_TRANSFORM)
-	global_position = init_parameters.get(Constants.KEY_POSITION, global_position)
-	global_rotation = init_parameters.get(Constants.KEY_ROTATION, global_rotation)
+		
+	if(init_parameters.has(Constants.KEY_POSITION)):
+		global_position = init_parameters.get(Constants.KEY_POSITION)
+	
+	if(init_parameters.has(Constants.KEY_ROTATION)):
+		global_rotation = init_parameters.get(Constants.KEY_ROTATION)
+	
+	if(init_parameters.has(Constants.KEY_GRID_POSITION)):
+		grid_position = init_parameters.get(Constants.KEY_GRID_POSITION)
+		global_position = entity_def.grid_to_world(grid_position)
+		init_parameters.erase(Constants.KEY_POSITION)
 
 #################
 ### INVENTORY ###
@@ -160,12 +193,12 @@ func process_movement(_delta : float) -> void:
 ###############
 
 func setup_network() -> void:
-	network_component = get_node_or_null("StructureConnectorComponent")
+	network_component = get_node_or_null("GridNeighborConnectorComponent")
 
 func has_network_component() -> bool:
 	return network_component != null
 
-func get_network_component() -> StructureConnectorComponent:
+func get_network_component() -> GridNeighborConnectorComponent:
 	return network_component
 
 #############
@@ -204,3 +237,6 @@ func can_build() -> bool:
 	if(!has_inventory()):
 		return false
 	return true
+
+func get_dock_range() -> float:
+	return entity_def.dock_range

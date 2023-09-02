@@ -10,8 +10,11 @@ radius = 32.0
 [node name="ConstructionSite2x2" type="Area2D"]
 collision_mask = 0
 script = ExtResource("1_53twg")
-structure_type = "test_structure_2x2"
 default_entity_type = "construction_site_2x2"
+default_init_parameters = null
+is_depot = null
+hq = null
+attackable = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_j071k")
@@ -23,7 +26,7 @@ polygon = PackedVector2Array(0, -31, 31, 0, 0, 31, -31, 0)
 position = Vector2(0, 32)
 script = ExtResource("2_ddul0")
 
-[node name="StructureGridTool" type="Node2D" parent="."]
+[node name="EntityGridTool" type="Node2D" parent="."]
 script = ExtResource("3_i6fkx")
 grid_size = Vector2i(2, 2)
 cells = Array[Vector2i]([Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, 0), Vector2i(1, 1)])

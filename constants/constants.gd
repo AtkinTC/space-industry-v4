@@ -10,11 +10,13 @@ const KEY_INVENTORY_CONTENTS := "inventory_contents"
 const GROUP_RESOURCE_NODE := "resource_node"
 const GROUP_STRUCTURE := "structure"
 const GROUP_CONSTRUCTION := "construction_site"
+const GROUP_DEPOT := "depot"
 
 const GROUP_PLAYER_ENTITY := "player_entity"
 const GROUP_ENEMY_ENTITY := "enemy_entity"
 const GROUP_PLAYER_HQ := "player_hq"
 const GROUP_PLAYER_ATTACKABLE_STRUCTURE := "player_attackable_structure"
+
 
 const GROUP_UNIT := "unit"
 const GROUP_MINER := "miner"

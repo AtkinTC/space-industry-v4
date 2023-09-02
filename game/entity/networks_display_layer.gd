@@ -30,7 +30,7 @@ func _draw() -> void:
 			var empty := true
 			var color := network_colors[color_index]
 			for connection in NetworksManager.get_network_unique_connections(network_id):
-				points.append_array([connection[0].get_structure().global_position, connection[1].get_structure().global_position])
+				points.append_array([connection[0].get_entity().global_position, connection[1].get_entity().global_position])
 				colors.append(color)
 				empty = false
 			if(!empty):

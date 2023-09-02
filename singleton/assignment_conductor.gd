@@ -14,7 +14,7 @@ var construction_sites_queue : Array[int] = []
 var construction_site_assignments : Dictionary = {}
 
 const MAX_MINERS_PER_RESOURCE_NODE : int = 2
-const MAX_BUILDERS_PER_CONSTRUCTION_SITE : int = 1
+const MAX_BUILDERS_PER_CONSTRUCTION_SITE : int = 2
 
 const ASSIGNMENT_WAIT_TIME : float = 0.5
 var wait_timer : SceneTreeTimer = null
@@ -95,7 +95,7 @@ func assign_task(instance_id : int) -> void:
 		#var contents := unit.get_inventory_component().get_contents()
 		if(receiver.can_build() && receiver.get_parent().get_inventory_component().is_empty()):
 			#var free_capacity := unit.get_inventory_component().get_available_capacity()
-			var stations : Array[Structure] = get_depot_stations()
+			var depots : Array[Entity] = get_depots()
 			for site_id in construction_sites_queue:
 				var site_assignments : Array = construction_site_assignments.get(site_id, [])
 				
@@ -120,16 +120,16 @@ func assign_task(instance_id : int) -> void:
 					#SKIP - site already has needed materials
 					continue
 				
-				var filtered_stations : Array[Structure] = stations.filter(func lambda(s : Structure) : return !s.get_inventory_component().contains_any(needed_materials).is_empty())
+				var filtered_stations : Array[Entity] = depots.filter(func lambda(s : Entity) : return !s.get_inventory_component().contains_any(needed_materials).is_empty())
 				if(filtered_stations.is_empty()):
 					#SKIP - no stations with applicable build materials
 					continue
 				
-				var pickup_station : Structure = Utils.get_closest_targets(receiver.get_parent().global_position, filtered_stations, 1)[0]
+				var pickup_station : Entity = Utils.get_closest_targets(receiver.get_parent().global_position, filtered_stations, 1)[0]
 				
 				var pickup_items : Dictionary = pickup_station.get_inventory_component().contains_any(needed_materials)
 				
-				set_receiver_assignment(receiver, Assignment.BuildStructureAssignment.new(site, pickup_station, pickup_items))
+				set_receiver_assignment(receiver, Assignment.BuildConstructionSiteAssignment.new(site, pickup_station, pickup_items))
 				return
 	
 	if(task_groups.has(Constants.TASK_GROUP_MINER)):
@@ -142,16 +142,16 @@ func assign_task(instance_id : int) -> void:
 			else:
 				print_debug("No Resource Nodes to mine")
 		else:
-			var targets := Utils.get_closest_targets(receiver.get_parent().global_position, get_dropoff_stations())
-			if(targets != null && targets.size() > 0 && targets[0] is Structure):
-				set_receiver_assignment(receiver, Assignment.ReturnToStructureAssignment.new(targets[0]))
+			var targets := Utils.get_closest_targets(receiver.get_parent().global_position, get_dropoff_depots())
+			if(targets != null && targets.size() > 0 && targets[0] is Entity):
+				set_receiver_assignment(receiver, Assignment.ReturnToEntityAssignment.new(targets[0]))
 				return
 			else:
 				print_debug("No stations to return to")
 	
-	var depots := Utils.get_closest_targets(receiver.get_parent().global_position, get_depot_stations())
-	if(depots != null && depots.size() > 0 && depots[0] is Structure):
-		set_receiver_assignment(receiver, Assignment.ReturnToStructureAssignment.new(depots[0]))
+	var depots := Utils.get_closest_targets(receiver.get_parent().global_position, get_depots())
+	if(depots != null && depots.size() > 0 && depots[0] is Entity):
+		set_receiver_assignment(receiver, Assignment.ReturnToEntityAssignment.new(depots[0]))
 		return
 	
 	print_debug("No valid to task to assign to unit %d" % instance_id)
@@ -166,8 +166,8 @@ func set_receiver_assignment(receiver : AssignmentReceiverLogicComponent, assign
 	needs_assignment_queue.erase(instance_id)
 	receiver.set_assignemnt(assignment)
 	
-	if(assignment is Assignment.BuildStructureAssignment):
-		var site_id := (assignment as Assignment.BuildStructureAssignment).construction_site_id
+	if(assignment is Assignment.BuildConstructionSiteAssignment):
+		var site_id := (assignment as Assignment.BuildConstructionSiteAssignment).construction_site_id
 		construction_site_assignments[site_id] = construction_site_assignments.get(site_id, []) + [instance_id]
 	
 	if(assignment is Assignment.MiningAssignment):
@@ -178,9 +178,9 @@ func clear_receiver_assignment(instance_id : int) -> void:
 	if(receiver_assignments.has(instance_id)):
 		var assignment : Assignment = receiver_assignments[instance_id]
 		
-		if(assignment is Assignment.BuildStructureAssignment):
+		if(assignment is Assignment.BuildConstructionSiteAssignment):
 			# clear out additional consruction assignment details
-			var construction_site_id : int = (assignment as Assignment.BuildStructureAssignment).construction_site_id
+			var construction_site_id : int = (assignment as Assignment.BuildConstructionSiteAssignment).construction_site_id
 			var assigned_ids : Array = construction_site_assignments.get(construction_site_id, [])
 			assigned_ids.erase(instance_id)
 			if(assigned_ids.is_empty()):
@@ -240,34 +240,17 @@ func find_mining_targets() -> Array[ResourceNode]:
 		potential_mining_targets.append(node)
 	return potential_mining_targets
 
-func get_stations() -> Array[Structure]:
-	var nodes := get_tree().get_nodes_in_group(Constants.GROUP_STRUCTURE)
-	var stations : Array[Structure] = []
+func get_depots() -> Array[Entity]:
+	var nodes := get_tree().get_nodes_in_group(Constants.GROUP_DEPOT)
+	var depots : Array[Entity] = []
 	for node in nodes:
-		if(node is Structure):
-			stations.append(node)
-	return stations
+		if(node is Entity && node.is_depot):
+			depots.append(node)
+	return depots
 
-func get_stations_filtered(filter : Callable) -> Array[Structure]:
-	var nodes := get_tree().get_nodes_in_group(Constants.GROUP_STRUCTURE)
-	var stations : Array[Structure] = []
-	for node in nodes:
-		if(node is Structure && filter.call(node)):
-			stations.append(node)
-	return stations
-
-func get_depot_stations() -> Array[Structure]:
-	var nodes := get_tree().get_nodes_in_group(Constants.GROUP_STRUCTURE)
-	var stations : Array[Structure] = []
-	for node in nodes:
-		if(node is Structure && node.is_depot):
-			stations.append(node)
-	return stations
-
-func get_dropoff_stations() -> Array[Structure]:
-	var nodes := get_tree().get_nodes_in_group(Constants.GROUP_STRUCTURE)
-	var stations : Array[Structure] = []
-	for node in nodes:
-		if(node is Structure && node.is_depot && node.has_inventory() && !node.get_inventory_component().is_full()):
-			stations.append(node)
-	return stations
+func get_dropoff_depots() -> Array[Entity]:
+	var depots : Array[Entity] = []
+	for depot in get_depots():
+		if(depot.has_inventory() && !depot.get_inventory_component().is_full()):
+			depots.append(depot)
+	return depots

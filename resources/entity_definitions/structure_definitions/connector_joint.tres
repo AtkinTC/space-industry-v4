@@ -15,10 +15,6 @@ additional_padding = 0
 
 [resource]
 script = ExtResource("4_qfsq1")
-player_buildable = true
-dock_range = 16.0
-grid_locked = true
-construction_def = ExtResource("1_irvtu")
 entity_type = "connector_joint"
 scene = ExtResource("3_5tssb")
 influence_radius = -1.0
@@ -29,3 +25,8 @@ construction_cost = {
 "iron_ore": 1
 }
 construction_time = 0.0
+base_move_speed = 0.0
+player_buildable = true
+dock_range = 16.0
+grid_locked = true
+construction_def = ExtResource("1_irvtu")

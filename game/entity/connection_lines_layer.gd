@@ -29,7 +29,7 @@ func _process(_delta: float) -> void:
 			line_ids_by_network[network_id] = []
 			for connection in NetworksManager.get_network_unique_connections(network_id):
 				var connection_line : Line2D = connection_line_scene.instantiate()
-				connection_line.points = [connection[0].get_structure().global_position, connection[1].get_structure().global_position]
+				connection_line.points = [connection[0].get_entity().global_position, connection[1].get_entity().global_position]
 				connection_lines[connection_line.get_instance_id()] = connection_line
 				line_ids_by_network[network_id].append(connection_line.get_instance_id())
 				add_child(connection_line)
