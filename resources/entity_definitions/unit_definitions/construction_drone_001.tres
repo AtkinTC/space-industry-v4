@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="UnitDefinition" load_steps=11 format=3 uid="uid://epo2fg0v68h5"]
 
-[ext_resource type="Script" path="res://game/entity/resource/definition/unit_definition.gd" id="1_5ww0h"]
+[ext_resource type="Script" path="res://game/entity/resource/definition/entity_definition.gd" id="1_5ww0h"]
 [ext_resource type="Script" path="res://game/entity/component/inventory_component.gd" id="1_clrnh"]
 [ext_resource type="Script" path="res://game/entity/component/logic_component/assignment_receiver_logic_component.gd" id="2_527t6"]
 [ext_resource type="PackedScene" uid="uid://gijpshyjqirm" path="res://game/entity/unit/scene/builder_ship_basic.tscn" id="2_e7iqk"]

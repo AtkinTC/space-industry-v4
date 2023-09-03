@@ -1,3 +1,0 @@
-extends EntityDefinition
-class_name UnitDefinition
-
