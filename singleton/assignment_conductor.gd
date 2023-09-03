@@ -30,10 +30,6 @@ func _physics_process(_delta: float) -> void:
 		needs_assignment_waiting_queue.clear()
 	assign_tasks()
 
-###########
-#  Units  #
-###########
-
 func register_receiver(instance_id : int) -> void:
 	if(receivers.has(instance_id)):
 		print_debug("receiver %d is already registered" % instance_id)
@@ -43,7 +39,7 @@ func register_receiver(instance_id : int) -> void:
 		return
 	
 	receivers[instance_id] = receiver
-	receiver.get_parent().tree_exiting.connect(_on_receiver_freed.bind(instance_id))
+	receiver.get_entity().tree_exiting.connect(_on_receiver_freed.bind(instance_id))
 	receiver.requesting_assignment.connect(_on_receiver_requesting_assignment.bind(instance_id))
 
 func unregister_receiver(instance_id : int) -> void:
@@ -62,8 +58,6 @@ func unregister_receiver(instance_id : int) -> void:
 	
 	if(is_instance_id_valid(instance_id)):
 		pass
-	
-	
 
 func _on_receiver_freed(instance_id : int) -> void:
 	unregister_receiver(instance_id)
@@ -92,9 +86,7 @@ func assign_task(instance_id : int) -> void:
 	var task_groups : Array[String] = receiver.get_task_groups()
 	
 	if(task_groups.has(Constants.TASK_GROUP_BUILDER)):
-		#var contents := unit.get_inventory_component().get_contents()
-		if(receiver.can_build() && receiver.get_parent().get_inventory_component().is_empty()):
-			#var free_capacity := unit.get_inventory_component().get_available_capacity()
+		if(receiver.can_build() && receiver.get_entity().get_inventory_component().is_empty()):
 			var depots : Array[Entity] = get_depots()
 			for site_id in construction_sites_queue:
 				var site_assignments : Array = construction_site_assignments.get(site_id, [])
@@ -125,7 +117,7 @@ func assign_task(instance_id : int) -> void:
 					#SKIP - no stations with applicable build materials
 					continue
 				
-				var pickup_station : Entity = Utils.get_closest_targets(receiver.get_parent().global_position, filtered_stations, 1)[0]
+				var pickup_station : Entity = Utils.get_closest_targets(receiver.get_entity().global_position, filtered_stations, 1)[0]
 				
 				var pickup_items : Dictionary = pickup_station.get_inventory_component().contains_any(needed_materials)
 				
@@ -135,26 +127,26 @@ func assign_task(instance_id : int) -> void:
 	if(task_groups.has(Constants.TASK_GROUP_MINER)):
 		if(receiver.can_mine()):
 			var filtered_targets : Array[ResourceNode] = find_mining_targets().filter(func lambda(n : ResourceNode) : return (resource_node_assignments.get(n.get_instance_id(), []).size() < MAX_MINERS_PER_RESOURCE_NODE))
-			var targets := Utils.get_closest_targets(receiver.get_parent().global_position, filtered_targets)
+			var targets := Utils.get_closest_targets(receiver.get_entity().global_position, filtered_targets)
 			if(targets != null && targets.size() > 0 && targets[0] is ResourceNode):
 				set_receiver_assignment(receiver, Assignment.MiningAssignment.new(targets[0]))
 				return
 			else:
 				print_debug("No Resource Nodes to mine")
 		else:
-			var targets := Utils.get_closest_targets(receiver.get_parent().global_position, get_dropoff_depots())
+			var targets := Utils.get_closest_targets(receiver.get_entity().global_position, get_dropoff_depots())
 			if(targets != null && targets.size() > 0 && targets[0] is Entity):
 				set_receiver_assignment(receiver, Assignment.ReturnToEntityAssignment.new(targets[0]))
 				return
 			else:
 				print_debug("No stations to return to")
 	
-	var depots := Utils.get_closest_targets(receiver.get_parent().global_position, get_depots())
+	var depots := Utils.get_closest_targets(receiver.get_entity().global_position, get_depots())
 	if(depots != null && depots.size() > 0 && depots[0] is Entity):
 		set_receiver_assignment(receiver, Assignment.ReturnToEntityAssignment.new(depots[0]))
 		return
 	
-	print_debug("No valid to task to assign to unit %d" % instance_id)
+	print_debug("No valid to task to assign to entity %d" % instance_id)
 	# move to the waiting queue
 	needs_assignment_waiting_queue.append(instance_id)
 	needs_assignment_queue.erase(instance_id)

@@ -1,8 +1,8 @@
 extends Tool
-class_name UnitBuilderTool
+class_name EntityBuilderTool
 
-signal build_completed(unit_type : String)
-signal build_cancelled(unit_type : String)
+signal build_completed(entity_type : String)
+signal build_cancelled(entity_type : String)
 signal orders_completed()
 
 @export var build_speed : float = 1
@@ -10,13 +10,13 @@ var in_progress : bool = false
 var remaining_build_time : float = 0
 
 @export var build_orders := {}
-var unit_type : String = ""
+var entity_type : String = ""
 
 var spawn_points : Array[Transform2D] = []
 var spawn_index : int = 0
 
 func get_tool_type():
-	return Constants.TOOL_TYPE_UNITBUILDER
+	return Constants.TOOL_TYPE_ENTITYBUILDER
 
 func _ready() -> void:
 	super._ready()
@@ -34,7 +34,7 @@ func _physics_process(_delta: float) -> void:
 			start_build()
 
 func process_build(_delta):
-	if(unit_type.is_empty()):
+	if(entity_type.is_empty()):
 		remaining_build_time = 0
 		in_progress = false
 		build_cancelled.emit("")
@@ -44,18 +44,18 @@ func process_build(_delta):
 		complete_build()
 
 func start_build() -> void:
-	unit_type = ""
+	entity_type = ""
 	for key in build_orders.duplicate().keys():
 		if(build_orders[key] == 0):
 			build_orders.erase(key)
 			continue
-		unit_type = key
+		entity_type = key
 	
-	var unit_def := EntityDefs.get_entity_definition(unit_type)
-	if(unit_def == null):
-		print_debug("Attempting to build invalid unit type : " + unit_type)
+	var entity_def := EntityDefs.get_entity_definition(entity_type)
+	if(entity_def == null):
+		print_debug("Attempting to build invalid entity type : " + entity_type)
 		return
-	remaining_build_time = unit_def.construction_time
+	remaining_build_time = entity_def.construction_time
 	in_progress = true
 
 func complete_build() -> void:
@@ -65,16 +65,16 @@ func complete_build() -> void:
 		Constants.KEY_TRANSFORM : spawn_transform
 	}
 		
-	SignalBus.spawn_entity.emit(unit_type, spawn_params)
+	SignalBus.spawn_entity.emit(entity_type, spawn_params)
 	remaining_build_time = 0
 	in_progress = false
 	
-	if(build_orders[unit_type] > 0):
-		build_orders[unit_type] -= 1
-	if(build_orders[unit_type] == 0):
-		build_orders.erase(unit_type)
+	if(build_orders[entity_type] > 0):
+		build_orders[entity_type] -= 1
+	if(build_orders[entity_type] == 0):
+		build_orders.erase(entity_type)
 		
-	build_completed.emit(unit_type)
+	build_completed.emit(entity_type)
 	if(build_orders.is_empty()):
 		orders_completed.emit()
 

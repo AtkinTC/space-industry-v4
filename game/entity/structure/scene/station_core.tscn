@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cgaulx604qncm" path="res://assets/sprites/structures/station_core_64x64.png" id="2_5cob2"]
 [ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_b3qp2"]
 [ext_resource type="Script" path="res://game/entity/structure/structure_grid_tool.gd" id="4_kchks"]
-[ext_resource type="Script" path="res://game/entity/tool/unit_builder_tool.gd" id="5_t2sxb"]
+[ext_resource type="Script" path="res://game/entity/tool/entity_builder_tool.gd" id="5_6u4eq"]
 [ext_resource type="Script" path="res://game/marker_2d_custom.gd" id="6_vxw5q"]
 [ext_resource type="Script" path="res://game/entity/structure/grid_neighbor_connector_component.gd" id="7_vau4a"]
 [ext_resource type="Script" path="res://game/entity/structure/connector_point.gd" id="8_75eul"]
@@ -54,29 +54,31 @@ script = ExtResource("4_kchks")
 grid_size = Vector2i(2, 2)
 cells = Array[Vector2i]([Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, 0), Vector2i(1, 1)])
 
-[node name="UnitBuilderTool" type="Node2D" parent="."]
-script = ExtResource("5_t2sxb")
+[node name="EntityBuilderTool" type="Node2D" parent="."]
+script = ExtResource("5_6u4eq")
+build_speed = null
 build_orders = {
 "construction_drone_001": 2,
-"mining_drone_001": 3,
-"worker_drone_001": 5
+"mining_drone_001": 2,
+"worker_drone_001": 0
 }
+debug = null
 
-[node name="Marker2DCustom" type="Marker2D" parent="UnitBuilderTool"]
+[node name="Marker2DCustom" type="Marker2D" parent="EntityBuilderTool"]
 position = Vector2(30, 0)
 script = ExtResource("6_vxw5q")
 
-[node name="Marker2DCustom2" type="Marker2D" parent="UnitBuilderTool"]
+[node name="Marker2DCustom2" type="Marker2D" parent="EntityBuilderTool"]
 position = Vector2(0, 30)
 rotation = 1.57079
 script = ExtResource("6_vxw5q")
 
-[node name="Marker2DCustom3" type="Marker2D" parent="UnitBuilderTool"]
+[node name="Marker2DCustom3" type="Marker2D" parent="EntityBuilderTool"]
 position = Vector2(-30, 0)
 rotation = 3.14159
 script = ExtResource("6_vxw5q")
 
-[node name="Marker2DCustom4" type="Marker2D" parent="UnitBuilderTool"]
+[node name="Marker2DCustom4" type="Marker2D" parent="EntityBuilderTool"]
 position = Vector2(0, -30)
 rotation = -1.57079
 script = ExtResource("6_vxw5q")

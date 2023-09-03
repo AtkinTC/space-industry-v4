@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bca0apqfa3wvw"]
 
-[ext_resource type="Script" path="res://game/entity/unit/unit.gd" id="1_dcs4y"]
+[ext_resource type="Script" path="res://game/entity/entity.gd" id="1_781da"]
 [ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="2_f7dp1"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_obyyp"]
@@ -8,7 +8,7 @@ radius = 5.0
 height = 16.0
 
 [node name="TestEnemy" type="Area2D"]
-script = ExtResource("1_dcs4y")
+script = ExtResource("1_781da")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2(-3, 0)

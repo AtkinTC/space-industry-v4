@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://ctrt2fte2x4r5"]
 
-[ext_resource type="Script" path="res://game/entity/unit/unit.gd" id="1_0ctb3"]
+[ext_resource type="Script" path="res://game/entity/entity.gd" id="1_g3uxw"]
 [ext_resource type="Texture2D" uid="uid://bhm51mno7y6hc" path="res://assets/sprites/units/player_ships/miner_drone_001.png" id="2_13hys"]
 [ext_resource type="Script" path="res://game/entity/tool/miner_tool.gd" id="2_qop2t"]
 [ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="3_w4210"]
@@ -11,7 +11,7 @@ height = 14.0
 
 [node name="MinerShipBasic" type="Area2D"]
 collision_mask = 0
-script = ExtResource("1_0ctb3")
+script = ExtResource("1_g3uxw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_13hys")

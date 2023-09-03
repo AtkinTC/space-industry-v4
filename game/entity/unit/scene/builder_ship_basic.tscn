@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://gijpshyjqirm"]
 
-[ext_resource type="Script" path="res://game/entity/unit/unit.gd" id="1_oywpv"]
+[ext_resource type="Script" path="res://game/entity/entity.gd" id="1_63u5l"]
 [ext_resource type="Texture2D" uid="uid://1d54pkplppyu" path="res://assets/sprites/units/player_ships/builder_drone_001.png" id="2_fio3j"]
 [ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="2_ghtgo"]
 
@@ -10,7 +10,7 @@ height = 20.0
 
 [node name="BuilderShip" type="Area2D"]
 collision_mask = 0
-script = ExtResource("1_oywpv")
+script = ExtResource("1_63u5l")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_fio3j")

@@ -15,17 +15,15 @@ const GROUP_PLAYER_ENTITY := "player_entity"
 const GROUP_ENEMY_ENTITY := "enemy_entity"
 const GROUP_PLAYER_HQ := "player_hq"
 
-
-const GROUP_UNIT := "unit"
 const GROUP_MINER := "miner"
 
 const ACCEPTING_CARGO_GROUP := "accepting_cargo"
 
 const TOOL_TYPE_NULL := "null"
 const TOOL_TYPE_MINER := "miner"
-const TOOL_TYPE_UNITBUILDER := "unit_builder"
+const TOOL_TYPE_ENTITYBUILDER := "entity_builder"
 const TOOL_TYPE_WEAPON := "weapon"
-const TOOL_TYPES := [TOOL_TYPE_NULL, TOOL_TYPE_MINER, TOOL_TYPE_UNITBUILDER, TOOL_TYPE_WEAPON]
+const TOOL_TYPES := [TOOL_TYPE_NULL, TOOL_TYPE_MINER, TOOL_TYPE_ENTITYBUILDER, TOOL_TYPE_WEAPON]
 
 const TASK_GROUP_MINER := "miner"
 const TASK_GROUP_BUILDER := "buider"

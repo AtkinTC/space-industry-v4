@@ -9,13 +9,13 @@ func _init(_goal_state : GOAL_STATE = GOAL_STATE.STANDBY) -> void:
 	goal_state = _goal_state
 
 class ReturnToEntityAssignment extends Assignment:
-	var entity : Entity = null
-	var entity_id : int = -1
+	var target_entity : Entity = null
+	var target_entity_id : int = -1
 	
-	func _init(_entity : Entity) -> void:
+	func _init(_target_entity : Entity) -> void:
 		super._init(GOAL_STATE.RETURN)
-		entity = _entity
-		entity_id = entity.get_instance_id()
+		target_entity = _target_entity
+		target_entity_id = target_entity.get_instance_id()
 
 class MiningAssignment extends Assignment:
 	var resource_node : ResourceNode = null

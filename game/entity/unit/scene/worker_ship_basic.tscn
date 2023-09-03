@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://ctuerwuqwtgbv"]
 
-[ext_resource type="Script" path="res://game/entity/unit/unit.gd" id="1_ojsdw"]
+[ext_resource type="Script" path="res://game/entity/entity.gd" id="1_0kjgl"]
 [ext_resource type="Texture2D" uid="uid://bwxhpjlf2mvpl" path="res://assets/sprites/units/player_ships/worker_drone_001.png" id="4_1k3ji"]
 [ext_resource type="Script" path="res://game/entity/tool/miner_tool.gd" id="4_6g7pq"]
 [ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="4_p4lyg"]
@@ -10,7 +10,7 @@ size = Vector2(12, 17.0001)
 
 [node name="WorkerShip" type="Area2D"]
 collision_mask = 0
-script = ExtResource("1_ojsdw")
+script = ExtResource("1_0kjgl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("4_1k3ji")

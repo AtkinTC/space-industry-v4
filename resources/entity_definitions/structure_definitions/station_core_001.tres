@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StructureDefinition" load_steps=8 format=3 uid="uid://db05x42u1t7ce"]
+[gd_resource type="Resource" script_class="EntityDefinition" load_steps=8 format=3 uid="uid://db05x42u1t7ce"]
 
 [ext_resource type="PackedScene" uid="uid://co8g67bnh8fcs" path="res://game/entity/structure/scene/station_core.tscn" id="1_01qrh"]
 [ext_resource type="Texture2D" uid="uid://cgaulx604qncm" path="res://assets/sprites/structures/station_core_64x64.png" id="1_ua4bs"]

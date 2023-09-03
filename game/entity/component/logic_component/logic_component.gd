@@ -1,16 +1,16 @@
 extends Resource
 class_name LogicComponent
 
-var parent : Entity
+var entity : Entity
 
 func initialize() -> void:
 	pass
 
-func set_controlled_parent(_parent : Entity):
-	parent = _parent
-
 func process(_delta : float):
 	pass
 
-func get_parent() -> Unit:
-	return parent
+func set_entity(_entity : Entity):
+	entity = _entity
+	
+func get_entity() -> Entity:
+	return entity

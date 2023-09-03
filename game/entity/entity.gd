@@ -160,7 +160,7 @@ func setup_logic_component() -> void:
 	if(logic_component == null):
 		return
 	
-	logic_component.set_controlled_parent(self)
+	logic_component.set_entity(self)
 	logic_component.initialize()
 
 func process_logic(_delta : float) -> void:
@@ -182,7 +182,7 @@ func setup_movement_component() -> void:
 	if(movement_component == null):
 		return
 	
-	movement_component.set_controlled_parent(self)
+	movement_component.set_entity(self)
 	movement_component.initialize()
 
 func process_movement(_delta : float) -> void:

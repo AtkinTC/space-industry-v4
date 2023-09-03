@@ -15,18 +15,14 @@ func initialize() -> void:
 	SignalBus.register_assignment_receiver.emit(get_instance_id())
 	clear_assignment()
 
-func set_controlled_parent(_parent : Entity):
-	assert(_parent is Unit)
-	super.set_controlled_parent(_parent)
-
 func set_assignemnt(_assignment : Assignment) -> void:
-	parent.move_state = Unit.MOVE_STATE.STANDBY
-	parent.move_target = null
+	entity.move_state = Entity.MOVE_STATE.STANDBY
+	entity.move_target = null
 	assignment = _assignment
 
 func clear_assignment():
-	parent.move_state = Unit.MOVE_STATE.STANDBY
-	parent.move_target = null
+	entity.move_state = Entity.MOVE_STATE.STANDBY
+	entity.move_target = null
 	assignment = Assignment.new()
 	requesting_assignment.emit()
 
@@ -45,24 +41,24 @@ func get_task_groups() -> Array[String]:
 func can_mine() -> bool:
 	if(!has_task_flag(TASK_FLAG.MINER)):
 		return false
-	if(!parent.has_inventory() || parent.get_inventory_component().is_full()):
+	if(!entity.has_inventory() || entity.get_inventory_component().is_full()):
 		return false
-	if(parent.get_tools(Constants.TOOL_TYPE_MINER).is_empty()):
+	if(entity.get_tools(Constants.TOOL_TYPE_MINER).is_empty()):
 		return false
 	return true
 
 func can_build() -> bool:
 	if(!has_task_flag(TASK_FLAG.BUILDER)):
 		return false
-	if(!parent.has_inventory()):
+	if(!entity.has_inventory()):
 		return false
 	return true
 
 func process(_delta : float) -> void:
-	parent.approach_distance = 0.0
+	entity.approach_distance = 0.0
 	match(assignment.goal_state):
 		Assignment.GOAL_STATE.STANDBY:
-			parent.move_state = Unit.MOVE_STATE.STANDBY
+			entity.move_state = Entity.MOVE_STATE.STANDBY
 		
 		Assignment.GOAL_STATE.BUILD:
 			var construction_assignment := (assignment as Assignment.BuildConstructionSiteAssignment)
@@ -82,33 +78,33 @@ func process(_delta : float) -> void:
 					clear_assignment()
 					return
 				
-				if(parent.global_position.distance_squared_to(pickup_site.global_position) > pow(pickup_site.get_dock_range(), 2)):
-					parent.move_state = Unit.MOVE_STATE.APPROACH
-					parent.move_target = pickup_site
-					parent.approach_distance = pickup_site.get_dock_range() * 0.9
+				if(entity.global_position.distance_squared_to(pickup_site.global_position) > pow(pickup_site.get_dock_range(), 2)):
+					entity.move_state = Entity.MOVE_STATE.APPROACH
+					entity.move_target = pickup_site
+					entity.approach_distance = pickup_site.get_dock_range() * 0.9
 				else:
 					var remaining_construction_cost := construction_site.get_remaining_construction_cost()
-					var valid_insert_items := parent.get_inventory_component().precalculate_insert_result(remaining_construction_cost)
-					InventoryComponent.transfer_items(pickup_site.get_inventory_component(), parent.get_inventory_component(), valid_insert_items)
+					var valid_insert_items := entity.get_inventory_component().precalculate_insert_result(remaining_construction_cost)
+					InventoryComponent.transfer_items(pickup_site.get_inventory_component(), entity.get_inventory_component(), valid_insert_items)
 					construction_assignment.assigned_items = valid_insert_items
 					construction_assignment.picked_up = true
 					
-					if(valid_insert_items.is_empty() || parent.get_inventory_component().is_empty()):
+					if(valid_insert_items.is_empty() || entity.get_inventory_component().is_empty()):
 						# could not pick up any building material
 						clear_assignment()
 						return
 					else:
-						parent.move_state = Unit.MOVE_STATE.STANDBY
+						entity.move_state = Entity.MOVE_STATE.STANDBY
 			else:
 				# bring materials to construction site
 				
-				if(parent.global_position.distance_squared_to(construction_site.global_position) > pow(construction_site.get_dock_range(), 2)):
-					parent.move_state = Unit.MOVE_STATE.APPROACH
-					parent.move_target = construction_site
-					parent.approach_distance = construction_site.get_dock_range() * 0.9
+				if(entity.global_position.distance_squared_to(construction_site.global_position) > pow(construction_site.get_dock_range(), 2)):
+					entity.move_state = Entity.MOVE_STATE.APPROACH
+					entity.move_target = construction_site
+					entity.approach_distance = construction_site.get_dock_range() * 0.9
 				else:
 					# transfer over any inventory still needed for construction
-					InventoryComponent.transfer_items(parent.get_inventory_component(), construction_site.get_inventory_component(), construction_site.get_remaining_construction_cost())
+					InventoryComponent.transfer_items(entity.get_inventory_component(), construction_site.get_inventory_component(), construction_site.get_remaining_construction_cost())
 					clear_assignment()
 					return
 		
@@ -124,33 +120,35 @@ func process(_delta : float) -> void:
 			else:
 				# get the minimum range of all miner tools
 				var mining_range : float = -1
-				for miner in parent.get_tools(Constants.TOOL_TYPE_MINER):
+				for miner in entity.get_tools(Constants.TOOL_TYPE_MINER):
 					mining_range = (miner as MinerTool).max_range if mining_range < 0 else min(mining_range, (miner as MinerTool).max_range)
 					(miner as MinerTool).set_target(resource_node)
 				
-				parent.approach_distance = mining_range * 0.9
+				entity.approach_distance = mining_range * 0.9
 				
-				if(parent.global_position.distance_squared_to(resource_node.global_position) > pow(parent.approach_distance, 2)):
-					parent.move_state = Unit.MOVE_STATE.APPROACH
-					parent.move_target = resource_node
+				if(entity.global_position.distance_squared_to(resource_node.global_position) > pow(entity.approach_distance, 2)):
+					entity.move_state = Entity.MOVE_STATE.APPROACH
+					entity.move_target = resource_node
 				else:
-					parent.move_state = Unit.MOVE_STATE.STANDBY
+					entity.move_state = Entity.MOVE_STATE.STANDBY
 		
 		Assignment.GOAL_STATE.RETURN:
 			var return_assignment := (assignment as Assignment.ReturnToEntityAssignment)
-			var entity := return_assignment.entity
-			var entity_valid : bool = (entity != null && is_instance_valid(entity))
+			var target_entity := return_assignment.target_entity
+			var target_entity_valid : bool = (target_entity != null && is_instance_valid(target_entity))
 			
-			if(!entity_valid):
+			if(!target_entity_valid):
 				clear_assignment()
 				return
 			else:
-				parent.approach_distance = entity.get_dock_range() * 0.9
-				if(parent.global_position.distance_squared_to(entity.global_position) > pow(parent.approach_distance, 2)):
-					parent.move_state = Unit.MOVE_STATE.APPROACH
-					parent.move_target = entity
+				entity.approach_distance = target_entity.get_dock_range() * 0.9
+				var distance_sqr := entity.global_position.distance_squared_to(target_entity.global_position)
+				var approach_distance_sqr := pow(entity.approach_distance, 2)
+				if(distance_sqr > approach_distance_sqr):
+					entity.move_state = Entity.MOVE_STATE.APPROACH
+					entity.move_target = target_entity
 				else:
-					if(!parent.get_inventory_component().is_empty() && entity.has_inventory()):
-						InventoryComponent.transfer_all(parent.get_inventory_component(), entity.get_inventory_component())
+					if(!entity.get_inventory_component().is_empty() && target_entity.has_inventory()):
+						InventoryComponent.transfer_all(entity.get_inventory_component(), target_entity.get_inventory_component())
 					clear_assignment()
 					return
