@@ -23,7 +23,6 @@ contents = {}
 script = ExtResource("2_8ixjl")
 entity_type = "station_core_001"
 scene = ExtResource("1_01qrh")
-dock_range = 48.0
 influence_radius = 250.0
 grid_locked = true
 display_name = "station core 1"

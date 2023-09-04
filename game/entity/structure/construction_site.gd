@@ -1,3 +1,4 @@
+@tool
 extends Entity
 class_name ConstructionSite
 
@@ -5,6 +6,9 @@ class_name ConstructionSite
 
 #Override
 func _ready() -> void:
+	if(Engine.is_editor_hint()):
+		return
+	
 	super._ready()
 	add_to_group(Constants.GROUP_CONSTRUCTION)
 	

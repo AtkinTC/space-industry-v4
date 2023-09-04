@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="UnitDefinition" load_steps=11 format=3 uid="uid://epo2fg0v68h5"]
+[gd_resource type="Resource" script_class="EntityDefinition" load_steps=11 format=3 uid="uid://epo2fg0v68h5"]
 
 [ext_resource type="Script" path="res://game/entity/resource/definition/entity_definition.gd" id="1_5ww0h"]
 [ext_resource type="Script" path="res://game/entity/component/inventory_component.gd" id="1_clrnh"]
@@ -32,14 +32,13 @@ entity_type = "construction_drone_001"
 scene = ExtResource("2_e7iqk")
 influence_radius = -1.0
 selection_area_definition = SubResource("Resource_1twqp")
+grid_locked = false
 display_name = "construction drone MKI"
 default_display_layer = 0
 construction_cost = {}
 construction_time = 2.0
+player_buildable = false
 inventory_component = SubResource("Resource_dedmk")
 logic_component = SubResource("Resource_ulrfr")
 movement_component = SubResource("Resource_01car")
 base_move_speed = 40.0
-player_buildable = false
-dock_range = 0.0
-grid_locked = false

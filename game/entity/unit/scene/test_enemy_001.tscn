@@ -24,5 +24,6 @@ shape = SubResource("CapsuleShape2D_obyyp")
 unique_name_in_owner = true
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
+top_level = true
 position = Vector2(0, 10)
 script = ExtResource("2_f7dp1")

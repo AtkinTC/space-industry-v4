@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StructureDefinition" load_steps=5 format=3 uid="uid://dxxox0v7wav78"]
+[gd_resource type="Resource" script_class="EntityDefinition" load_steps=5 format=3 uid="uid://dxxox0v7wav78"]
 
 [ext_resource type="Resource" uid="uid://nh5qja2edpaw" path="res://resources/entity_definitions/structure_definitions/construction_site_3x3.tres" id="1_jro5k"]
 [ext_resource type="Texture2D" uid="uid://laarrakh5kmo" path="res://assets/sprites/placeholders/placeholder_96x96.png" id="2_4htgs"]
@@ -9,7 +9,6 @@
 script = ExtResource("4_626fa")
 entity_type = "test_structure_3x3"
 scene = ExtResource("2_6ltxw")
-dock_range = 48.0
 influence_radius = 250.0
 grid_locked = true
 display_name = "test 3x3"

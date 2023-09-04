@@ -18,14 +18,17 @@ directions = Array[Vector2i]([Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), 
 [node name="TestStructure1x1" type="Area2D"]
 collision_mask = 0
 script = ExtResource("1_mjrny")
+body_radius = 20.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+show_behind_parent = true
 texture = ExtResource("2_83q0a")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_4noie")
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
+top_level = true
 position = Vector2(0, 16)
 script = ExtResource("3_awgu3")
 

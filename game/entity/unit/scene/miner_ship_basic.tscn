@@ -12,8 +12,10 @@ height = 14.0
 [node name="MinerShipBasic" type="Area2D"]
 collision_mask = 0
 script = ExtResource("1_g3uxw")
+body_radius = 6.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+show_behind_parent = true
 texture = ExtResource("2_13hys")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -29,5 +31,6 @@ position = Vector2(6, 0)
 script = ExtResource("2_qop2t")
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
+top_level = true
 position = Vector2(0, 8)
 script = ExtResource("3_w4210")

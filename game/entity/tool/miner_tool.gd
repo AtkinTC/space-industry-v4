@@ -26,7 +26,8 @@ func _physics_process(_delta: float) -> void:
 	
 	var target_valid : bool = false
 	if(target != null && is_instance_valid(target)):
-		var distance_squared_to_target = global_position.distance_squared_to(target.global_position)
+		# calculate distance based on the parent center, not on actual tool mount position
+		var distance_squared_to_target = get_parent().global_position.distance_squared_to(target.global_position)
 		if(distance_squared_to_target <= pow(max_range, 2)):
 			target_valid = true
 	else:

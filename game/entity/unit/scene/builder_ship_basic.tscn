@@ -11,8 +11,10 @@ height = 20.0
 [node name="BuilderShip" type="Area2D"]
 collision_mask = 0
 script = ExtResource("1_63u5l")
+body_radius = 8.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+show_behind_parent = true
 texture = ExtResource("2_fio3j")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -23,5 +25,6 @@ shape = SubResource("CapsuleShape2D_lpno5")
 unique_name_in_owner = true
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
+top_level = true
 position = Vector2(0, 10)
 script = ExtResource("2_ghtgo")

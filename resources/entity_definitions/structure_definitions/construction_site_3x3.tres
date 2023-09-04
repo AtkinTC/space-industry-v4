@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StructureDefinition" load_steps=3 format=3 uid="uid://nh5qja2edpaw"]
+[gd_resource type="Resource" script_class="EntityDefinition" load_steps=3 format=3 uid="uid://nh5qja2edpaw"]
 
 [ext_resource type="PackedScene" uid="uid://b1dmup56e23sl" path="res://game/entity/structure/scene/construction_site_3x3.tscn" id="1_r3vme"]
 [ext_resource type="Script" path="res://game/entity/resource/definition/entity_definition.gd" id="2_8y808"]
@@ -7,7 +7,6 @@
 script = ExtResource("2_8y808")
 entity_type = "construction_site_3x3"
 scene = ExtResource("1_r3vme")
-dock_range = 48.0
 influence_radius = -1.0
 grid_locked = true
 display_name = "construction site large"

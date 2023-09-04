@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://ctuerwuqwtgbv"]
 
 [ext_resource type="Script" path="res://game/entity/entity.gd" id="1_0kjgl"]
-[ext_resource type="Texture2D" uid="uid://bwxhpjlf2mvpl" path="res://assets/sprites/units/player_ships/worker_drone_001.png" id="4_1k3ji"]
+[ext_resource type="Texture2D" uid="uid://bg6gcd34wpfk5" path="res://assets/sprites/units/player_ships/industrial_ship_small.png" id="2_ywm7d"]
 [ext_resource type="Script" path="res://game/entity/tool/miner_tool.gd" id="4_6g7pq"]
 [ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="4_p4lyg"]
 
@@ -11,9 +11,11 @@ size = Vector2(12, 17.0001)
 [node name="WorkerShip" type="Area2D"]
 collision_mask = 0
 script = ExtResource("1_0kjgl")
+body_radius = 8.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("4_1k3ji")
+show_behind_parent = true
+texture = ExtResource("2_ywm7d")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.499997, 5.32866e-05)
@@ -28,5 +30,6 @@ position = Vector2(6, 0)
 script = ExtResource("4_6g7pq")
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
+top_level = true
 position = Vector2(0, 10)
 script = ExtResource("4_p4lyg")

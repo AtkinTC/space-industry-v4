@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="EntityDefinition" load_steps=11 format=3 uid="uid://c6so1owywqgrx"]
+
+[ext_resource type="Script" path="res://game/entity/component/health_component.gd" id="1_7cjbg"]
+[ext_resource type="Script" path="res://game/entity/component/inventory_component.gd" id="1_15y1m"]
+[ext_resource type="Script" path="res://game/entity/component/logic_component/assignment_receiver_logic_component.gd" id="2_wa14t"]
+[ext_resource type="Script" path="res://game/entity/component/movement_component/basic_unit_movement_component.gd" id="3_6pc7j"]
+[ext_resource type="Script" path="res://game/entity/resource/definition/entity_definition.gd" id="5_pmw6h"]
+[ext_resource type="PackedScene" uid="uid://xy6ov0c1dusf" path="res://game/entity/unit/scene/command_ship_basic.tscn" id="5_rv7m6"]
+
+[sub_resource type="Resource" id="Resource_mhvux"]
+script = ExtResource("1_7cjbg")
+destroyed = false
+max_hull = 100.0
+current_hull = -1.0
+max_shield = -1.0
+current_shield = -1.0
+
+[sub_resource type="Resource" id="Resource_1bm6b"]
+script = ExtResource("1_15y1m")
+capacity = 100
+contents = {}
+
+[sub_resource type="Resource" id="Resource_1yr85"]
+script = ExtResource("2_wa14t")
+task_flags = 7
+
+[sub_resource type="Resource" id="Resource_xrfxq"]
+script = ExtResource("3_6pc7j")
+
+[resource]
+script = ExtResource("5_pmw6h")
+entity_type = "command_ship_001"
+scene = ExtResource("5_rv7m6")
+dock_range = 0.0
+influence_radius = 150.0
+grid_locked = false
+display_name = "Miner Command Ship"
+default_display_layer = 0
+construction_cost = {}
+construction_time = 1.0
+player_buildable = false
+inventory_component = SubResource("Resource_1bm6b")
+health_component = SubResource("Resource_mhvux")
+logic_component = SubResource("Resource_1yr85")
+movement_component = SubResource("Resource_xrfxq")
+base_move_speed = 25.0

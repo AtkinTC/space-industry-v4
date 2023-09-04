@@ -11,6 +11,7 @@ radius = 46.0
 collision_mask = 0
 script = ExtResource("1_6juyl")
 default_entity_type = "construction_site_3x3"
+body_radius = 48.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_j071k")
@@ -19,6 +20,7 @@ shape = SubResource("CircleShape2D_j071k")
 polygon = PackedVector2Array(0, -46, 46, 0, 0, 46, -46, 0)
 
 [node name="EntityDebugDisplay" type="Node2D" parent="."]
+top_level = true
 position = Vector2(0, 48)
 script = ExtResource("2_sq0gt")
 

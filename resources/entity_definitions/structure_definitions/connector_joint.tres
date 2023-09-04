@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StructureDefinition" load_steps=7 format=3 uid="uid://cpdvu3m7pgyo8"]
+[gd_resource type="Resource" script_class="EntityDefinition" load_steps=7 format=3 uid="uid://cpdvu3m7pgyo8"]
 
 [ext_resource type="Resource" uid="uid://df0krplabucgf" path="res://resources/entity_definitions/structure_definitions/connector_joint_construction_site.tres" id="1_irvtu"]
 [ext_resource type="Texture2D" uid="uid://b0ysbmtik7svk" path="res://assets/sprites/structures/connector_joint.png" id="2_hogb5"]
@@ -17,7 +17,6 @@ additional_padding = 0
 script = ExtResource("4_qfsq1")
 entity_type = "connector_joint"
 scene = ExtResource("3_5tssb")
-dock_range = 16.0
 influence_radius = -1.0
 selection_area_definition = SubResource("Resource_y7q3v")
 grid_locked = true

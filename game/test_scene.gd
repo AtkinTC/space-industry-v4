@@ -3,9 +3,12 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	SignalBus.spawn_entity.emit("station_core_001", {Constants.KEY_GRID_POSITION : Vector2i(0,0)})
+	#SignalBus.spawn_entity.emit("station_core_001", {Constants.KEY_GRID_POSITION : Vector2i(0,0)})
 	
-	#for i in 5:
+	SignalBus.spawn_entity.emit("command_ship_001", {})
+	for i in 2:
+		SignalBus.spawn_entity.emit("worker_drone_001", {})
+	#for i in 1:
 	#	SignalBus.spawn_entity.emit("mining_drone_001", {})
 	#for i in 2:
 	#	SignalBus.spawn_entity.emit("construction_drone_001", {})

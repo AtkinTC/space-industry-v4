@@ -1,3 +1,4 @@
+@tool
 extends Area2D
 class_name Entity
 
@@ -5,6 +6,8 @@ class_name Entity
 var entity_def : EntityDefinition
 @export var default_init_parameters : Dictionary = {}
 var init_parameters : Dictionary = {}
+
+@export var body_radius : float = 0 : set = set_body_radius
 
 @export var inventory_component : InventoryComponent = null
 @export var health_component : HealthComponent = null
@@ -33,10 +36,16 @@ var approach_distance : float = 0
 var velocity := Vector2.ZERO
 
 func init(_entity_def : EntityDefinition = null, _init_parameters : Dictionary = {}) -> void:
+	if(Engine.is_editor_hint()):
+		return
+	
 	entity_def = _entity_def
 	init_parameters = _init_parameters
 
 func _ready():
+	if(Engine.is_editor_hint()):
+		return
+	
 	deferred_ready.call_deferred()
 	setup()
 	
@@ -63,6 +72,9 @@ func deferred_ready():
 	SignalBus.entity_ready.emit(self)
 
 func _physics_process(_delta: float) -> void:
+	if(Engine.is_editor_hint()):
+		return
+	
 	process_logic(_delta)
 	process_movement(_delta)
 
@@ -240,5 +252,19 @@ func can_build() -> bool:
 		return false
 	return true
 
-func get_dock_range() -> float:
-	return entity_def.dock_range
+func set_body_radius(value : float) -> void:
+	body_radius = value
+	queue_redraw()
+
+func get_body_radius() -> float:
+	return body_radius
+
+#############
+### DEBUG ###
+#############
+
+func _draw() -> void:
+	if(Engine.is_editor_hint()):
+		if(body_radius >= 1):
+			draw_arc(Vector2.ZERO, body_radius, 0, 2*PI, 16, Color.RED)
+	

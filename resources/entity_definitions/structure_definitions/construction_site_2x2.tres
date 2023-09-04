@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StructureDefinition" load_steps=3 format=3 uid="uid://bofbncnqosvrh"]
+[gd_resource type="Resource" script_class="EntityDefinition" load_steps=3 format=3 uid="uid://bofbncnqosvrh"]
 
 [ext_resource type="PackedScene" uid="uid://f5tgpd66v4k" path="res://game/entity/structure/scene/construction_site_2x2.tscn" id="1_lb3u4"]
 [ext_resource type="Script" path="res://game/entity/resource/definition/entity_definition.gd" id="2_q8tas"]
@@ -7,7 +7,6 @@
 script = ExtResource("2_q8tas")
 entity_type = "construction_site_2x2"
 scene = ExtResource("1_lb3u4")
-dock_range = 32.0
 influence_radius = -1.0
 grid_locked = true
 display_name = "construction site med"

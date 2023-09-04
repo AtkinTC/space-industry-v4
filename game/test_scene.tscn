@@ -102,9 +102,11 @@ script = ExtResource("8_wksh4")
 
 [node name="IronAsteroid" parent="Objects" instance=ExtResource("4_3tfyi")]
 position = Vector2(240, 16)
+base_resource_quantity = 10
 
 [node name="IronAsteroid2" parent="Objects" instance=ExtResource("4_3tfyi")]
 position = Vector2(209, -48)
+base_resource_quantity = 10
 
 [node name="IronAsteroid3" parent="Objects" instance=ExtResource("4_3tfyi")]
 position = Vector2(334, 50)

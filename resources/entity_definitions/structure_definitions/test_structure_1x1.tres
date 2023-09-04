@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StructureDefinition" load_steps=5 format=3 uid="uid://4keam23s7dm6"]
+[gd_resource type="Resource" script_class="EntityDefinition" load_steps=5 format=3 uid="uid://4keam23s7dm6"]
 
 [ext_resource type="PackedScene" uid="uid://dw8ounvht5n8h" path="res://game/entity/structure/scene/test_structure_1x1.tscn" id="1_cb2l7"]
 [ext_resource type="Resource" uid="uid://413qpoqrcou6" path="res://resources/entity_definitions/structure_definitions/construction_site_1x1.tres" id="1_vu4qs"]
@@ -9,7 +9,6 @@
 script = ExtResource("2_cpt5o")
 entity_type = "test_structure_1x1"
 scene = ExtResource("1_cb2l7")
-dock_range = 16.0
 influence_radius = 150.0
 grid_locked = true
 display_name = "test 1x1"

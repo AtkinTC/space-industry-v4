@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://xy6ov0c1dusf"]
+
+[ext_resource type="Script" path="res://game/entity/entity.gd" id="1_7mtd3"]
+[ext_resource type="Texture2D" uid="uid://dva2d323gtye3" path="res://assets/sprites/units/player_ships/industrial_ship_large.png" id="2_metul"]
+[ext_resource type="Script" path="res://game/entity/tool/miner_tool.gd" id="3_5vcf7"]
+[ext_resource type="Script" path="res://game/entity/entity_debug_display.gd" id="4_vsh1f"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ik8am"]
+radius = 16.0
+height = 38.0
+
+[node name="CommandShip" type="Area2D"]
+collision_mask = 0
+script = ExtResource("1_7mtd3")
+body_radius = 22.0
+is_depot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+show_behind_parent = true
+texture = ExtResource("2_metul")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_ik8am")
+
+[node name="Tools" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="MiningLaser" type="Node2D" parent="Tools"]
+position = Vector2(16, -7)
+script = ExtResource("3_5vcf7")
+max_range = 150.0
+
+[node name="MiningLaser2" type="Node2D" parent="Tools"]
+position = Vector2(16, 7)
+script = ExtResource("3_5vcf7")
+max_range = 150.0
+
+[node name="EntityDebugDisplay" type="Node2D" parent="."]
+top_level = true
+position = Vector2(0, 10)
+script = ExtResource("4_vsh1f")

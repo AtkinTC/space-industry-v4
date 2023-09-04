@@ -6,7 +6,6 @@ enum DISPLAY_LAYER {UNIT=0, STRUCTURE=-1}
 @export var entity_type : String = ""
 @export var scene : PackedScene
 
-@export var dock_range : float = 0
 @export var influence_radius : float = -1
 @export var selection_area_definition : SelectionAreaDefinition
 
